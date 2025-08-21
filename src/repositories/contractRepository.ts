@@ -1,4 +1,4 @@
-import prisma from "../libs/prisma"
+import prisma from '../libs/prisma';
 
 class ContractRepository {
   getCompanyId = async (userId: number) => {
@@ -16,13 +16,13 @@ class ContractRepository {
       return null;
     }
     return user.company.id;
-  }
+  };
 
   getCars = async (companyId: number) => {
     const cars = await prisma.car.findMany({
       where: {
         companyId,
-        status: 'posession'
+        status: 'posession',
       },
       select: {
         id: true,
@@ -31,7 +31,7 @@ class ContractRepository {
       },
     });
     return cars;
-  }
+  };
 
   getCustomers = async (companyId: number) => {
     const customers = await prisma.customer.findMany({
@@ -43,7 +43,7 @@ class ContractRepository {
       },
     });
     return customers;
-  }
+  };
 
   getUsers = async (companyId: number) => {
     const users = await prisma.user.findMany({
@@ -55,7 +55,7 @@ class ContractRepository {
       },
     });
     return users;
-  }
+  };
 }
 
-export default new ContractRepository()
+export default new ContractRepository();
