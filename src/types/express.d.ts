@@ -2,13 +2,13 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        userId: number
-      },
+        userId: number;
+      };
       auth?: {
-        userId: number
-      },
+        userId: number;
+      };
     }
   }
 }
 
-export { }
+export {};
