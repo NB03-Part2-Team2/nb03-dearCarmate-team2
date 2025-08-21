@@ -4,6 +4,9 @@ import { ListItemDTO } from '../types/contractType';
 class ContractService {
   getCarsInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
+    if (!companyId) {
+      throw new Error();
+    }
     const cars = await contractRepository.getCars(companyId);
     const formattedCars: ListItemDTO[] = cars.map((car) => ({
       id: car.id,
@@ -14,6 +17,9 @@ class ContractService {
 
   getCustomersInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
+    if (!companyId) {
+      throw new Error();
+    }
     const customers = await contractRepository.getCustomers(companyId);
     const formattedCustomers: ListItemDTO[] = customers.map((customer) => ({
       id: customer.id,
@@ -24,6 +30,9 @@ class ContractService {
 
   getUsersInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
+    if (!companyId) {
+      throw new Error();
+    }
     const users = await contractRepository.getUsers(companyId);
     const formattedUsers: ListItemDTO[] = users.map((user) => ({
       id: user.id,

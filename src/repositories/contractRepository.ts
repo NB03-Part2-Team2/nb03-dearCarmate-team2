@@ -22,7 +22,7 @@ class ContractRepository {
     const cars = await prisma.car.findMany({
       where: {
         companyId,
-        status: 'posession',
+        status: 'possession',
       },
       select: {
         id: true,
