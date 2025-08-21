@@ -12,10 +12,10 @@ model Company {
   id          Int        @id @default(autoincrement())
   companyName String
   companyCode String     @unique
-  users       User[]
-  customers   Customer[]
-  cars        Car[]
-  contracts   Contract[]
+  user        User[]
+  customer    Customer[]
+  car         Car[]
+  contract    Contract[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -31,7 +31,7 @@ model User {
   isAdmin        Boolean    @default(false)
   company        Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId      Int
-  contracts      Contract[]
+  contract       Contract[]
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 }
@@ -47,7 +47,7 @@ model Customer {
   memo        String?
   company     Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId   Int
-  contracts   Contract[]
+  contract    Contract[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -66,7 +66,7 @@ model Car {
   model             String
   company           Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId         Int
-  contracts         Contract[]
+  contract          Contract[]
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
 }
@@ -75,13 +75,13 @@ model CarModel {
   model        String @id
   manufacturer String
   type         String
-  cars         Car[]
+  car          Car[]
 }
 
 model Contract {
   id             Int                @id @default(autoincrement())
   status         ContractStatus
-  resulutionDate DateTime
+  resolutionDate DateTime?
   contractPrice  Int
   car            Car                @relation(fields: [carId], references: [id], onDelete: Cascade)
   carId          Int
@@ -91,8 +91,8 @@ model Contract {
   userId         Int
   company        Company            @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId      Int
-  meetings       Meeting[]
-  documents      ContractDocument[]
+  meeting        Meeting[]
+  document       ContractDocument[]
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
 }
