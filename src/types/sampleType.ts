@@ -1,4 +1,4 @@
 export interface sampleDTO {
-  id: number,
-  content: string,
+  id: number;
+  content: string;
 }
