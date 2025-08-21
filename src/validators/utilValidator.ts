@@ -21,7 +21,7 @@ const utilValidator = {
   }),
 
   email: refine(size(string(), 1, 50), 'emailError', (value) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    return /^[^ㄱ-힣\s@]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$/.test(value);
   }),
 
   phoneNumber: refine(size(string(), 12, 13), 'phoneNumberError', (value) => {
@@ -38,6 +38,10 @@ const utilValidator = {
 
   companyName: refine(string(), 'companyNameError', (value) => {
     return /^[가-힣a-zA-Z0-9\s]+$/.test(value);
+  }),
+
+  employeeNumber: refine(string(), 'employeeNumberError', (value) => {
+    return /^[a-zA-Z가-힣\-]+$/.test(value);
   })
 };
 
@@ -61,8 +65,10 @@ const paginationValidator = (q: unknown) => {
 
   return {
     page: pageNum,
-    pageSize: sizeNum
-  }
+    pageSize: sizeNum,
+    skip: (pageNum - 1) * sizeNum,
+    take: sizeNum
+  } as const;
 } 
 
 export {
