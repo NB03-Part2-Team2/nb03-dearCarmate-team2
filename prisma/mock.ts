@@ -1821,6 +1821,7 @@ export const CAR_MODELS = [
 export const CONTRACTS = [
   {
     status: 'carInspection',
+    contractPrice: 33098339,
     userId: 3,
     customerId: 1,
     carId: 1,
@@ -1828,6 +1829,7 @@ export const CONTRACTS = [
   },
   {
     status: 'priceNegotiation',
+    contractPrice: 20857019,
     userId: 4,
     customerId: 2,
     carId: 2,
@@ -1835,6 +1837,7 @@ export const CONTRACTS = [
   },
   {
     status: 'contractDraft',
+    contractPrice: 30080698,
     userId: 5,
     customerId: 3,
     carId: 3,
@@ -1842,6 +1845,7 @@ export const CONTRACTS = [
   },
   {
     status: 'contractSuccessful',
+    contractPrice: 0,
     userId: 6,
     customerId: 4,
     carId: 4,
@@ -1849,6 +1853,7 @@ export const CONTRACTS = [
   },
   {
     status: 'contractFailed',
+    contractPrice: 37397586,
     userId: 7,
     customerId: 5,
     carId: 5,
