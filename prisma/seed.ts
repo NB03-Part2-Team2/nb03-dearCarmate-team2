@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma';
+import prisma from '../src/libs/prisma';
 import {
   COMPANIES,
   USERS,
@@ -10,8 +10,6 @@ import {
   CONTRACT_DOCUMENTS,
 } from './mock';
 import hashUtil from '../src/utils/hashUtil';
-
-const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 시드 데이터 삽입을 시작합니다...');
