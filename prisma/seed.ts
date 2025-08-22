@@ -110,6 +110,7 @@ async function main() {
     await prisma.contract.create({
       data: {
         status: contract.status as any,
+        contractPrice: contract.contractPrice,
         userId: contract.userId,
         customerId: contract.customerId,
         carId: contract.carId,
