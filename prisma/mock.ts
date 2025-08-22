@@ -1,40 +1,40 @@
 export const COMPANIES = [
   {
     companyName: '시스템관리',
-    companyCode: 'admin'
+    companyCode: 'admin',
   },
   {
     companyName: '햇살카',
-    companyCode: 'sunshine'
+    companyCode: 'sunshine',
   },
   {
     companyName: '굿모닝카',
-    companyCode: 'goodmorning'
+    companyCode: 'goodmorning',
   },
   {
     companyName: '행복카',
-    companyCode: 'happy'
+    companyCode: 'happy',
   },
   {
     companyName: '미래카',
-    companyCode: 'future'
+    companyCode: 'future',
   },
   {
     companyName: '믿음카',
-    companyCode: 'trust'
+    companyCode: 'trust',
   },
   {
     companyName: '신뢰카',
-    companyCode: 'reliable'
+    companyCode: 'reliable',
   },
   {
     companyName: '케이카',
-    companyCode: 'kcar'
+    companyCode: 'kcar',
   },
   {
     companyName: '우리카',
-    companyCode: 'ourcar'
-  }
+    companyCode: 'ourcar',
+  },
 ];
 
 export const USERS = [
@@ -45,7 +45,7 @@ export const USERS = [
     phoneNumber: '010-0000-0000',
     password: 'admin1234',
     companyId: 1,
-    isAdmin: true
+    isAdmin: true,
   },
   {
     name: '햇살카 대표',
@@ -53,7 +53,7 @@ export const USERS = [
     employeeNumber: '20001',
     phoneNumber: '010-2111-1111',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원1',
@@ -61,7 +61,7 @@ export const USERS = [
     employeeNumber: '20002',
     phoneNumber: '010-2223-1112',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원2',
@@ -69,7 +69,7 @@ export const USERS = [
     employeeNumber: '20003',
     phoneNumber: '010-2224-1113',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원3',
@@ -77,7 +77,7 @@ export const USERS = [
     employeeNumber: '20004',
     phoneNumber: '010-2225-1114',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원4',
@@ -85,7 +85,7 @@ export const USERS = [
     employeeNumber: '20005',
     phoneNumber: '010-2226-1115',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원5',
@@ -93,7 +93,7 @@ export const USERS = [
     employeeNumber: '20006',
     phoneNumber: '010-2227-1116',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원6',
@@ -101,7 +101,7 @@ export const USERS = [
     employeeNumber: '20007',
     phoneNumber: '010-2228-1117',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원7',
@@ -109,7 +109,7 @@ export const USERS = [
     employeeNumber: '20008',
     phoneNumber: '010-2229-1118',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '햇살카 직원8',
@@ -117,7 +117,7 @@ export const USERS = [
     employeeNumber: '20009',
     phoneNumber: '010-2230-1119',
     password: 'password',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '굿모닝카 대표',
@@ -125,7 +125,7 @@ export const USERS = [
     employeeNumber: '30001',
     phoneNumber: '010-3111-1111',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원1',
@@ -133,7 +133,7 @@ export const USERS = [
     employeeNumber: '30002',
     phoneNumber: '010-3223-1112',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원2',
@@ -141,7 +141,7 @@ export const USERS = [
     employeeNumber: '30003',
     phoneNumber: '010-3224-1113',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원3',
@@ -149,7 +149,7 @@ export const USERS = [
     employeeNumber: '30004',
     phoneNumber: '010-3225-1114',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원4',
@@ -157,7 +157,7 @@ export const USERS = [
     employeeNumber: '30005',
     phoneNumber: '010-3226-1115',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원5',
@@ -165,7 +165,7 @@ export const USERS = [
     employeeNumber: '30006',
     phoneNumber: '010-3227-1116',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원6',
@@ -173,7 +173,7 @@ export const USERS = [
     employeeNumber: '30007',
     phoneNumber: '010-3228-1117',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원7',
@@ -181,7 +181,7 @@ export const USERS = [
     employeeNumber: '30008',
     phoneNumber: '010-3229-1118',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '굿모닝카 직원8',
@@ -189,7 +189,7 @@ export const USERS = [
     employeeNumber: '30009',
     phoneNumber: '010-3230-1119',
     password: 'password',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '행복카 대표',
@@ -197,7 +197,7 @@ export const USERS = [
     employeeNumber: '40001',
     phoneNumber: '010-4111-1111',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원1',
@@ -205,7 +205,7 @@ export const USERS = [
     employeeNumber: '40002',
     phoneNumber: '010-4223-1112',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원2',
@@ -213,7 +213,7 @@ export const USERS = [
     employeeNumber: '40003',
     phoneNumber: '010-4224-1113',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원3',
@@ -221,7 +221,7 @@ export const USERS = [
     employeeNumber: '40004',
     phoneNumber: '010-4225-1114',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원4',
@@ -229,7 +229,7 @@ export const USERS = [
     employeeNumber: '40005',
     phoneNumber: '010-4226-1115',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원5',
@@ -237,7 +237,7 @@ export const USERS = [
     employeeNumber: '40006',
     phoneNumber: '010-4227-1116',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원6',
@@ -245,7 +245,7 @@ export const USERS = [
     employeeNumber: '40007',
     phoneNumber: '010-4228-1117',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '행복카 직원7',
@@ -253,7 +253,7 @@ export const USERS = [
     employeeNumber: '40008',
     phoneNumber: '010-4229-1118',
     password: 'password',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '미래카 대표',
@@ -261,16 +261,16 @@ export const USERS = [
     employeeNumber: '50001',
     phoneNumber: '010-5111-1111',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
-  
+
   {
     name: '미래카 직원1',
     email: 'user1@future.com',
     employeeNumber: '50002',
     phoneNumber: '010-5223-1112',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '미래카 직원2',
@@ -278,7 +278,7 @@ export const USERS = [
     employeeNumber: '50003',
     phoneNumber: '010-5224-1113',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '미래카 직원3',
@@ -286,7 +286,7 @@ export const USERS = [
     employeeNumber: '50004',
     phoneNumber: '010-5225-1114',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '미래카 직원4',
@@ -294,7 +294,7 @@ export const USERS = [
     employeeNumber: '50005',
     phoneNumber: '010-5226-1115',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '미래카 직원5',
@@ -302,7 +302,7 @@ export const USERS = [
     employeeNumber: '50006',
     phoneNumber: '010-5227-1116',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '미래카 직원6',
@@ -310,7 +310,7 @@ export const USERS = [
     employeeNumber: '50007',
     phoneNumber: '010-5228-1117',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '미래카 직원7',
@@ -318,7 +318,7 @@ export const USERS = [
     employeeNumber: '50008',
     phoneNumber: '010-5229-1118',
     password: 'password',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '믿음카 대표',
@@ -326,16 +326,16 @@ export const USERS = [
     employeeNumber: '60001',
     phoneNumber: '010-6111-1111',
     password: 'password',
-    companyId: 6
+    companyId: 6,
   },
-  
+
   {
     name: '믿음카 직원1',
     email: 'user1@trust.com',
     employeeNumber: '60002',
     phoneNumber: '010-6223-1112',
     password: 'password',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '믿음카 직원2',
@@ -343,7 +343,7 @@ export const USERS = [
     employeeNumber: '60003',
     phoneNumber: '010-6224-1113',
     password: 'password',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '믿음카 직원3',
@@ -351,7 +351,7 @@ export const USERS = [
     employeeNumber: '60004',
     phoneNumber: '010-6225-1114',
     password: 'password',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '믿음카 직원4',
@@ -359,7 +359,7 @@ export const USERS = [
     employeeNumber: '60005',
     phoneNumber: '010-6226-1115',
     password: 'password',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '믿음카 직원5',
@@ -367,7 +367,7 @@ export const USERS = [
     employeeNumber: '60006',
     phoneNumber: '010-6227-1116',
     password: 'password',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '신뢰카 대표',
@@ -375,7 +375,7 @@ export const USERS = [
     employeeNumber: '70001',
     phoneNumber: '010-7111-1111',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '신뢰카 직원1',
@@ -383,7 +383,7 @@ export const USERS = [
     employeeNumber: '70002',
     phoneNumber: '010-7223-1112',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '신뢰카 직원2',
@@ -391,7 +391,7 @@ export const USERS = [
     employeeNumber: '70003',
     phoneNumber: '010-7224-1113',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '신뢰카 직원3',
@@ -399,43 +399,43 @@ export const USERS = [
     employeeNumber: '70004',
     phoneNumber: '010-7225-1114',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
-  
+
   {
     name: '신뢰카 직원4',
     email: 'user4@reliable.com',
     employeeNumber: '70005',
     phoneNumber: '010-7226-1115',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
-  
+
   {
     name: '신뢰카 직원5',
     email: 'user5@reliable.com',
     employeeNumber: '70006',
     phoneNumber: '010-7227-1116',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
-  
+
   {
     name: '신뢰카 직원6',
     email: 'user6@reliable.com',
     employeeNumber: '70007',
     phoneNumber: '010-7228-1117',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
-  
+
   {
     name: '신뢰카 직원7',
     email: 'user7@reliable.com',
     employeeNumber: '70008',
     phoneNumber: '010-7229-1118',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '신뢰카 직원8',
@@ -443,7 +443,7 @@ export const USERS = [
     employeeNumber: '70009',
     phoneNumber: '010-7230-1119',
     password: 'password',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '우리카 대표',
@@ -451,7 +451,7 @@ export const USERS = [
     employeeNumber: '90001',
     phoneNumber: '010-9111-1111',
     password: 'password',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '우리카 직원1',
@@ -459,7 +459,7 @@ export const USERS = [
     employeeNumber: '90002',
     phoneNumber: '010-9223-1112',
     password: 'password',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '우리카 직원2',
@@ -467,7 +467,7 @@ export const USERS = [
     employeeNumber: '90003',
     phoneNumber: '010-9224-1113',
     password: 'password',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '우리카 직원3',
@@ -475,7 +475,7 @@ export const USERS = [
     employeeNumber: '90004',
     phoneNumber: '010-9225-1114',
     password: 'password',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '우리카 직원4',
@@ -483,7 +483,7 @@ export const USERS = [
     employeeNumber: '90005',
     phoneNumber: '010-9226-1115',
     password: 'password',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '우리카 직원5',
@@ -491,7 +491,7 @@ export const USERS = [
     employeeNumber: '90006',
     phoneNumber: '010-9227-1116',
     password: 'password',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '우리카 직원6',
@@ -499,8 +499,8 @@ export const USERS = [
     employeeNumber: '90007',
     phoneNumber: '010-9228-1117',
     password: 'password',
-    companyId: 9
-  }
+    companyId: 9,
+  },
 ];
 
 export const CUSTOMERS = [
@@ -511,7 +511,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'INCHEON',
     email: 'customer1@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '황현우',
@@ -520,7 +520,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'DAEGU',
     email: 'customer2@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '전민수',
@@ -529,7 +529,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'ULSAN',
     email: 'customer3@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '이동욱',
@@ -538,7 +538,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'BUSAN',
     email: 'customer4@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '박수아',
@@ -547,7 +547,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GANGWON',
     email: 'customer5@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '조현진',
@@ -556,7 +556,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'SEJONG',
     email: 'customer6@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '권성훈',
@@ -565,7 +565,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'GYEONGNAM',
     email: 'customer7@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '송영희',
@@ -574,7 +574,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GYEONGGI',
     email: 'customer8@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '전현우',
@@ -583,7 +583,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'DAEGU',
     email: 'customer9@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '오영희',
@@ -592,7 +592,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'DAEJEON',
     email: 'customer10@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '백준영',
@@ -601,7 +601,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'SEJONG',
     email: 'customer11@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '백민수',
@@ -610,7 +610,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGNAM',
     email: 'customer12@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '안태민',
@@ -619,7 +619,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGNAM',
     email: 'customer13@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '박영희',
@@ -628,7 +628,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'CHUNGBUK',
     email: 'customer14@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '김지영',
@@ -637,7 +637,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'SEOUL',
     email: 'customer15@email.com',
-    companyId: 2
+    companyId: 2,
   },
   {
     name: '백현진',
@@ -646,7 +646,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'INCHEON',
     email: 'customer36@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '최소연',
@@ -655,7 +655,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'GWANGJU',
     email: 'customer37@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '송서연',
@@ -664,7 +664,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GWANGJU',
     email: 'customer38@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '한현우',
@@ -673,7 +673,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'GYEONGGI',
     email: 'customer39@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '한철수',
@@ -682,7 +682,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GANGWON',
     email: 'customer40@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '윤예은',
@@ -691,7 +691,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEONBUK',
     email: 'customer41@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '송예은',
@@ -700,7 +700,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'SEJONG',
     email: 'customer42@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '고동욱',
@@ -709,7 +709,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'ULSAN',
     email: 'customer43@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '홍민준',
@@ -718,7 +718,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEONBUK',
     email: 'customer44@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '정태민',
@@ -727,7 +727,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'DAEGU',
     email: 'customer45@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '황현우',
@@ -736,7 +736,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'DAEJEON',
     email: 'customer46@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '윤서연',
@@ -745,7 +745,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEONBUK',
     email: 'customer47@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '한지명',
@@ -754,7 +754,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'SEJONG',
     email: 'customer48@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '임민수',
@@ -763,7 +763,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GANGWON',
     email: 'customer49@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '백수아',
@@ -772,7 +772,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGBUK',
     email: 'customer50@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '박철수',
@@ -781,7 +781,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'SEJONG',
     email: 'customer51@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '정민준',
@@ -790,7 +790,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEONBUK',
     email: 'customer52@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '엄지원',
@@ -799,7 +799,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEJU',
     email: 'customer53@email.com',
-    companyId: 3
+    companyId: 3,
   },
   {
     name: '전민준',
@@ -808,7 +808,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GWANGJU',
     email: 'customer54@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '고지영',
@@ -817,7 +817,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEONNAM',
     email: 'customer55@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '홍현진',
@@ -826,7 +826,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'INCHEON',
     email: 'customer56@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '임현진',
@@ -835,7 +835,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'GANGWON',
     email: 'customer57@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '황미영',
@@ -844,7 +844,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'DAEGU',
     email: 'customer58@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '한민수',
@@ -853,7 +853,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEJU',
     email: 'customer59@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '김미영',
@@ -862,7 +862,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'GYEONGBUK',
     email: 'customer60@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '오예은',
@@ -871,7 +871,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'JEONNAM',
     email: 'customer61@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '전수아',
@@ -880,7 +880,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEJU',
     email: 'customer62@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '이현진',
@@ -889,7 +889,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'JEONBUK',
     email: 'customer63@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '전예은',
@@ -898,7 +898,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GANGWON',
     email: 'customer64@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '유태민',
@@ -907,7 +907,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEJU',
     email: 'customer65@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '윤소연',
@@ -916,7 +916,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'JEONBUK',
     email: 'customer66@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '한예은',
@@ -925,7 +925,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEONBUK',
     email: 'customer67@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '최철수',
@@ -934,7 +934,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEONBUK',
     email: 'customer68@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '윤미영',
@@ -943,7 +943,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GWANGJU',
     email: 'customer69@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '박예은',
@@ -952,7 +952,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'SEJONG',
     email: 'customer70@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '황영희',
@@ -961,7 +961,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'JEJU',
     email: 'customer71@email.com',
-    companyId: 4
+    companyId: 4,
   },
   {
     name: '이민수',
@@ -970,7 +970,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GYEONGNAM',
     email: 'customer120@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '이수아',
@@ -979,7 +979,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'SEOUL',
     email: 'customer121@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '박민수',
@@ -988,7 +988,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'CHUNGBUK',
     email: 'customer122@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '유민준',
@@ -997,7 +997,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GWANGJU',
     email: 'customer123@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '김민준',
@@ -1006,7 +1006,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'SEOUL',
     email: 'customer124@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '박민수',
@@ -1015,7 +1015,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEJU',
     email: 'customer125@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '고지원',
@@ -1024,7 +1024,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEONBUK',
     email: 'customer126@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '황예은',
@@ -1033,7 +1033,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGBUK',
     email: 'customer127@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '임동욱',
@@ -1042,7 +1042,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'CHUNGNAM',
     email: 'customer128@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '백준영',
@@ -1051,7 +1051,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'JEONNAM',
     email: 'customer129@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '이지훈',
@@ -1060,7 +1060,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'SEJONG',
     email: 'customer130@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '홍지원',
@@ -1069,7 +1069,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'SEOUL',
     email: 'customer132@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '정태민',
@@ -1078,7 +1078,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'GWANGJU',
     email: 'customer133@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '홍예은',
@@ -1087,7 +1087,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GWANGJU',
     email: 'customer134@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '강동욱',
@@ -1096,7 +1096,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GWANGJU',
     email: 'customer135@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '윤성훈',
@@ -1105,7 +1105,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GWANGJU',
     email: 'customer136@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '최준영',
@@ -1114,7 +1114,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'CHUNGNAM',
     email: 'customer137@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '백수아',
@@ -1123,7 +1123,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GANGWON',
     email: 'customer138@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '이하은',
@@ -1132,7 +1132,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GYEONGBUK',
     email: 'customer139@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '유성훈',
@@ -1141,7 +1141,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'ULSAN',
     email: 'customer140@email.com',
-    companyId: 5
+    companyId: 5,
   },
   {
     name: '오민준',
@@ -1150,7 +1150,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'JEJU',
     email: 'customer72@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '전하은',
@@ -1159,7 +1159,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'ULSAN',
     email: 'customer73@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '박성훈',
@@ -1168,7 +1168,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEONBUK',
     email: 'customer74@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '김지훈',
@@ -1177,7 +1177,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'JEONBUK',
     email: 'customer75@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '오지원',
@@ -1186,7 +1186,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GWANGJU',
     email: 'customer76@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '권영희',
@@ -1195,7 +1195,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'SEOUL',
     email: 'customer77@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '박지영',
@@ -1204,7 +1204,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'ULSAN',
     email: 'customer78@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '정성훈',
@@ -1213,7 +1213,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'CHUNGNAM',
     email: 'customer79@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '황민준',
@@ -1222,7 +1222,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'JEONBUK',
     email: 'customer80@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '한수아',
@@ -1231,7 +1231,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'GYEONGGI',
     email: 'customer81@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '박미영',
@@ -1240,7 +1240,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'BUSAN',
     email: 'customer82@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '김예은',
@@ -1249,7 +1249,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'INCHEON',
     email: 'customer83@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '전수아',
@@ -1258,7 +1258,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEONNAM',
     email: 'customer84@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '전성훈',
@@ -1267,7 +1267,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'GWANGJU',
     email: 'customer85@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '박준호',
@@ -1276,7 +1276,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'GWANGJU',
     email: 'customer86@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '전지훈',
@@ -1285,7 +1285,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'CHUNGBUK',
     email: 'customer87@email.com',
-    companyId: 6
+    companyId: 6,
   },
   {
     name: '전준호',
@@ -1294,7 +1294,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEJU',
     email: 'customer88@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '백명희',
@@ -1303,7 +1303,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEJU',
     email: 'customer89@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '송예은',
@@ -1312,7 +1312,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGGI',
     email: 'customer90@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '백민수',
@@ -1321,7 +1321,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'BUSAN',
     email: 'customer91@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '임민수',
@@ -1330,7 +1330,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEJU',
     email: 'customer92@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '안철수',
@@ -1339,7 +1339,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'JEONNAM',
     email: 'customer93@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '권지훈',
@@ -1348,7 +1348,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGNAM',
     email: 'customer94@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '권수아',
@@ -1357,7 +1357,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'JEONNAM',
     email: 'customer95@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '권현우',
@@ -1366,7 +1366,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'INCHEON',
     email: 'customer96@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '박동욱',
@@ -1375,7 +1375,7 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'CHUNGNAM',
     email: 'customer97@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '권성훈',
@@ -1384,7 +1384,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'GYEONGBUK',
     email: 'customer98@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '최철수',
@@ -1393,7 +1393,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'CHUNGBUK',
     email: 'customer99@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '백소연',
@@ -1402,7 +1402,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'ULSAN',
     email: 'customer100@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '강현우',
@@ -1411,7 +1411,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'SEOUL',
     email: 'customer101@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '고지훈',
@@ -1420,7 +1420,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'SEJONG',
     email: 'customer102@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '권민수',
@@ -1429,7 +1429,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'BUSAN',
     email: 'customer103@email.com',
-    companyId: 7
+    companyId: 7,
   },
   {
     name: '권하은',
@@ -1438,7 +1438,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'DAEJEON',
     email: 'customer104@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '조동욱',
@@ -1447,7 +1447,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'GYEONGGI',
     email: 'customer105@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '안서연',
@@ -1456,7 +1456,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'GANGWON',
     email: 'customer106@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '정성훈',
@@ -1465,7 +1465,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'JEONNAM',
     email: 'customer107@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '김영희',
@@ -1474,7 +1474,7 @@ export const CUSTOMERS = [
     ageGroup: 'FORTY',
     region: 'JEJU',
     email: 'customer108@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '권하은',
@@ -1483,7 +1483,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'CHUNGNAM',
     email: 'customer109@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '박태민',
@@ -1492,7 +1492,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'GWANGJU',
     email: 'customer110@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '한태민',
@@ -1501,7 +1501,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'CHUNGBUK',
     email: 'customer111@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '고예은',
@@ -1510,7 +1510,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'CHUNGNAM',
     email: 'customer112@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '안미영',
@@ -1519,7 +1519,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'DAEGU',
     email: 'customer113@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '강현진',
@@ -1528,7 +1528,7 @@ export const CUSTOMERS = [
     ageGroup: 'FIFTY',
     region: 'GANGWON',
     email: 'customer114@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '이영희',
@@ -1537,7 +1537,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'CHUNGBUK',
     email: 'customer115@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '오지훈',
@@ -1546,7 +1546,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'SEOUL',
     email: 'customer116@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '박서연',
@@ -1555,7 +1555,7 @@ export const CUSTOMERS = [
     ageGroup: 'TWENTY',
     region: 'INCHEON',
     email: 'customer117@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '안준영',
@@ -1564,7 +1564,7 @@ export const CUSTOMERS = [
     ageGroup: 'THIRTY',
     region: 'JEONBUK',
     email: 'customer118@email.com',
-    companyId: 9
+    companyId: 9,
   },
   {
     name: '고미영',
@@ -1573,8 +1573,8 @@ export const CUSTOMERS = [
     ageGroup: 'SIXTY',
     region: 'GYEONGBUK',
     email: 'customer119@email.com',
-    companyId: 9
-  }
+    companyId: 9,
+  },
 ];
 
 export const CARS = [
@@ -1586,7 +1586,7 @@ export const CARS = [
     price: 33098339,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '17가1005',
@@ -1596,7 +1596,7 @@ export const CARS = [
     price: 20857019,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '22가1010',
@@ -1606,7 +1606,7 @@ export const CARS = [
     price: 30080698,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '20가1008',
@@ -1616,7 +1616,7 @@ export const CARS = [
     price: 0,
     accidentCount: 1,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '14가1002',
@@ -1626,7 +1626,7 @@ export const CARS = [
     price: 37397586,
     accidentCount: 0,
     status: 'contractCompleted',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '16가1004',
@@ -1636,7 +1636,7 @@ export const CARS = [
     price: 53401189,
     accidentCount: 2,
     status: 'contractCompleted',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '19가1007',
@@ -1646,7 +1646,7 @@ export const CARS = [
     price: 42066174,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '18가1006',
@@ -1656,7 +1656,7 @@ export const CARS = [
     price: 23992460,
     accidentCount: 2,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '12가1234',
@@ -1666,7 +1666,7 @@ export const CARS = [
     price: 1,
     accidentCount: 1,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '21가1009',
@@ -1676,7 +1676,7 @@ export const CARS = [
     price: 26669097,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '12가1233',
@@ -1686,7 +1686,7 @@ export const CARS = [
     price: 1,
     accidentCount: 1,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '12가1231',
@@ -1696,7 +1696,7 @@ export const CARS = [
     price: 1,
     accidentCount: 1,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '13가9234',
@@ -1706,7 +1706,7 @@ export const CARS = [
     price: 2300000,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '38가6157',
@@ -1716,7 +1716,7 @@ export const CARS = [
     price: 0,
     accidentCount: 0,
     status: 'contractCompleted',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '23가1011',
@@ -1726,7 +1726,7 @@ export const CARS = [
     price: 28809075,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '이것은테스트',
@@ -1736,7 +1736,7 @@ export const CARS = [
     price: 0,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '999하1234',
@@ -1746,7 +1746,7 @@ export const CARS = [
     price: 0,
     accidentCount: 0,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '18가6477',
@@ -1756,7 +1756,7 @@ export const CARS = [
     price: 10000,
     accidentCount: 1,
     status: 'contractProceeding',
-    companyId: 1
+    companyId: 2,
   },
   {
     carNumber: '12가1000',
@@ -1766,56 +1766,56 @@ export const CARS = [
     price: 33046002,
     accidentCount: 0,
     status: 'contractCompleted',
-    companyId: 1
-  }
+    companyId: 2,
+  },
 ];
 
 export const CAR_MODELS = [
   {
     model: 'K3',
     manufacturer: '기아',
-    type: 'SEDAN'
+    type: 'SEDAN',
   },
   {
     model: 'K5',
     manufacturer: '기아',
-    type: 'SEDAN'
+    type: 'SEDAN',
   },
   {
     model: 'K7',
     manufacturer: '기아',
-    type: 'SEDAN'
+    type: 'SEDAN',
   },
   {
     model: '쏘렌토',
     manufacturer: '기아',
-    type: 'SUV'
+    type: 'SUV',
   },
   {
     model: '모닝',
     manufacturer: '기아',
-    type: 'COMPACT'
+    type: 'COMPACT',
   },
   {
     model: '아반떼',
     manufacturer: '현대',
-    type: 'SEDAN'
+    type: 'SEDAN',
   },
   {
     model: '그랜저',
     manufacturer: '현대',
-    type: 'SEDAN'
+    type: 'SEDAN',
   },
   {
     model: '싼타페',
     manufacturer: '현대',
-    type: 'SUV'
+    type: 'SUV',
   },
   {
     model: '스파크',
     manufacturer: '쉐보레',
-    type: 'COMPACT'
-  }
+    type: 'COMPACT',
+  },
 ];
 
 export const CONTRACTS = [
@@ -1824,83 +1824,76 @@ export const CONTRACTS = [
     userId: 3,
     customerId: 1,
     carId: 1,
-    companyId: 1
+    companyId: 2,
   },
   {
     status: 'priceNegotiation',
     userId: 4,
     customerId: 2,
     carId: 2,
-    companyId: 1
+    companyId: 2,
   },
   {
     status: 'contractDraft',
     userId: 5,
     customerId: 3,
     carId: 3,
-    companyId: 1
+    companyId: 2,
   },
   {
     status: 'contractSuccessful',
     userId: 6,
     customerId: 4,
     carId: 4,
-    companyId: 1
+    companyId: 2,
   },
   {
     status: 'contractFailed',
     userId: 7,
     customerId: 5,
     carId: 5,
-    companyId: 1
-  }
+    companyId: 2,
+  },
 ];
 
 export const MEETINGS = [
   {
     date: '2025-09-22T09:30:00',
-    alarms: [
-      "2025-09-22T09:00:00",
-			"2025-09-21T09:00:00"
-    ],
-    contractId: 1
+    alarms: ['2025-09-22T09:00:00', '2025-09-21T09:00:00'],
+    contractId: 1,
   },
   {
     date: '2025-09-25T13:30:00',
-    alarms: [
-      "2025-09-25T09:00:00"
-    ],
-    contractId: 1
+    alarms: ['2025-09-25T09:00:00'],
+    contractId: 1,
   },
   {
     date: '2025-09-21T12:30:00',
     alarms: [],
-    contractId: 2
+    contractId: 2,
   },
   {
     date: '2025-09-27T17:00:00',
-    alarms: [
-      '2025-09-26T09:00:00'
-    ],
-    contractId: 4
-  }
+    alarms: ['2025-09-26T09:00:00'],
+    contractId: 4,
+  },
 ];
 
 export const CONTRACT_DOCUMENTS = [
   {
     fileName: 'contracts_example.csv',
-    contractId: 1
+    contractId: 1,
   },
   {
     fileName: 'test_image.png',
-    contractId: 1
+    contractId: 1,
   },
   {
     fileName: '계약서1.pdf',
-    contractId: 1
+    contractId: 1,
   },
   {
     fileName: '계약서2.pdf',
-    contractId: 2
-  }
+    contractId: 2,
+  },
 ];
