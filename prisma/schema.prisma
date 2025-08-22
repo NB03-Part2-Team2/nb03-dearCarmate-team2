@@ -92,13 +92,13 @@ model Contract {
   userId         Int
   company        Company            @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   companyId      Int
-  meeting        Meeting[]
+  meetings        Meetings[]
   document       ContractDocument[]
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
 }
 
-model Meeting {
+model Meetings {
   id         Int      @id @default(autoincrement())
   date       DateTime
   alarms     String[]

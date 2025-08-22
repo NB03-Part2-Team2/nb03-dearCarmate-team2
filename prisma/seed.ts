@@ -24,7 +24,7 @@ async function main() {
       "Car", 
       "CarModel", 
       "Contract", 
-      "Meeting", 
+      "Meetings", 
       "ContractDocument" 
     RESTART IDENTITY CASCADE
   `;
@@ -121,12 +121,12 @@ async function main() {
 
   // 미팅 데이터 삽입
   console.log('📅 미팅 데이터를 삽입합니다...');
-  for (const meeting of MEETINGS) {
-    await prisma.meeting.create({
+  for (const meetings of MEETINGS) {
+    await prisma.meetings.create({
       data: {
-        date: new Date(meeting.date),
-        alarms: meeting.alarms,
-        contractId: meeting.contractId,
+        date: new Date(meetings.date),
+        alarms: meetings.alarms,
+        contractId: meetings.contractId,
       },
     });
   }
