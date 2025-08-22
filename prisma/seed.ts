@@ -9,7 +9,7 @@ import {
   MEETINGS,
   CONTRACT_DOCUMENTS,
 } from './mock';
-import bcrypt from 'bcryptjs';
+import hashUtil from '../src/utils/hashUtil';
 
 const prisma = new PrismaClient();
 
@@ -46,7 +46,7 @@ async function main() {
   console.log('👥 유저 데이터를 삽입합니다...');
   for (const user of USERS) {
     // 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(user.password, 10);
+    const hashedPassword = hashUtil.hashPassword(user.password) as string;
 
     await prisma.user.create({
       data: {
