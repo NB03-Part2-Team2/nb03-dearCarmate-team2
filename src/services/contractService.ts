@@ -7,7 +7,7 @@ class ContractService {
     if (!companyId) {
       throw new Error();
     }
-    const cars = await contractRepository.getCars(companyId);
+    const cars = await contractRepository.getCarList(companyId);
     const formattedCars: ListItemDTO[] = cars.map((car) => ({
       id: car.id,
       data: `${car.model}(${car.carNumber})`,
@@ -20,7 +20,7 @@ class ContractService {
     if (!companyId) {
       throw new Error();
     }
-    const customers = await contractRepository.getCustomers(companyId);
+    const customers = await contractRepository.getCustomerList(companyId);
     const formattedCustomers: ListItemDTO[] = customers.map((customer) => ({
       id: customer.id,
       data: `${customer.name}(${customer.email})`,
@@ -33,7 +33,7 @@ class ContractService {
     if (!companyId) {
       throw new Error();
     }
-    const users = await contractRepository.getUsers(companyId);
+    const users = await contractRepository.getUserList(companyId);
     const formattedUsers: ListItemDTO[] = users.map((user) => ({
       id: user.id,
       data: `${user.name}(${user.email})`,

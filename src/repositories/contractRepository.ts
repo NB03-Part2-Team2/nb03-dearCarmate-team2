@@ -13,12 +13,12 @@ class ContractRepository {
       },
     });
     if (!user || !user.company) {
-      return null;
+      throw new Error();
     }
     return user.company.id;
   };
 
-  getCars = async (companyId: number) => {
+  getCarList = async (companyId: number) => {
     const cars = await prisma.car.findMany({
       where: {
         companyId,
@@ -33,7 +33,19 @@ class ContractRepository {
     return cars;
   };
 
-  getCustomers = async (companyId: number) => {
+  getCar = async (carId: number) => {
+    const car = await prisma.car.findUnique({
+      where: { id: carId },
+      select: {
+        id: true,
+        price: true,
+        model: true,
+      },
+    });
+    return car;
+  };
+
+  getCustomerList = async (companyId: number) => {
     const customers = await prisma.customer.findMany({
       where: { companyId },
       select: {
@@ -45,7 +57,18 @@ class ContractRepository {
     return customers;
   };
 
-  getUsers = async (companyId: number) => {
+  getCustomer = async (customerId: number) => {
+    const customer = await prisma.customer.findMany({
+      where: { id: customerId },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    return customer;
+  };
+
+  getUserList = async (companyId: number) => {
     const users = await prisma.user.findMany({
       where: { companyId },
       select: {
@@ -55,6 +78,17 @@ class ContractRepository {
       },
     });
     return users;
+  };
+
+  getUser = async (userId: number) => {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    return user;
   };
 }
 

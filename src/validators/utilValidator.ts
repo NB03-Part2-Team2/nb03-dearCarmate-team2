@@ -1,4 +1,4 @@
-import { create, object, optional, refine, size, string } from 'superstruct'
+import { create, object, optional, refine, size, string } from 'superstruct';
 
 const utilValidator = {
   name: refine(size(string(), 2, 50), 'nameError', (value) => {
@@ -18,7 +18,9 @@ const utilValidator = {
   }),
 
   carNumber: refine(size(string(), 7, 8), 'carNumberError', (value) => {
-    return /^\d{2,3}[가나다라마거너더러머버서어저고노도로모보소오조구누두루무부수우주바사아자배허하호]\d{4}$/.test(value);
+    return /^\d{2,3}[가나다라마거너더러머버서어저고노도로모보소오조구누두루무부수우주바사아자배허하호]\d{4}$/.test(
+      value,
+    );
   }),
 
   companyName: refine(string(), 'companyNameError', (value) => {
@@ -27,25 +29,26 @@ const utilValidator = {
 
   employeeNumber: refine(string(), 'employeeNumberError', (value) => {
     return /^[a-zA-Z가-힣\-]+$/.test(value);
-  })
+  }),
 };
 
 const paginationStruct = object({
-  page: optional(refine(string(), 'pageError', (value) => {
-    return /^\d+$/.test(value) && Number(value) >= 1;
-  })),
-  pageSize: optional(refine(string(), 'pageSizeError', (value) => {
-    return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
-  }))
-})
+  page: optional(
+    refine(string(), 'pageError', (value) => {
+      return /^\d+$/.test(value) && Number(value) >= 1;
+    }),
+  ),
+  pageSize: optional(
+    refine(string(), 'pageSizeError', (value) => {
+      return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
+    }),
+  ),
+});
 
 // page, pageSize를 param으로 입력받으면 page: pageNum, pageSize: sizeNum, skip: (pageNum - 1) * sizeNum, take: sizeNum으로 돌아옵니다.
 
 const paginationValidator = (q: unknown) => {
-  const {
-    page = '1',
-    pageSize = '8',
-  } = create(q ?? {}, paginationStruct);
+  const { page = '1', pageSize = '8' } = create(q ?? {}, paginationStruct);
 
   const pageNum = parseInt(page, 10);
   const sizeNum = parseInt(pageSize, 10);
@@ -54,11 +57,8 @@ const paginationValidator = (q: unknown) => {
     page: pageNum,
     pageSize: sizeNum,
     skip: (pageNum - 1) * sizeNum,
-    take: sizeNum
+    take: sizeNum,
   } as const;
-} 
+};
 
-export {
-  utilValidator,
-  paginationValidator
-}
+export { utilValidator, paginationValidator };
