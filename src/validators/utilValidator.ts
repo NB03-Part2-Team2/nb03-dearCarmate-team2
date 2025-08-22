@@ -17,7 +17,7 @@ const utilValidator = {
     return /^[a-zA-Z0-9]+$/.test(value);
   }),
 
-  carNumber: refine(size(string(), 7, 7), 'carNumberError', (value) => {
+  carNumber: refine(size(string(), 7, 8), 'carNumberError', (value) => {
     return /^\d{2,3}[가나다라마거너더러머버서어저고노도로모보소오조구누두루무부수우주바사아자배허하호]\d{4}$/.test(value);
   }),
 
@@ -38,6 +38,8 @@ const paginationStruct = object({
     return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
   }))
 })
+
+// page, pageSize를 param으로 입력받으면 page: pageNum, pageSize: sizeNum, skip: (pageNum - 1) * sizeNum, take: sizeNum으로 돌아옵니다.
 
 const paginationValidator = (q: unknown) => {
   const {
