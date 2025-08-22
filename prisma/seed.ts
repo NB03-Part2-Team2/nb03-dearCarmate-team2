@@ -9,6 +9,7 @@ import {
   MEETINGS,
   CONTRACT_DOCUMENTS,
 } from './mock';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -44,13 +45,16 @@ async function main() {
   // 유저 데이터 삽입
   console.log('👥 유저 데이터를 삽입합니다...');
   for (const user of USERS) {
+    // 비밀번호 해싱
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
     await prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
         employeeNumber: user.employeeNumber,
         phoneNumber: user.phoneNumber,
-        password: user.password,
+        password: hashedPassword,
         isAdmin: user.isAdmin || false,
         companyId: user.companyId,
       },

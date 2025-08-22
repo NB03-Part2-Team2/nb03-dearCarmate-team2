@@ -83,6 +83,7 @@ model Contract {
   id             Int                @id @default(autoincrement())
   status         ContractStatus
   resolutionDate DateTime?
+  contractPrice  Int
   car            Car                @relation(fields: [carId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   carId          Int
   customer       Customer           @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
