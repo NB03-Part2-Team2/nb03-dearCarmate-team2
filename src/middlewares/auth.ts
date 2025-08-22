@@ -1,0 +1,81 @@
+import { expressjwt } from 'express-jwt';
+import { Request, Response, NextFunction } from 'express';
+import userRepository from '../repositories/userRepository';
+
+const secret = process.env.JWT_SECRET;
+if (!secret) {
+  throw new Error('JWT_SECRET is not defined in the environment variables.');
+}
+
+/**
+ * 액세스 토큰을 검증하는 미들웨어입니다.
+ * authorization 헤더에 accessToken이 있는 경우 해당 토큰의 정보를
+ * req.user의 속성으로 넣습니다.
+ */
+const verifyAccessToken = expressjwt({
+  secret,
+  algorithms: ['HS256'],
+  requestProperty: 'user',
+});
+
+/**
+ * 리프레시 토큰을 검증하는 미들웨어입니다.
+ * API명세서에 request body에 refreshToken을 담아서 전달하도록 기재되어 있습니다.
+ * 따라서 body에 refreshToken이 있는 경우 해당 토큰의 정보를
+ * req.auth의 속성으로 넣습니다.
+ */
+const verifyRefreshToken = expressjwt({
+  secret,
+  algorithms: ['HS256'],
+  getToken: (req) => req.body.refreshToken,
+});
+
+/**
+ * expressjwt()에서 토큰이 없는 경우, UnauthorizedError에러를 발생
+ * 에러 핸들러에서 처리 예정
+ * 따라서 verifyAccessToken을 먼저 수행하고 에러가 없다면
+ * 이미 로그인이 된 상태입니다.
+ * 토큰은 유효하나 DB에는 제거해서 없을수도 있으므로 한번 검사
+ * */
+const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.user!.userId;
+  try {
+    const user = await userRepository.getById(userId);
+
+    if (!user) {
+      const error = new Error('존재하지 않는 유저입니다'); // 통합된 에러로 추후 변경 필요
+      throw error;
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * 어드민 권한 확인하는 곳이 많으므로 별도 미들웨어로 분리
+ * 반드시 verifyUserAuth 뒤에 호출되어야 함
+ * */
+const verifyAdminAuth = async (req: Request, res: Response, next: NextFunction) => {
+  const userId = req.user!.userId;
+  try {
+    const user = await userRepository.getById(userId);
+
+    if (!user.isAdmin) {
+      const error = new Error('관리자 권한이 필요합니다'); // 통합된 에러로 추후 변경 필요
+      throw error;
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export default {
+  verifyAccessToken,
+  verifyRefreshToken,
+  verifyUserAuth,
+  verifyAdminAuth,
+};
