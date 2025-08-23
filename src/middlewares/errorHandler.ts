@@ -3,11 +3,9 @@ import { CustomError } from '../utils/customErrorUtil';
 import type { ErrorRequestHandler } from 'express';
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  // 커스텀 HTTP 에러 (HttpError로 생성된 에러)
+  // 커스텀 HTTP 에러 (CustomError로 생성된 에러)
   if (err instanceof CustomError) {
-    return res.status(err.code).json({
-      message: err.message,
-    });
+    return res.status(err.code).json({ message: err.message });
   }
 
   // Superstruct 검증 에러
