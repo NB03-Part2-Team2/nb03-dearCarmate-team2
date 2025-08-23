@@ -3,7 +3,7 @@ import contractController from '../controllers/contractController';
 
 const contractRouter = express.Router();
 
-contractRouter.route('/');
+contractRouter.route('/').post(contractController.createContract);
 
 contractRouter.route('/cars').get(contractController.getCarsForContract);
 
@@ -12,3 +12,5 @@ contractRouter.route('/customers').get(contractController.getCustomersForContrac
 contractRouter.route('/users').get(contractController.getUsersForContract);
 
 contractRouter.route('/:contractId');
+
+export default contractRouter;

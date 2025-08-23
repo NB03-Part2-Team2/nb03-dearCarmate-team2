@@ -1,5 +1,5 @@
 import contractRepository from '../repositories/contractRepository';
-import { ListItemDTO } from '../types/contractType';
+import { ListItemDTO, meetingsDTO } from '../types/contractType';
 
 class ContractService {
   getCarsInCompany = async (userId: number) => {
@@ -39,6 +39,30 @@ class ContractService {
       data: `${user.name}(${user.email})`,
     }));
     return formattedUsers;
+  };
+
+  createContract = async (
+    userId: number,
+    carId: number,
+    customerId: number,
+    meetings: meetingsDTO[],
+  ) => {
+    const companyId = await contractRepository.getCompanyId(userId);
+    if (!companyId) {
+      throw new Error();
+    }
+    const car = await contractRepository.getCarPrice(carId);
+    if (!car) {
+      throw new Error();
+    }
+    const contract = await contractRepository.createContract(
+      userId,
+      car,
+      customerId,
+      companyId,
+      meetings,
+    );
+    return contract;
   };
 }
 
