@@ -1,6 +1,7 @@
 import { expressjwt } from 'express-jwt';
 import { Request, Response, NextFunction } from 'express';
 import userRepository from '../repositories/userRepository';
+import { CustomError } from '../utils/customErrorUtil';
 
 const secret = process.env.JWT_SECRET;
 if (!secret) {
@@ -43,8 +44,7 @@ const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) =
     const user = await userRepository.getById(userId);
 
     if (!user) {
-      const error = new Error('존재하지 않는 유저입니다'); // 통합된 에러로 추후 변경 필요
-      throw error;
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
     }
 
     next();
@@ -63,8 +63,7 @@ const verifyAdminAuth = async (req: Request, res: Response, next: NextFunction) 
     const user = await userRepository.getById(userId);
 
     if (!user.isAdmin) {
-      const error = new Error('관리자 권한이 필요합니다'); // 통합된 에러로 추후 변경 필요
-      throw error;
+      throw CustomError.forbidden('관리자 권한이 필요합니다.');
     }
 
     next();
