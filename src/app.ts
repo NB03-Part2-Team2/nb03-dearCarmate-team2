@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.use('/api/contracts', contractRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT || 3000, () => console.log('Server Starting...'));
