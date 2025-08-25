@@ -1,9 +1,9 @@
 import express from 'express';
-import { upload } from '../controllers/imageUploadController';
-import { uploadIamge } from '../middlewares/imageUpload';
+import imageController from '../controllers/imageUploadController';
+import { uploadImage } from '../middlewares/imageUpload';
 
 const imageUploadRouter = express.Router();
 
-imageUploadRouter.post('/upload', uploadIamge.single('image'), upload);
+imageUploadRouter.post('/upload', uploadImage.single('image'), imageController.upload);
 
 export default imageUploadRouter;

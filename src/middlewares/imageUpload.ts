@@ -13,7 +13,7 @@ if (!fs.existsSync(PUBLIC_IMAGE_DIR)) {
   fs.mkdirSync(PUBLIC_IMAGE_DIR, { recursive: true });
 }
 
-export const uploadIamge = multer({
+export const uploadImage = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       cb(null, PUBLIC_IMAGE_DIR);
