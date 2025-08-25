@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { createContractDTO } from '../types/contractType';
 import contractService from '../services/contractService';
 
 class ContractController {
@@ -18,6 +19,13 @@ class ContractController {
     const userId = req.user!.userId;
     const users = await contractService.getUsersInCompany(userId);
     res.status(200).json(users);
+  };
+
+  createContract = async (req: Request<{}, {}, createContractDTO>, res: Response) => {
+    const userId = req.user!.userId;
+    const { carId, customerId, meetings } = req.body;
+    const contract = await contractService.createContract(userId, carId, customerId, meetings);
+    res.status(201).json(contract);
   };
 }
 
