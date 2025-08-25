@@ -12,7 +12,7 @@ export const upload = async (req: Request, res: Response) => {
 
   const proto = req.protocol;
   const base = `${proto}://${req.get('host')}`;
-  const url = new URL(`/static/${req.file.filename}`, base).toString();
+  const url = new URL(`/images/${req.file.filename}`, base).toString();
   res.send({ url });
 };
 

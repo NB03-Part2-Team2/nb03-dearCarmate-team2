@@ -4,7 +4,8 @@ import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import path from 'path';
-import singleUploadRouter from './routes/imageUploadRouter';
+import imageUploadRouter from './routes/imageUploadRouter';
+import contractDocumentUploadRouter from './routes/contractDocumentUploadRouter';
 
 dotenv.config();
 
@@ -14,8 +15,11 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/images', singleUploadRouter);
+app.use('/images', imageUploadRouter);
 app.use('/images', express.static(path.resolve('public'))); //정적 파일 루트 제공
+
+app.use('/contractDocuments', contractDocumentUploadRouter);
+app.use('/contractDocuments', express.static(path.resolve('public')));
 
 app.use(errorHandler);
 
