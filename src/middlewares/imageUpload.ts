@@ -4,10 +4,8 @@ import fs from 'fs';
 import { CustomError } from '../utils/customErrorUtil';
 
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg'];
-const ALLOWED_CONTRACT_TYPES = ['image/png', 'image/jpeg', 'application/pdf'];
 const SIZE_LIMIT = 5 * 1024 * 1024; //byte 단위
 const PUBLIC_IMAGE_DIR = path.resolve('public');
-const PUBLIC_DOCUMENT_DIR = path.resolve('document');
 
 /*이미지 업로드 미들웨어*/
 
