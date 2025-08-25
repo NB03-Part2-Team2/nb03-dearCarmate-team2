@@ -1,4 +1,5 @@
 export interface createUserDTO {
+  // 유저-회원가입API 작성시 컨벤션 수정
   name: string;
   email: string;
   employeeNumber: string;

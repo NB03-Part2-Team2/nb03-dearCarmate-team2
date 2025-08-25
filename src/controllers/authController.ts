@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import authService from '../services/authService';
 import { loginValidator } from '../validators/authValidator';
 import { LoginDTO } from '../types/userType';
-import { TokenDTO, UpdateTokenDTO } from '../types/authType';
+import { UpdateTokenDTO } from '../types/authType';
 
 class AuthController {
   login = async (req: Request, res: Response) => {
