@@ -38,7 +38,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   // JWT 인증 에러
   if (err instanceof Error && err.name === 'UnauthorizedError') {
-    return res.status(401).json({ message: '인증되지 않은 토큰입니다.' });
+    return res.status(401).json({ message: '로그인이 필요합니다.' });
   }
 
   // JWT 토큰 만료 에러

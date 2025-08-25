@@ -7,6 +7,7 @@ declare global {
       auth?: {
         userId: number;
       };
+      parsedData?: any[];
     }
   }
 }
