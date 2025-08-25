@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import type { StringValue } from 'ms'; // jwt 토큰 expireIn 타입용
+import hashUtil from '../utils/hashUtil';
 import userRepository from '../repositories/userRepository';
+import userService from './userService';
 import { CustomError } from '../utils/customErrorUtil';
-import { TokenDTO } from '../types/authType';
-import { UserDTO } from '../types/userType';
+import { TokenDTO, UpdateTokenDTO } from '../types/authType';
+import { LoginDTO, UserDTO } from '../types/userType';
 
 class AuthService {
   /**
@@ -44,6 +46,47 @@ class AuthService {
     }
     // 3. accessToken을 재발행하여 반환합니다.
     return this.createToken({ userId: user.id });
+  };
+
+  login = async (loginDTO: LoginDTO) => {
+    // 1. DB에서 저장된 유저 조회
+    const user: UserDTO = await userRepository.getByEmail(loginDTO.email);
+
+    // 2. 조회한 유저의 비밀번호화 입력받은 비밀번호를 검증합니다.
+    if (!hashUtil.checkPassword(loginDTO.password, user.password!)) {
+      throw CustomError.notFound('존재하지 않거나 비밀번호가 일치하지 않습니다');
+    }
+
+    // 3-1. token 발행을 위한 유저 id 값 가공
+    const tokenDTO: TokenDTO = {
+      userId: user.id,
+    };
+    // 3-2. accessToken, refreshToken 발행 및 업데이트
+    const accessToken = this.createToken(tokenDTO);
+    const refreshToken = this.createToken(tokenDTO, 'refresh');
+    const updatedUser: UserDTO = await userRepository.update({ refreshToken }, user.id);
+
+    // 4. 반환값을 가공하여 response를 돌려줍니다
+    const filteredUser = userService.filterSensitiveUserData(updatedUser);
+    return { user: filteredUser, accessToken, refreshToken };
+  };
+
+  updateToken = async (updateTokenDTO: UpdateTokenDTO) => {
+    // 1. refreshingAccessToken에서 현재 전달받은 토큰이 유효한지 검증
+    const accessToken = await this.refreshingAccessToken(
+      updateTokenDTO.userId,
+      updateTokenDTO.requestRefreshToken,
+    );
+    // 2-1. createToken 타입 맞추기 위해 감싸주기
+    const tokenDTO: TokenDTO = {
+      userId: updateTokenDTO.userId,
+    };
+    // 2-2. refreshToken 재발급
+    const refreshToken = this.createToken(tokenDTO, 'refresh');
+    // 2-3. 새로 refreshToken을 발급받았으므로 DB도 업데이트
+    await userRepository.update({ refreshToken }, tokenDTO.userId);
+    // 3. 토큰 반환
+    return { accessToken, refreshToken };
   };
 }
 

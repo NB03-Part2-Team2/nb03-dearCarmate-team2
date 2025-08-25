@@ -1,4 +1,15 @@
-export type UpdateUserDto = Partial<{
+export interface createUserDTO {
+  name: string;
+  email: string;
+  employeeNumber: string;
+  phoneNumber: string;
+  password: string;
+  passwordConfirmation: string;
+  company: string;
+  companyCode: string;
+}
+
+export type UpdateUserDTO = Partial<{
   employeeNumber: string;
   phoneNumber: string;
   password: string;

@@ -1,6 +1,6 @@
 import prisma from '../libs/prisma';
 import { CustomError } from '../utils/customErrorUtil';
-import { UpdateUserDto, UserDTO } from '../types/userType';
+import { UpdateUserDTO, UserDTO } from '../types/userType';
 
 class UserRepository {
   /**
@@ -65,7 +65,7 @@ class UserRepository {
     return user;
   };
 
-  update = async (data: UpdateUserDto, id: number): Promise<UserDTO> => {
+  update = async (data: UpdateUserDTO, id: number): Promise<UserDTO> => {
     const updatedUser: UserDTO = await prisma.user.update({
       where: {
         id,
