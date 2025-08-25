@@ -4,7 +4,7 @@ export interface ListItemDTO {
 }
 
 export interface meetingsDTO {
-  date: string;
+  date: Date;
   alarms: string[];
 }
 
@@ -17,4 +17,32 @@ export interface createContractDTO {
   carId: number;
   customerId: number;
   meetings: meetingsDTO[];
+}
+
+export interface ContractData {
+  id: number;
+  car: CarDTO;
+  customer: ItemDTO;
+  user: ItemDTO;
+  meetings: meetingsDTO[];
+  contractPrice: number;
+  resolutionDate: Date | null;
+  status: string;
+}
+
+export interface formattedContractsDTO {
+  [status: string]: {
+    totalItemCount: number;
+    data: ContractData[];
+  };
+}
+
+export interface CarDTO {
+  id: number;
+  model: string;
+}
+
+export interface ItemDTO {
+  id: number;
+  name: string;
 }

@@ -1,3 +1,4 @@
+import { Prisma } from '../generated/prisma';
 import prisma from '../libs/prisma';
 import { meetingsDTO, carPriceDTO } from '../types/contractType';
 import { CustomError } from '../utils/customErrorUtil';
@@ -146,6 +147,49 @@ class ContractRepository {
       },
     });
     return contract;
+  };
+
+  getContractsByCompanyId = async (companyId: number, searchBy?: string, keyword?: string) => {
+    let searchCondition: Prisma.ContractWhereInput = {
+      companyId: companyId,
+    };
+    console.log(searchBy, keyword);
+    if (searchBy && keyword) {
+      if (searchBy === 'customerName') {
+        searchCondition.customer = {
+          name: {
+            contains: keyword,
+            mode: 'insensitive',
+          },
+        };
+      } else if (searchBy === 'userName') {
+        searchCondition.user = {
+          name: {
+            contains: keyword,
+            mode: 'insensitive',
+          },
+        };
+      }
+    }
+    const contracts = await prisma.contract.findMany({
+      where: searchCondition,
+      select: {
+        id: true,
+        status: true,
+        resolutionDate: true,
+        contractPrice: true,
+        meetings: {
+          select: {
+            date: true,
+            alarms: true,
+          },
+        },
+        user: { select: { id: true, name: true } },
+        customer: { select: { id: true, name: true } },
+        car: { select: { id: true, model: true } },
+      },
+    });
+    return contracts;
   };
 }
 
