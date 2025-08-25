@@ -1,5 +1,6 @@
 import prisma from '../libs/prisma';
 import { meetingsDTO, carPriceDTO } from '../types/contractType';
+import { CustomError } from '../utils/customErrorUtil';
 
 class ContractRepository {
   getCompanyId = async (userId: number) => {
@@ -14,7 +15,7 @@ class ContractRepository {
       },
     });
     if (!user || !user.company) {
-      throw new Error();
+      throw CustomError.badRequest();
     }
     return user.company.id;
   };

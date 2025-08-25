@@ -1,12 +1,10 @@
 import contractRepository from '../repositories/contractRepository';
 import { ListItemDTO, meetingsDTO } from '../types/contractType';
+import { CustomError } from '../utils/customErrorUtil';
 
 class ContractService {
   getCarsInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
-    if (!companyId) {
-      throw new Error();
-    }
     const cars = await contractRepository.getCarList(companyId);
     const formattedCars: ListItemDTO[] = cars.map((car) => ({
       id: car.id,
@@ -17,9 +15,6 @@ class ContractService {
 
   getCustomersInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
-    if (!companyId) {
-      throw new Error();
-    }
     const customers = await contractRepository.getCustomerList(companyId);
     const formattedCustomers: ListItemDTO[] = customers.map((customer) => ({
       id: customer.id,
@@ -30,9 +25,6 @@ class ContractService {
 
   getUsersInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
-    if (!companyId) {
-      throw new Error();
-    }
     const users = await contractRepository.getUserList(companyId);
     const formattedUsers: ListItemDTO[] = users.map((user) => ({
       id: user.id,
@@ -48,12 +40,9 @@ class ContractService {
     meetings: meetingsDTO[],
   ) => {
     const companyId = await contractRepository.getCompanyId(userId);
-    if (!companyId) {
-      throw new Error();
-    }
     const car = await contractRepository.getCarPrice(carId);
     if (!car) {
-      throw new Error();
+      throw CustomError.badRequest();
     }
     const contract = await contractRepository.createContract(
       userId,
