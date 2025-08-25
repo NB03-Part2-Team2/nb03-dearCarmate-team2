@@ -1,4 +1,6 @@
 import prisma from '../libs/prisma';
+import { meetingsDTO, carPriceDTO } from '../types/contractType';
+import { CustomError } from '../utils/customErrorUtil';
 
 class ContractRepository {
   getCompanyId = async (userId: number) => {
@@ -13,7 +15,7 @@ class ContractRepository {
       },
     });
     if (!user || !user.company) {
-      throw new Error();
+      throw CustomError.badRequest();
     }
     return user.company.id;
   };
@@ -33,13 +35,12 @@ class ContractRepository {
     return cars;
   };
 
-  getCar = async (carId: number) => {
+  getCarPrice = async (carId: number) => {
     const car = await prisma.car.findUnique({
       where: { id: carId },
       select: {
         id: true,
         price: true,
-        model: true,
       },
     });
     return car;
@@ -89,6 +90,62 @@ class ContractRepository {
       },
     });
     return user;
+  };
+
+  createContract = async (
+    userId: number,
+    car: carPriceDTO,
+    customerId: number,
+    companyId: number,
+    meetings: meetingsDTO[],
+  ) => {
+    const contract = await prisma.contract.create({
+      data: {
+        status: 'carInspection',
+        contractPrice: car.price,
+        car: {
+          connect: {
+            id: car.id,
+          },
+        },
+        customer: {
+          connect: {
+            id: customerId,
+          },
+        },
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+        company: {
+          connect: {
+            id: companyId,
+          },
+        },
+        meetings: {
+          createMany: {
+            data: meetings,
+          },
+        },
+      },
+      select: {
+        id: true,
+        status: true,
+        resolutionDate: true,
+        contractPrice: true,
+        meetings: {
+          select: {
+            date: true,
+            alarms: true,
+          },
+        },
+        user: { select: { id: true, name: true } },
+        customer: { select: { id: true, name: true } },
+        car: { select: { id: true, model: true } },
+      },
+    });
+    return contract;
   };
 }
 
