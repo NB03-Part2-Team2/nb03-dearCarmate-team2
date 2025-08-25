@@ -1,6 +1,6 @@
 import express from 'express';
 import { upload } from '../controllers/uploadController';
-import { uploadContractDocument } from '../middlewares/upload';
+import { uploadContractDocument } from '../middlewares/imageUpload';
 
 const contractDocumentUploadRouter = express.Router();
 
