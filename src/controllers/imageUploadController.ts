@@ -15,9 +15,3 @@ export const upload = async (req: Request, res: Response) => {
   const url = new URL(`/images/${req.file.filename}`, base).toString();
   res.send({ url });
 };
-
-/*
-@todo 계약서 용량 제한 5000KB
-형식 제한 x
-
-*/
