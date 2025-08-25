@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
+import contractRouter from './routes/contractRouter';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
 import contractDocumentUploadRouter from './routes/contractDocumentUploadRoute';
