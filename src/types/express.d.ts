@@ -7,7 +7,7 @@ declare global {
       auth?: {
         userId: number;
       };
-      parsedData?: any[];
+      parsedData?: Record<string, string | number | boolean | null>[];
     }
   }
 }

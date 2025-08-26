@@ -27,7 +27,7 @@ export class CSVParserUtil {
 
     // meta.fields를 사용해서 헤더 가져오기
     const headers = result.meta.fields || [];
-    const data = result.data;
+    const data = result.data as Record<string, string | number | boolean | null>[];
 
     return {
       headers,
