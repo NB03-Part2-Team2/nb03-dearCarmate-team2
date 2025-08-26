@@ -1,6 +1,6 @@
 import companyRepository from '../repositories/companyRepository';
 import userRepository from '../repositories/userRepository';
-import { UserDTO } from '../types/userType';
+import { GetUserDTO, UserDTO } from '../types/userType';
 import { CreateUserDTO, CreateUserRequestDTO } from '../types/userType';
 import { CustomError } from '../utils/customErrorUtil';
 
@@ -27,6 +27,13 @@ class UserService {
     // 4. prisma의 create 이용해 데이터 생성
     const user = await userRepository.create(createUserDTO);
     // 5. 민감정보 제외한 유저 데이터 반환
+    return this.filterSensitiveUserData(user);
+  };
+  getUser = async (getUserDTO: GetUserDTO) => {
+    const user = await userRepository.getById(getUserDTO.id);
+    if (!user) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
     return this.filterSensitiveUserData(user);
   };
   /**

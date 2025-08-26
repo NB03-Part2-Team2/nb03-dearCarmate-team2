@@ -6,4 +6,6 @@ const userRouter: Router = express.Router();
 
 userRouter.route('/').post(userController.createUser);
 
+userRouter.route('/me').get(auth.verifyAccessToken, auth.verifyUserAuth, userController.getUser);
+
 export default userRouter;
