@@ -59,25 +59,34 @@ class ContractService {
     searchBy: string | undefined,
     keyword: string | undefined,
   ) => {
-    const companyId = await contractRepository.getCompanyId(userId);
-    const contracts = await contractRepository.getContractsByCompanyId(
-      companyId,
-      searchBy,
-      keyword,
-    );
-    const formattedContracts: formattedContractsDTO = contracts.reduce((accumulator, contract) => {
-      const status: string = contract.status;
-      if (!accumulator[status]) {
-        accumulator[status] = {
-          totalItemCount: 0,
-          data: [],
-        };
+    if (searchBy && keyword) {
+      const validSearchBy = ['customerName', 'userName'];
+      if (!validSearchBy.includes(searchBy)) {
+        throw CustomError.badRequest();
       }
-      accumulator[status].data.push(contract);
-      accumulator[status].totalItemCount++;
-      return accumulator;
-    }, {} as formattedContractsDTO);
-    return formattedContracts;
+      const companyId = await contractRepository.getCompanyId(userId);
+      const contracts = await contractRepository.getContractsByCompanyId(
+        companyId,
+        searchBy,
+        keyword,
+      );
+      const formattedContracts: formattedContractsDTO = contracts.reduce(
+        (accumulator, contract) => {
+          const status: string = contract.status;
+          if (!accumulator[status]) {
+            accumulator[status] = {
+              totalItemCount: 0,
+              data: [],
+            };
+          }
+          accumulator[status].data.push(contract);
+          accumulator[status].totalItemCount++;
+          return accumulator;
+        },
+        {} as formattedContractsDTO,
+      );
+      return formattedContracts;
+    }
   };
 }
 
