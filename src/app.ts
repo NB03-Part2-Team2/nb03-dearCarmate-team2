@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import authRouter from './routes/authRoute';
+import userRouter from './routes/userRoute';
 import contractRouter from './routes/contractRouter';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRouter);
-app.use('/api/contracts', contractRouter);
+app.use('/users', userRouter);
+app.use('/contracts', contractRouter);
 
 app.use('/images', imageUploadRouter);
 app.use('/images', express.static(path.resolve('public'))); //정적 파일 루트 제공

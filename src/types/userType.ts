@@ -1,5 +1,4 @@
-export interface createUserDTO {
-  // 유저-회원가입API 작성시 컨벤션 수정
+export interface CreateUserRequestDTO {
   name: string;
   email: string;
   employeeNumber: string;
@@ -8,6 +7,15 @@ export interface createUserDTO {
   passwordConfirmation: string;
   company: string;
   companyCode: string;
+}
+
+export interface CreateUserDTO {
+  name: string;
+  email: string;
+  employeeNumber: string;
+  phoneNumber: string;
+  password: string;
+  companyId: number;
 }
 
 export type UpdateUserDTO = Partial<{
@@ -36,4 +44,8 @@ export interface UserDTO {
 export interface LoginDTO {
   email: string;
   password: string;
+}
+
+export interface GetUserDTO {
+  id: number;
 }
