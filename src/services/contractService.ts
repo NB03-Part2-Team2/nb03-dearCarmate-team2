@@ -1,5 +1,5 @@
 import contractRepository from '../repositories/contractRepository';
-import { ListItemDTO, meetingsDTO } from '../types/contractType';
+import { formattedContractsDTO, ListItemDTO, meetingsDTO } from '../types/contractType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class ContractService {
@@ -52,6 +52,41 @@ class ContractService {
       meetings,
     );
     return contract;
+  };
+
+  getContractsInCompany = async (
+    userId: number,
+    searchBy: string | undefined,
+    keyword: string | undefined,
+  ) => {
+    if (searchBy && keyword) {
+      const validSearchBy = ['customerName', 'userName'];
+      if (!validSearchBy.includes(searchBy)) {
+        throw CustomError.badRequest();
+      }
+      const companyId = await contractRepository.getCompanyId(userId);
+      const contracts = await contractRepository.getContractsByCompanyId(
+        companyId,
+        searchBy,
+        keyword,
+      );
+      const formattedContracts: formattedContractsDTO = contracts.reduce(
+        (accumulator, contract) => {
+          const status: string = contract.status;
+          if (!accumulator[status]) {
+            accumulator[status] = {
+              totalItemCount: 0,
+              data: [],
+            };
+          }
+          accumulator[status].data.push(contract);
+          accumulator[status].totalItemCount++;
+          return accumulator;
+        },
+        {} as formattedContractsDTO,
+      );
+      return formattedContracts;
+    }
   };
 }
 
