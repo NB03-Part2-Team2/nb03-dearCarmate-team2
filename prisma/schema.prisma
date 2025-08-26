@@ -80,22 +80,22 @@ model CarModel {
 }
 
 model Contract {
-  id             Int                @id @default(autoincrement())
-  status         ContractStatus
-  resolutionDate DateTime?
-  contractPrice  Int
-  car            Car                @relation(fields: [carId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  carId          Int
-  customer       Customer           @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  customerId     Int
-  user           User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId         Int
-  company        Company            @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  companyId      Int
-  meetings        Meetings[]
-  document       ContractDocument[]
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  id               Int                @id @default(autoincrement())
+  status           ContractStatus
+  resolutionDate   DateTime?
+  contractPrice    Int
+  car              Car                @relation(fields: [carId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  carId            Int
+  customer         Customer           @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customerId       Int
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId           Int
+  company          Company            @relation(fields: [companyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  companyId        Int
+  meetings         Meetings[]
+  contractDocument ContractDocument[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
 }
 
 model Meetings {
@@ -108,13 +108,21 @@ model Meetings {
   updatedAt  DateTime @updatedAt
 }
 
+model Document {
+  id               Int                @id @default(autoincrement())
+  fileName         String
+  contractDocument ContractDocument[]
+  createdAt        DateTime           @default(now())
+}
+
 model ContractDocument {
-  id         Int      @id @default(autoincrement())
-  fileName   String
-  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
   contractId Int
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId Int
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+
+  @@id([contractId, documentId])
 }
 
 enum Gender {
