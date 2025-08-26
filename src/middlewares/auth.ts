@@ -40,18 +40,23 @@ const verifyRefreshToken = expressjwt({
  * */
 const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
-  await userRepository.getById(userId);
+  const user = await userRepository.getById(userId);
+  if (!user) {
+    throw CustomError.notFound('존재하지 않는 유저입니다.');
+  }
   next();
 };
 
 /**
  * 어드민 권한 확인하는 곳이 많으므로 별도 미들웨어로 분리
- * 에러를 던지는 로직이 userRepository에 있으므로
  * verifyUserAuth는 호출되지 않아도 됩니다.
  * */
 const verifyAdminAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
   const user = await userRepository.getById(userId);
+  if (!user) {
+    throw CustomError.notFound('존재하지 않는 유저입니다.');
+  }
   if (!user.isAdmin) {
     throw CustomError.unauthorized('관리자 권한이 필요합니다.');
   }
