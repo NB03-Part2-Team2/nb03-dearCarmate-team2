@@ -116,9 +116,9 @@ model Document {
 }
 
 model ContractDocument {
-  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   contractId Int
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   documentId Int
   createdAt  DateTime @default(now())
 
