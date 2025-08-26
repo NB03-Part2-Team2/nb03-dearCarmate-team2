@@ -6,7 +6,8 @@ const contractRouter = express.Router();
 
 contractRouter
   .route('/')
-  .post(auth.verifyAccessToken, auth.verifyUserAuth, contractController.createContract);
+  .post(auth.verifyAccessToken, auth.verifyUserAuth, contractController.createContract)
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getContractsInCompany);
 
 contractRouter
   .route('/cars')
