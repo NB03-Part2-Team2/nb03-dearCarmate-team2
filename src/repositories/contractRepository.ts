@@ -153,7 +153,6 @@ class ContractRepository {
     let searchCondition: Prisma.ContractWhereInput = {
       companyId: companyId,
     };
-    console.log(searchBy, keyword);
     if (searchBy && keyword) {
       if (searchBy === 'customerName') {
         searchCondition.customer = {
