@@ -19,7 +19,7 @@ export interface createContractDTO {
   meetings: meetingsDTO[];
 }
 
-export interface ContractData {
+export interface ContractDTO {
   id: number;
   car: CarDTO;
   customer: ItemDTO;
@@ -33,7 +33,7 @@ export interface ContractData {
 export interface formattedContractsDTO {
   [status: string]: {
     totalItemCount: number;
-    data: ContractData[];
+    data: ContractDTO[];
   };
 }
 
