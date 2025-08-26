@@ -1,5 +1,26 @@
 import { create, object, optional, refine, size, string } from 'superstruct';
 
+/**
+ * @example
+ *
+ * 1. 필요한 필드를 뽑아 스키마 정의
+ *
+ * const somethingStruct = object({
+ *  name: utilValidator.name
+ *  email: utilValidator.email,
+ *  phoneNumber: utilValidator.password,
+ *  companyName: optional(utilValidator.companyName),
+ *  employeeNumber: optional(utilValidator.employeeNumber),
+ *  carNumber: otional(utilValidator.carNumber),
+ * });
+ *
+ * 2. 컨트롤러에서 create()로 검증
+ * ...
+ * const information = create(req.body, somethingStruct);
+ * ...
+ *
+ */
+
 const utilValidator = {
   name: refine(size(string(), 2, 50), 'nameError', (value) => {
     return /^[가-힣]+$/.test(value) || /^[a-zA-Z\s]+$/.test(value);
@@ -45,7 +66,25 @@ const paginationStruct = object({
   ),
 });
 
-// page, pageSize를 param으로 입력받으면 page: pageNum, pageSize: sizeNum, skip: (pageNum - 1) * sizeNum, take: sizeNum으로 돌아옵니다.
+/**
+ *
+ * @param
+ * page, pageSize를 param으로 입력받으면
+ *
+ * page: pageNum,
+ * pageSize: sizeNum,
+ * skip: (pageNum - 1) * sizeNum, take: sizeNum
+ *
+ * 으로 돌아옵니다.
+ *
+ * @example
+ *
+ *  ...
+ *  const {page, pageSize, skip, take} = paginationValidator(req.query);
+ *  ...
+ *
+ *
+ * */
 
 const paginationValidator = (q: unknown) => {
   const { page = '1', pageSize = '8' } = create(q ?? {}, paginationStruct);
