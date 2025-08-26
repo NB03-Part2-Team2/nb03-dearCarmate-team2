@@ -39,7 +39,10 @@ class AuthService {
    */
   refreshingAccessToken = async (userId: number, refreshToken: string): Promise<string> => {
     // 1. DB에 저장된 refreshToken을 가져오기 위해 유저 정보를 가져옵니다.
-    const user: UserDTO = await userRepository.getById(userId);
+    const user: UserDTO | null = await userRepository.getById(userId);
+    if (!user) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
     // 2. user의 저장된 토큰 정보와 유저에게 전달받은 토큰을 비교햐여 유효성을 검증합니다.
     if (user.refreshToken !== refreshToken) {
       throw CustomError.badRequest();
