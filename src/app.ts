@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import authRouter from './routes/authRoute';
+import userRouter from './routes/userRoute';
 import contractRouter from './routes/contractRouter';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRouter);
+app.use('/users', userRouter);
 app.use('/api/contracts', contractRouter);
 
 app.use('/images', imageUploadRouter);

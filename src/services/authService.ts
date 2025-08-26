@@ -50,7 +50,10 @@ class AuthService {
 
   login = async (loginDTO: LoginDTO) => {
     // 1. DB에서 저장된 유저 조회
-    const user: UserDTO = await userRepository.getByEmail(loginDTO.email);
+    const user: UserDTO | null = await userRepository.getByEmail(loginDTO.email);
+    if (!user) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
 
     // 2. 조회한 유저의 비밀번호화 입력받은 비밀번호를 검증합니다.
     if (!hashUtil.checkPassword(loginDTO.password, user.password!)) {
