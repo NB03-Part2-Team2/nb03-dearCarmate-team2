@@ -7,6 +7,7 @@ import {
   CAR_MODELS,
   CONTRACTS,
   MEETINGS,
+  DOCUMENTS,
   CONTRACT_DOCUMENTS,
 } from './mock';
 import hashUtil from '../src/utils/hashUtil';
@@ -25,6 +26,7 @@ async function main() {
       "CarModel", 
       "Contract", 
       "Meetings", 
+      "Document",
       "ContractDocument" 
     RESTART IDENTITY CASCADE
   `;
@@ -133,11 +135,21 @@ async function main() {
 
   // 계약서 데이터 삽입
   console.log('📄 계약서 데이터를 삽입합니다...');
-  for (const document of CONTRACT_DOCUMENTS) {
-    await prisma.contractDocument.create({
+  for (const document of DOCUMENTS) {
+    await prisma.document.create({
       data: {
         fileName: document.fileName,
-        contractId: document.contractId,
+      },
+    });
+  }
+
+  // 계약-계약서 관계 삽입
+  console.log('📄 계약-계약서 관계를 삽입합니다...');
+  for (const contractDocument of CONTRACT_DOCUMENTS) {
+    await prisma.contractDocument.create({
+      data: {
+        contractId: contractDocument.contractId,
+        documentId: contractDocument.documentId,
       },
     });
   }
