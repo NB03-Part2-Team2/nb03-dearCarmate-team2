@@ -1,3 +1,5 @@
+import { ContractStatus } from '../generated/prisma';
+
 export interface ListItemDTO {
   id: number;
   data: string;
@@ -8,9 +10,10 @@ export interface meetingsDTO {
   alarms: string[];
 }
 
-export interface carPriceDTO {
+export interface carDTO {
   id: number;
   price: number;
+  status: string;
 }
 
 export interface createContractDTO {
@@ -30,7 +33,7 @@ export interface ContractDTO {
   status: string;
 }
 
-export interface formattedContractsDTO {
+export interface FormattedContractsDTO {
   [status: string]: {
     totalItemCount: number;
     data: ContractDTO[];
@@ -45,4 +48,20 @@ export interface CarDTO {
 export interface ItemDTO {
   id: number;
   name: string;
+}
+
+export interface UpdateContractDTO {
+  status?: ContractStatus;
+  resolutionDate?: Date | null;
+  contractPrice?: number;
+  userId?: number;
+  customerId?: number;
+  carId?: number;
+  meetings?: meetingsDTO[];
+  contractDocuments?: ContractDocumentDTO[];
+}
+
+export interface ContractDocumentDTO {
+  id?: number;
+  fileName: string;
 }
