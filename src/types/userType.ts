@@ -51,3 +51,7 @@ export interface LoginDTO {
 export interface GetUserDTO {
   id: number;
 }
+
+export interface DeleteUserDTO {
+  id: number;
+}

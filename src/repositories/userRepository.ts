@@ -1,6 +1,5 @@
 import prisma from '../libs/prisma';
 import hashUtil from '../utils/hashUtil';
-import { CustomError } from '../utils/customErrorUtil';
 import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 
 class UserRepository {
@@ -84,6 +83,33 @@ class UserRepository {
     });
     return user;
   };
+  /**
+   *
+   * @param employeeNumber employeeNumber 를 받습니다
+   * @returns 해당하는 user가 있는 경우 해당 유저의 정보를 리턴, 없는 경우 error을 throw합니다.
+   */
+  getByEmployeeNumber = async (employeeNumber: string): Promise<UserDTO | null> => {
+    const user: UserDTO | null = await prisma.user.findUnique({
+      where: { employeeNumber },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        employeeNumber: true,
+        phoneNumber: true,
+        imageUrl: true,
+        isAdmin: true,
+        company: {
+          select: {
+            companyCode: true,
+          },
+        },
+        refreshToken: true,
+      },
+    });
+    return user;
+  };
 
   update = async (updataUserDTO: UpdateUserDTO, id: number): Promise<UserDTO> => {
     const { password, ...data } = updataUserDTO;
@@ -111,6 +137,14 @@ class UserRepository {
       },
     });
     return updatedUser;
+  };
+
+  delete = async (userId: number): Promise<void> => {
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
   };
 }
 

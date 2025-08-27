@@ -1,6 +1,6 @@
 import companyRepository from '../repositories/companyRepository';
 import userRepository from '../repositories/userRepository';
-import { GetUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
+import { DeleteUserDTO, GetUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 import { CreateUserDTO, CreateUserRequestDTO } from '../types/userType';
 import { CustomError } from '../utils/customErrorUtil';
 import hashUtil from '../utils/hashUtil';
@@ -17,6 +17,11 @@ class UserService {
     if (await userRepository.getByEmail(data.email)) {
       throw CustomError.conflict('이미 존재하는 이메일입니다');
     }
+    // 2-3. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
+    if (await userRepository.getByEmployeeNumber(data.employeeNumber)) {
+      throw CustomError.conflict('이미 존재하는 사원번호입니다.');
+    }
+
     // 3. 회사 id 가져오기
     const companyId = await companyRepository.getIdByCode(companyCode);
     const createUserDTO: CreateUserDTO = {
@@ -53,11 +58,17 @@ class UserService {
     if (!hashUtil.checkPassword(currentPassword as string, oldUser.password)) {
       throw CustomError.badRequest('현재 비밀번호가 맞지 않습니다.');
     }
+    // 3-3. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
+    if (data.employeeNumber && (await userRepository.getByEmployeeNumber(data.employeeNumber))) {
+      throw CustomError.conflict('이미 존재하는 사원번호입니다.');
+    }
     // 4. 전달받은 내용으로 user 정보를 업데이트 합니다.
     const updatedUser: UserDTO = await userRepository.update(data, id);
     return this.filterSensitiveUserData(updatedUser);
   };
-
+  deleteUser = async (deleteUser: DeleteUserDTO) => {
+    await userRepository.delete(deleteUser.id);
+  };
   /**
    *
    * @param user 민감정보가 포함된 유저 객체입니다.
