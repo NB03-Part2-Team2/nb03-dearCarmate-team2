@@ -1884,7 +1884,7 @@ export const MEETINGS = [
   },
 ];
 
-export const DOCUMENTS = [
+export const CONTRACT_DOCUMENTS = [
   {
     fileName: 'contracts_example.jpeg',
   },
@@ -1905,21 +1905,21 @@ export const DOCUMENTS = [
   },
 ];
 
-export const CONTRACT_DOCUMENTS = [
+export const CONTRACT_DOCUMENT_RELATIONS = [
   {
     contractId: 1,
-    documentId: 1,
+    contractDocumentId: 1,
   },
   {
     contractId: 1,
-    documentId: 2,
+    contractDocumentId: 2,
   },
   {
     contractId: 1,
-    documentId: 3,
+    contractDocumentId: 3,
   },
   {
     contractId: 2,
-    documentId: 4,
+    contractDocumentId: 4,
   },
 ];
