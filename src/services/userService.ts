@@ -55,7 +55,7 @@ class UserService {
       throw CustomError.notFound('존재하지 않는 유저입니다.');
     }
     // 3-2. 현재 비밀번호가 저장된 값과 맞는지 비교합니다
-    if (!hashUtil.checkPassword(currentPassword as string, oldUser.password)) {
+    if (currentPassword && !hashUtil.checkPassword(currentPassword, oldUser.password)) {
       throw CustomError.badRequest('현재 비밀번호가 맞지 않습니다.');
     }
     // 3-3. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
