@@ -1,4 +1,4 @@
-import { object, create, size, string, optional } from 'superstruct';
+import { object, assert, size, string, optional } from 'superstruct';
 import { CreateUserRequestDTO, UpdateUserDTO } from '../types/userType';
 import { utilValidator } from './utilValidator';
 /**
@@ -16,7 +16,7 @@ const createUserValidator = (createUserRequestDTO: CreateUserRequestDTO) => {
     company: utilValidator.companyName,
     companyCode: size(string(), 1, 20), // 별도 제한이 없었던것 같기에 길이만 검사
   });
-  create(createUserRequestDTO, userStruct);
+  assert(createUserRequestDTO, userStruct);
 };
 
 const updateUserValidator = (updateUserDTO: UpdateUserDTO) => {
@@ -29,6 +29,7 @@ const updateUserValidator = (updateUserDTO: UpdateUserDTO) => {
     imageUrl: optional(string()),
     refreshToken: optional(string()),
   });
-  create(updateUserDTO, userStruct);
+  assert(updateUserDTO, userStruct);
 };
+
 export { createUserValidator, updateUserValidator };
