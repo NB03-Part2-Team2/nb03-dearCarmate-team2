@@ -1,7 +1,12 @@
-import { Prisma } from '../generated/prisma';
+import { Prisma, PrismaClient } from '../generated/prisma';
 import prisma from '../libs/prisma';
 import { meetingsDTO, carPriceDTO } from '../types/contractType';
 import { CustomError } from '../utils/customErrorUtil';
+
+type TransactionClient = Omit<
+  PrismaClient,
+  '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'
+>;
 
 class ContractRepository {
   getCompanyId = async (userId: number) => {
@@ -36,12 +41,13 @@ class ContractRepository {
     return cars;
   };
 
-  getCarPrice = async (carId: number) => {
+  getCar = async (carId: number) => {
     const car = await prisma.car.findUnique({
       where: { id: carId },
       select: {
         id: true,
         price: true,
+        status: true,
       },
     });
     return car;
@@ -59,17 +65,6 @@ class ContractRepository {
     return customers;
   };
 
-  getCustomer = async (customerId: number) => {
-    const customer = await prisma.customer.findMany({
-      where: { id: customerId },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    return customer;
-  };
-
   getUserList = async (companyId: number) => {
     const users = await prisma.user.findMany({
       where: { companyId },
@@ -80,17 +75,6 @@ class ContractRepository {
       },
     });
     return users;
-  };
-
-  getUser = async (userId: number) => {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    return user;
   };
 
   createContract = async (
@@ -149,27 +133,7 @@ class ContractRepository {
     return contract;
   };
 
-  getContractsByCompanyId = async (companyId: number, searchBy?: string, keyword?: string) => {
-    let searchCondition: Prisma.ContractWhereInput = {
-      companyId: companyId,
-    };
-    if (searchBy && keyword) {
-      if (searchBy === 'customerName') {
-        searchCondition.customer = {
-          name: {
-            contains: keyword,
-            mode: 'insensitive',
-          },
-        };
-      } else if (searchBy === 'userName') {
-        searchCondition.user = {
-          name: {
-            contains: keyword,
-            mode: 'insensitive',
-          },
-        };
-      }
-    }
+  getContractsByCompanyId = async (searchCondition: Prisma.ContractWhereInput) => {
     const contracts = await prisma.contract.findMany({
       where: searchCondition,
       select: {
@@ -189,6 +153,88 @@ class ContractRepository {
       },
     });
     return contracts;
+  };
+
+  getContractUserId = async (contractId: number, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    const contract = await prismaClient.contract.findUnique({
+      where: { id: contractId },
+      select: {
+        userId: true,
+      },
+    });
+    return contract?.userId;
+  };
+
+  updateContract = async (
+    contractId: number,
+    data: Prisma.ContractUpdateInput,
+    tx?: TransactionClient,
+  ) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.contract.update({
+      where: { id: contractId },
+      data: data,
+      select: {
+        id: true,
+        status: true,
+        resolutionDate: true,
+        contractPrice: true,
+        meetings: {
+          select: {
+            date: true,
+            alarms: true,
+          },
+        },
+        user: { select: { id: true, name: true } },
+        customer: { select: { id: true, name: true } },
+        car: { select: { id: true, model: true } },
+      },
+    });
+  };
+
+  deleteMeetingList = async (contractId: number, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.meetings.deleteMany({
+      where: { contractId },
+    });
+  };
+
+  createMeetingList = async (
+    meetings: Prisma.MeetingsCreateManyInput[],
+    tx?: TransactionClient,
+  ) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.meetings.createMany({
+      data: meetings,
+    });
+  };
+
+  deleteContractDocument = async (contractId: number, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.contractDocument.deleteMany({
+      where: { contractId },
+    });
+  };
+
+  createContractDocument = async (
+    documentId: number,
+    contractId: number,
+    tx?: TransactionClient,
+  ) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.contractDocument.create({
+      data: {
+        document: { connect: { id: documentId } },
+        contract: { connect: { id: contractId } },
+      },
+    });
+  };
+
+  deleteContract = async (contractId: number) => {
+    return prisma.contract.delete({
+      where: { id: contractId },
+    });
   };
 }
 

@@ -21,6 +21,9 @@ contractRouter
   .route('/users')
   .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getUsersForContract);
 
-contractRouter.route('/:contractId');
+contractRouter
+  .route('/:contractId')
+  .patch(auth.verifyAccessToken, auth.verifyUserAuth, contractController.updateContract)
+  .delete(auth.verifyAccessToken, auth.verifyUserAuth, contractController.deleteContract);
 
 export default contractRouter;
