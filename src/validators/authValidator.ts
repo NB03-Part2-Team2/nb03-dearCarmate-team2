@@ -1,4 +1,4 @@
-import { object, create } from 'superstruct';
+import { object, assert } from 'superstruct';
 import { LoginDTO } from '../types/userType';
 import { utilValidator } from './utilValidator';
 
@@ -11,7 +11,7 @@ const loginValidator = (loginDTO: LoginDTO) => {
     email: utilValidator.email,
     password: utilValidator.password,
   });
-  create(loginDTO, loginStruct);
+  assert(loginDTO, loginStruct);
 };
 
 export { loginValidator };

@@ -1,8 +1,9 @@
 import companyRepository from '../repositories/companyRepository';
 import userRepository from '../repositories/userRepository';
-import { GetUserDTO, UserDTO } from '../types/userType';
+import { DeleteUserDTO, GetUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 import { CreateUserDTO, CreateUserRequestDTO } from '../types/userType';
 import { CustomError } from '../utils/customErrorUtil';
+import hashUtil from '../utils/hashUtil';
 
 class UserService {
   createUser = async (createUserRequestDTO: CreateUserRequestDTO) => {
@@ -16,11 +17,16 @@ class UserService {
     if (await userRepository.getByEmail(data.email)) {
       throw CustomError.conflict('이미 존재하는 이메일입니다');
     }
+    // 2-3. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
+    if (await userRepository.getByEmployeeNumber(data.employeeNumber)) {
+      throw CustomError.conflict('이미 존재하는 사원번호입니다.');
+    }
+
     // 3. 회사 id 가져오기
     const companyId = await companyRepository.getIdByCode(companyCode);
     const createUserDTO: CreateUserDTO = {
       ...data,
-      password,
+      password: hashUtil.hashPassword(password),
       companyId,
     };
 
@@ -35,6 +41,38 @@ class UserService {
       throw CustomError.notFound('존재하지 않는 유저입니다.');
     }
     return this.filterSensitiveUserData(user);
+  };
+  updateUser = async (updateUserDTO: UpdateUserDTO, id: number) => {
+    // 1. 인증용 데이터를 추출합니다.
+    const { currentPassword, passwordConfirmation, ...data } = updateUserDTO;
+    // 2-1. 비밀번호와 비밀번호 확인이 같은지 확인합니다.
+    if (passwordConfirmation !== data.password) {
+      throw CustomError.badRequest('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+    }
+    // 2-2. 패스워드가 있으면 해싱 처리후 값을 변경합니다.
+    if (data.password) {
+      data.password = hashUtil.hashPassword(data.password);
+    }
+    console.log(data);
+    // 3-1. 비밀번호 비교를 위해 유저 정보를 가져옵니다.
+    const oldUser = await userRepository.getById(id);
+    if (!oldUser) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+    // 3-2. 현재 비밀번호가 저장된 값과 맞는지 비교합니다
+    if (currentPassword && !hashUtil.checkPassword(currentPassword, oldUser.password)) {
+      throw CustomError.badRequest('현재 비밀번호가 맞지 않습니다.');
+    }
+    // 3-3. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
+    if (data.employeeNumber && (await userRepository.getByEmployeeNumber(data.employeeNumber))) {
+      throw CustomError.conflict('이미 존재하는 사원번호입니다.');
+    }
+    // 4. 전달받은 내용으로 user 정보를 업데이트 합니다.
+    const updatedUser: UserDTO = await userRepository.update(data, id);
+    return this.filterSensitiveUserData(updatedUser);
+  };
+  deleteUser = async (deleteUser: DeleteUserDTO) => {
+    await userRepository.delete(deleteUser.id);
   };
   /**
    *

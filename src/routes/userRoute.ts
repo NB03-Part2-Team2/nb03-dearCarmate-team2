@@ -6,6 +6,10 @@ const userRouter: Router = express.Router();
 
 userRouter.route('/').post(userController.createUser);
 
-userRouter.route('/me').get(auth.verifyAccessToken, auth.verifyUserAuth, userController.getUser);
+userRouter
+  .route('/me')
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, userController.getUser)
+  .patch(auth.verifyAccessToken, auth.verifyUserAuth, userController.updateUser)
+  .delete(auth.verifyAccessToken, auth.verifyUserAuth, userController.deleteUser);
 
 export default userRouter;

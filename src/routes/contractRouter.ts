@@ -7,20 +7,23 @@ const contractRouter = express.Router();
 contractRouter
   .route('/')
   .post(auth.verifyAccessToken, auth.verifyUserAuth, contractController.createContract)
-  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getContractsInCompany);
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getContractListInCompany);
 
 contractRouter
   .route('/cars')
-  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getCarsForContract);
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getCarListForContract);
 
 contractRouter
   .route('/customers')
-  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getCustomersForContract);
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getCustomerListForContract);
 
 contractRouter
   .route('/users')
-  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getUsersForContract);
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, contractController.getUserListForContract);
 
-contractRouter.route('/:contractId');
+contractRouter
+  .route('/:contractId')
+  .patch(auth.verifyAccessToken, auth.verifyUserAuth, contractController.updateContract)
+  .delete(auth.verifyAccessToken, auth.verifyUserAuth, contractController.deleteContract);
 
 export default contractRouter;
