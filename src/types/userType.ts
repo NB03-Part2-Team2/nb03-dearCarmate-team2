@@ -21,7 +21,9 @@ export interface CreateUserDTO {
 export type UpdateUserDTO = Partial<{
   employeeNumber: string;
   phoneNumber: string;
+  currentPassword: string;
   password: string;
+  passwordConfirmation: string;
   imageUrl: string | null;
   refreshToken: string;
 }>;
@@ -47,5 +49,9 @@ export interface LoginDTO {
 }
 
 export interface GetUserDTO {
+  id: number;
+}
+
+export interface DeleteUserDTO {
   id: number;
 }
