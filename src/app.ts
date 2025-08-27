@@ -8,7 +8,7 @@ import userRouter from './routes/userRoute';
 import contractRouter from './routes/contractRouter';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
-import contractDocumentUploadRouter from './routes/contractDocumentUploadRoute';
+import contractDocumentRouter from './routes/contractDocumentRoute';
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.use('/contracts', contractRouter);
 
 app.use('/images', imageUploadRouter);
 app.use('/images', express.static(path.resolve('public'))); //정적 파일 루트 제공
-app.use('/contractDocuments', contractDocumentUploadRouter);
+app.use('/contractDocuments', contractDocumentRouter);
 app.use('/contractDocuments', express.static(path.resolve('document')));
 
 app.use(errorHandler);
