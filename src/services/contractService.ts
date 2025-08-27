@@ -51,14 +51,19 @@ class ContractService {
     if (!car || car.status !== 'possession') {
       throw CustomError.badRequest();
     }
-    const contract = await contractRepository.createContract(
-      userId,
-      car,
-      customerId,
-      companyId,
-      meetings,
-    );
-    return contract;
+    const result = await prisma.$transaction(async (tx) => {
+      const contract = await contractRepository.createContract(
+        userId,
+        car,
+        customerId,
+        companyId,
+        meetings,
+        tx,
+      );
+      await contractRepository.updateCarStatus(carId, 'contractProceeding', tx);
+      return contract;
+    });
+    return result;
   };
 
   getContractListInCompany = async (
@@ -112,28 +117,34 @@ class ContractService {
     updateData: UpdateContractDTO,
     logInUserId: number,
   ) => {
-    // 함수 전체를 트랜잭션 블록으로 감쌉니다.
-    return await prisma.$transaction(async (tx) => {
-      const { userId, customerId, carId, meetings, contractDocuments, ...restOfData } = updateData;
-      // 인가 로직: tx를 전달합니다.
-      const contractUserId = await contractRepository.getContractUserId(contractId, tx);
-      if (logInUserId !== contractUserId) {
-        throw CustomError.forbidden();
-      }
-      if (!customerId || !carId) {
-        throw CustomError.badRequest();
-      }
-      // 미팅 업데이트 로직: 모든 레포지토리 함수에 tx를 전달합니다.
+    const { userId, customerId, carId, meetings, contractDocuments, ...restOfData } = updateData;
+    const contractUserId = await contractRepository.getContractUserId(contractId);
+    if (logInUserId !== contractUserId) {
+      throw CustomError.forbidden();
+    }
+    if (!customerId || !carId) {
+      throw CustomError.badRequest();
+    }
+    // 업데이트 상태에 따른 자동차 상태를 매핑하는 객체
+    const statusMapping = {
+      contractSuccessful: 'contractCompleted',
+      contractFailed: 'possession',
+      carInspection: 'contractProceeding',
+      priceNegotiation: 'contractProceeding',
+      contractDraft: 'contractProceeding',
+    };
+    const result = await prisma.$transaction(async (tx) => {
+      // 미팅 업데이트 로직
       if (meetings) {
         await contractRepository.deleteMeetingList(contractId, tx);
-        const meetingsForCreate: Prisma.MeetingsCreateManyInput[] = meetings.map((m) => ({
+        const meetingsForCreate = meetings.map((m) => ({
           date: m.date,
           alarms: m.alarms,
           contractId,
         }));
         await contractRepository.createMeetingList(meetingsForCreate, tx);
       }
-      // 문서 업데이트 로직: 모든 레포지토리 함수에 tx를 전달합니다.
+      // 문서 업데이트 로직
       if (contractDocuments) {
         await contractRepository.deleteContractDocument(contractId, tx);
         const createPromises = contractDocuments
@@ -146,8 +157,8 @@ class ContractService {
           .filter(Boolean);
         await Promise.all(createPromises);
       }
-      // 메인 계약 업데이트: 마지막 레포지토리 함수에도 tx를 전달합니다.
-      const finalUpdateData: Prisma.ContractUpdateInput = {
+      // 메인 계약 업데이트
+      const finalUpdateData = {
         ...restOfData,
         ...(userId && { user: { connect: { id: userId } } }),
         ...(customerId && { customer: { connect: { id: customerId } } }),
@@ -158,8 +169,13 @@ class ContractService {
         finalUpdateData,
         tx,
       );
+      if (updateData.status && statusMapping[updateData.status]) {
+        const newCarStatus = statusMapping[updateData.status];
+        await contractRepository.updateCarStatus(carId, newCarStatus, tx);
+      }
       return updatedContract;
     });
+    return result;
   };
 
   deleteContract = async (contractId: number, logInUserId: number) => {
@@ -170,7 +186,14 @@ class ContractService {
     if (logInUserId !== contractUserId) {
       throw CustomError.forbidden();
     }
-    await contractRepository.deleteContract(contractId);
+    const carId = await contractRepository.getCarIdByContractId(contractId);
+    if (!carId) {
+      throw CustomError.notFound('존재하지 않는 차량입니다.');
+    }
+    await prisma.$transaction(async (tx) => {
+      await contractRepository.deleteContract(contractId, tx);
+      await contractRepository.updateCarStatus(carId, 'possession', tx);
+    });
   };
 }
 

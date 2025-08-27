@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '../generated/prisma';
+import { CarStatus, Prisma, PrismaClient } from '../generated/prisma';
 import prisma from '../libs/prisma';
 import { meetingsDTO, carDTO } from '../types/contractType';
 import { CustomError } from '../utils/customErrorUtil';
@@ -41,8 +41,9 @@ class ContractRepository {
     return cars;
   };
 
-  getCar = async (carId: number) => {
-    const car = await prisma.car.findUnique({
+  getCar = async (carId: number, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    const car = await prismaClient.car.findUnique({
       where: { id: carId },
       select: {
         id: true,
@@ -83,8 +84,10 @@ class ContractRepository {
     customerId: number,
     companyId: number,
     meetings: meetingsDTO[],
+    tx?: TransactionClient,
   ) => {
-    const contract = await prisma.contract.create({
+    const prismaClient = tx || prisma;
+    const contract = await prismaClient.contract.create({
       data: {
         status: 'carInspection',
         contractPrice: car.price,
@@ -193,6 +196,22 @@ class ContractRepository {
     });
   };
 
+  getCarIdByContractId = async (contractId: number) => {
+    const contract = await prisma.contract.findUnique({
+      where: { id: contractId },
+      select: { carId: true },
+    });
+    return contract?.carId;
+  };
+
+  updateCarStatus = async (carId: number, newStatus: string, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.car.update({
+      where: { id: carId },
+      data: { status: newStatus as CarStatus },
+    });
+  };
+
   deleteMeetingList = async (contractId: number, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
     return prismaClient.meetings.deleteMany({
@@ -212,7 +231,7 @@ class ContractRepository {
 
   deleteContractDocument = async (contractId: number, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
-    return prismaClient.contractDocument.deleteMany({
+    return prismaClient.contractDocumentRelation.deleteMany({
       where: { contractId },
     });
   };
@@ -223,16 +242,17 @@ class ContractRepository {
     tx?: TransactionClient,
   ) => {
     const prismaClient = tx || prisma;
-    return prismaClient.contractDocument.create({
+    return prismaClient.contractDocumentRelation.create({
       data: {
-        document: { connect: { id: documentId } },
+        contractDocument: { connect: { id: documentId } },
         contract: { connect: { id: contractId } },
       },
     });
   };
 
-  deleteContract = async (contractId: number) => {
-    return prisma.contract.delete({
+  deleteContract = async (contractId: number, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    return prismaClient.contract.delete({
       where: { id: contractId },
     });
   };
