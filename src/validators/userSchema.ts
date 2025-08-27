@@ -13,7 +13,7 @@ const createUserSchema = object({
 });
 
 const updateUserSchema = object({
-  currentPassword: optional(utilValidator.password),
+  currentPassword: utilValidator.password,
   password: optional(utilValidator.password),
   passwordConfirmation: optional(utilValidator.password),
   employeeNumber: optional(utilValidator.employeeNumber),
