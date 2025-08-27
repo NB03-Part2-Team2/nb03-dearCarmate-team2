@@ -10,7 +10,7 @@ export class EmailUtil {
    *
    * 587 포트가 대부분의 네트워크에서 허용되며 호환성이 좋음.
    */
-  static initializeTransporter() {
+  static initializeTransporter = () => {
     console.log('EmailUtil 초기화:');
     console.log('SMTP_HOST:', process.env.SMTP_HOST);
     console.log('SMTP_USER:', process.env.SMTP_USER);
@@ -25,17 +25,17 @@ export class EmailUtil {
         pass: process.env.SMTP_PASS,
       },
     });
-  }
+  };
 
   /**
    * 계약서 등록 알림 이메일을 생성합니다.
    */
-  static createContractDocumentEmail(
+  static createContractDocumentEmail = (
     customerEmail: string,
     customerName: string,
     fileName: string,
     contractId: number,
-  ) {
+  ) => {
     const subject = '[DearCarMate] 계약서가 등록되었습니다';
     const html = `
       <h1>계약서 등록 알림</h1>
@@ -51,12 +51,12 @@ export class EmailUtil {
       subject,
       html,
     };
-  }
+  };
 
   /**
    * 이메일을 발송합니다.
    */
-  static async sendEmail(emailData: any): Promise<void> {
+  static sendEmail = async (emailData: any): Promise<void> => {
     try {
       if (!this.transporter) {
         this.initializeTransporter();
@@ -74,5 +74,5 @@ export class EmailUtil {
       console.error('이메일 발송 실패:', error);
       throw new CustomError('이메일 발송 중 오류가 발생했습니다.', 500);
     }
-  }
+  };
 }

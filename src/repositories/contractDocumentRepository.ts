@@ -6,7 +6,7 @@ class ContractDocumentRepository {
   /**
    * 계약서 문서를 생성합니다.
    */
-  async create(fileName: string) {
+  create = async (fileName: string) => {
     const contractDocument = await prisma.contractDocument.create({
       data: {
         fileName,
@@ -14,7 +14,7 @@ class ContractDocumentRepository {
     });
 
     return contractDocument;
-  }
+  };
 }
 
 export default new ContractDocumentRepository();
