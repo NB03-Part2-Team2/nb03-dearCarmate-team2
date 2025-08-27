@@ -49,7 +49,7 @@ const utilValidator = {
   }),
 
   employeeNumber: refine(string(), 'employeeNumberError', (value) => {
-    return /^[a-zA-Z가-힣\-]+$/.test(value);
+    return /^[a-zA-Z가-힣0-9\-]+$/.test(value);
   }),
 };
 
