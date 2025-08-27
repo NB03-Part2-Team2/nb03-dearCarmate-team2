@@ -175,7 +175,7 @@ class ContractRepository {
     tx?: TransactionClient,
   ) => {
     const prismaClient = tx || prisma;
-    return prismaClient.contract.update({
+    await prismaClient.contract.update({
       where: { id: contractId },
       data: data,
       select: {
@@ -206,7 +206,7 @@ class ContractRepository {
 
   updateCarStatus = async (carId: number, newStatus: string, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
-    return prismaClient.car.update({
+    await prismaClient.car.update({
       where: { id: carId },
       data: { status: newStatus as CarStatus },
     });
@@ -214,7 +214,7 @@ class ContractRepository {
 
   deleteMeetingList = async (contractId: number, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
-    return prismaClient.meetings.deleteMany({
+    await prismaClient.meetings.deleteMany({
       where: { contractId },
     });
   };
@@ -224,14 +224,14 @@ class ContractRepository {
     tx?: TransactionClient,
   ) => {
     const prismaClient = tx || prisma;
-    return prismaClient.meetings.createMany({
+    await prismaClient.meetings.createMany({
       data: meetings,
     });
   };
 
   deleteContractDocument = async (contractId: number, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
-    return prismaClient.contractDocumentRelation.deleteMany({
+    await prismaClient.contractDocumentRelation.deleteMany({
       where: { contractId },
     });
   };
@@ -242,7 +242,7 @@ class ContractRepository {
     tx?: TransactionClient,
   ) => {
     const prismaClient = tx || prisma;
-    return prismaClient.contractDocumentRelation.create({
+    await prismaClient.contractDocumentRelation.create({
       data: {
         contractDocument: { connect: { id: documentId } },
         contract: { connect: { id: contractId } },
@@ -252,7 +252,7 @@ class ContractRepository {
 
   deleteContract = async (contractId: number, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
-    return prismaClient.contract.delete({
+    await prismaClient.contract.delete({
       where: { id: contractId },
     });
   };
