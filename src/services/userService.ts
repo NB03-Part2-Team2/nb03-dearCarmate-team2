@@ -26,7 +26,7 @@ class UserService {
     const companyId = await companyRepository.getIdByCode(companyCode);
     const createUserDTO: CreateUserDTO = {
       ...data,
-      password,
+      password: hashUtil.hashPassword(password),
       companyId,
     };
 
@@ -45,10 +45,15 @@ class UserService {
   updateUser = async (updateUserDTO: UpdateUserDTO, id: number) => {
     // 1. 인증용 데이터를 추출합니다.
     const { currentPassword, passwordConfirmation, ...data } = updateUserDTO;
-    // 2. 비밀번호와 비밀번호 확인이 같은지 확인합니다.
+    // 2-1. 비밀번호와 비밀번호 확인이 같은지 확인합니다.
     if (passwordConfirmation !== data.password) {
-      throw CustomError.notFound('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      throw CustomError.badRequest('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
     }
+    // 2-2. 패스워드가 있으면 해싱 처리후 값을 변경합니다.
+    if (data.password) {
+      data.password = hashUtil.hashPassword(data.password);
+    }
+    console.log(data);
     // 3-1. 비밀번호 비교를 위해 유저 정보를 가져옵니다.
     const oldUser = await userRepository.getById(id);
     if (!oldUser) {

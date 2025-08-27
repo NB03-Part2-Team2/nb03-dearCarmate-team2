@@ -4,12 +4,8 @@ import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 
 class UserRepository {
   create = async (createUserDTO: CreateUserDTO): Promise<UserDTO> => {
-    const { password, ...data } = createUserDTO;
     return await prisma.user.create({
-      data: {
-        ...data,
-        password: hashUtil.hashPassword(password),
-      },
+      data: createUserDTO,
       select: {
         id: true,
         name: true,
@@ -112,13 +108,12 @@ class UserRepository {
   };
 
   update = async (updataUserDTO: UpdateUserDTO, id: number): Promise<UserDTO> => {
-    const { password, ...data } = updataUserDTO;
     const updatedUser: UserDTO = await prisma.user.update({
       where: {
         id,
       },
       // 비밀번호는 해싱해서 저장해야하므로 별도로 체크
-      data: { ...data, password: password ? hashUtil.hashPassword(password) : undefined },
+      data: updataUserDTO,
       select: {
         id: true,
         name: true,
