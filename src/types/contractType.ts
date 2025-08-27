@@ -10,9 +10,10 @@ export interface meetingsDTO {
   alarms: string[];
 }
 
-export interface carPriceDTO {
+export interface carDTO {
   id: number;
   price: number;
+  status: string;
 }
 
 export interface createContractDTO {

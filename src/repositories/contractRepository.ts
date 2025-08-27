@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '../generated/prisma';
 import prisma from '../libs/prisma';
-import { meetingsDTO, carPriceDTO } from '../types/contractType';
+import { meetingsDTO, carDTO } from '../types/contractType';
 import { CustomError } from '../utils/customErrorUtil';
 
 type TransactionClient = Omit<
@@ -79,7 +79,7 @@ class ContractRepository {
 
   createContract = async (
     userId: number,
-    car: carPriceDTO,
+    car: carDTO,
     customerId: number,
     companyId: number,
     meetings: meetingsDTO[],
