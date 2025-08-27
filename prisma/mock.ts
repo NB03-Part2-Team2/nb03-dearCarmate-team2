@@ -1715,7 +1715,7 @@ export const CARS = [
     mileage: 10000,
     price: 0,
     accidentCount: 0,
-    status: 'contractCompleted',
+    status: 'possession',
     companyId: 2,
   },
   {
@@ -1725,7 +1725,7 @@ export const CARS = [
     mileage: 40144,
     price: 28809075,
     accidentCount: 0,
-    status: 'contractProceeding',
+    status: 'possession',
     companyId: 2,
   },
   {
@@ -1886,19 +1886,40 @@ export const MEETINGS = [
 
 export const CONTRACT_DOCUMENTS = [
   {
-    fileName: 'contracts_example.csv',
-    contractId: 1,
+    fileName: 'contracts_example.jpeg',
   },
   {
     fileName: 'test_image.png',
-    contractId: 1,
   },
   {
     fileName: '계약서1.pdf',
-    contractId: 1,
   },
   {
     fileName: '계약서2.pdf',
+  },
+  {
+    fileName: '관계없는계약서.pdf',
+  },
+  {
+    fileName: '관계없는계약서2.pdf',
+  },
+];
+
+export const CONTRACT_DOCUMENT_RELATIONS = [
+  {
+    contractId: 1,
+    contractDocumentId: 1,
+  },
+  {
+    contractId: 1,
+    contractDocumentId: 2,
+  },
+  {
+    contractId: 1,
+    contractDocumentId: 3,
+  },
+  {
     contractId: 2,
+    contractDocumentId: 4,
   },
 ];

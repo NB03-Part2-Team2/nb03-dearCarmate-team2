@@ -5,7 +5,7 @@ import { CustomError } from '../utils/customErrorUtil';
 
 const secret = process.env.JWT_SECRET;
 if (!secret) {
-  throw new Error('JWT_SECRET is not defined in the environment variables.');
+  throw new CustomError('JWT_SECRET is not defined in the environment variables.', 500);
 }
 
 /**
@@ -36,40 +36,31 @@ const verifyRefreshToken = expressjwt({
  * 에러 핸들러에서 처리 예정
  * 따라서 verifyAccessToken을 먼저 수행하고 에러가 없다면
  * 이미 로그인이 된 상태입니다.
- * 토큰은 유효하나 DB에는 제거해서 없을수도 있으므로 한번 검사
+ * 토큰은 유효하나 DB에는 제거해서 없을수도 있으므로 한번더 검사
  * */
 const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
-  try {
-    const user = await userRepository.getById(userId);
-
-    if (!user) {
-      throw CustomError.notFound('존재하지 않는 유저입니다.');
-    }
-
-    next();
-  } catch (error) {
-    next(error);
+  const user = await userRepository.getById(userId);
+  if (!user) {
+    throw CustomError.notFound('존재하지 않는 유저입니다.');
   }
+  next();
 };
 
 /**
  * 어드민 권한 확인하는 곳이 많으므로 별도 미들웨어로 분리
- * 반드시 verifyUserAuth 뒤에 호출되어야 함
+ * verifyUserAuth는 호출되지 않아도 됩니다.
  * */
 const verifyAdminAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
-  try {
-    const user = await userRepository.getById(userId);
-
-    if (!user.isAdmin) {
-      throw CustomError.forbidden('관리자 권한이 필요합니다.');
-    }
-
-    next();
-  } catch (error) {
-    next(error);
+  const user = await userRepository.getById(userId);
+  if (!user) {
+    throw CustomError.notFound('존재하지 않는 유저입니다.');
   }
+  if (!user.isAdmin) {
+    throw CustomError.unauthorized('관리자 권한이 필요합니다.');
+  }
+  next();
 };
 
 export default {

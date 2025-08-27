@@ -4,7 +4,7 @@ class HashUtil {
   /**
    * 평문 문자열을 입력받아 해쉬된 문자열을 반환합니다
    */
-  hashPassword = (password: string): String => {
+  hashPassword = (password: string): string => {
     return bcrypt.hashSync(password, 10);
   };
 
