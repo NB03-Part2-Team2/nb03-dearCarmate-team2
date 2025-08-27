@@ -1,11 +1,15 @@
-import { create, object, optional, refine, size, string } from 'superstruct';
+import { refine, size, string, Struct, assert, optional, object } from 'superstruct';
+
+const validator = <T, U>(data: T, schema: Struct<U>) => {
+  assert(data, schema);
+};
 
 /**
  * @example
  *
  * 1. 필요한 필드를 뽑아 스키마 정의
  *
- * const somethingStruct = object({
+ * const somethingSchema = object({
  *  name: utilValidator.name
  *  email: utilValidator.email,
  *  phoneNumber: utilValidator.password,
@@ -14,9 +18,9 @@ import { create, object, optional, refine, size, string } from 'superstruct';
  *  carNumber: otional(utilValidator.carNumber),
  * });
  *
- * 2. 컨트롤러에서 create()로 검증
+ * 2. 컨트롤러에서 검증
  * ...
- * const information = create(req.body, somethingStruct);
+ * validator(req.body, somethingStruct);
  * ...
  *
  */
@@ -66,38 +70,4 @@ const paginationStruct = object({
   ),
 });
 
-/**
- *
- * @param
- * page, pageSize를 param으로 입력받으면
- *
- * page: pageNum,
- * pageSize: sizeNum,
- * skip: (pageNum - 1) * sizeNum, take: sizeNum
- *
- * 으로 돌아옵니다.
- *
- * @example
- *
- *  ...
- *  const {page, pageSize, skip, take} = paginationValidator(req.query);
- *  ...
- *
- *
- * */
-
-const paginationValidator = (q: unknown) => {
-  const { page = '1', pageSize = '8' } = create(q ?? {}, paginationStruct);
-
-  const pageNum = parseInt(page, 10);
-  const sizeNum = parseInt(pageSize, 10);
-
-  return {
-    page: pageNum,
-    pageSize: sizeNum,
-    skip: (pageNum - 1) * sizeNum,
-    take: sizeNum,
-  } as const;
-};
-
-export { utilValidator, paginationValidator };
+export { utilValidator, paginationStruct, validator };
