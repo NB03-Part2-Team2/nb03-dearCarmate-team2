@@ -65,7 +65,6 @@ class ContractController {
       const logInUserId = req.user!.userId;
       const contractId = parseInt(req.params.contractId, 10);
       const updateData: UpdateContractDTO = req.body;
-      console.log('Updating contract:', contractId, 'with data:', updateData);
       const updatedContract = await contractService.updateContract(
         contractId,
         updateData,
