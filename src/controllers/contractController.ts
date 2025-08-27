@@ -3,7 +3,7 @@ import { createContractDTO, UpdateContractDTO } from '../types/contractType';
 import contractService from '../services/contractService';
 
 class ContractController {
-  getCarsForContract = async (req: Request, res: Response, next: NextFunction) => {
+  getCarListForContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
       const cars = await contractService.getCarListInCompany(userId);
@@ -13,7 +13,7 @@ class ContractController {
     }
   };
 
-  getCustomersForContract = async (req: Request, res: Response, next: NextFunction) => {
+  getCustomerListForContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
       const customers = await contractService.getCustomerListInCompany(userId);
@@ -23,7 +23,7 @@ class ContractController {
     }
   };
 
-  getUsersForContract = async (req: Request, res: Response, next: NextFunction) => {
+  getUserListForContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
       const users = await contractService.getUserListInCompany(userId);
@@ -48,7 +48,7 @@ class ContractController {
     }
   };
 
-  getContractsInCompany = async (req: Request, res: Response, next: NextFunction) => {
+  getContractListInCompany = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
       const searchBy = req.query.searchBy as string | undefined;
