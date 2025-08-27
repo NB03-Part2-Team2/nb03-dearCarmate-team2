@@ -10,7 +10,7 @@ import {
 import { CustomError } from '../utils/customErrorUtil';
 
 class ContractService {
-  getCarsInCompany = async (userId: number) => {
+  getCarListInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
     const cars = await contractRepository.getCarList(companyId);
     const formattedCars: ListItemDTO[] = cars.map((car) => ({
@@ -20,7 +20,7 @@ class ContractService {
     return formattedCars;
   };
 
-  getCustomersInCompany = async (userId: number) => {
+  getCustomerListInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
     const customers = await contractRepository.getCustomerList(companyId);
     const formattedCustomers: ListItemDTO[] = customers.map((customer) => ({
@@ -30,7 +30,7 @@ class ContractService {
     return formattedCustomers;
   };
 
-  getUsersInCompany = async (userId: number) => {
+  getUserListInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
     const users = await contractRepository.getUserList(companyId);
     const formattedUsers: ListItemDTO[] = users.map((user) => ({

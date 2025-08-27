@@ -6,7 +6,7 @@ class ContractController {
   getCarsForContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
-      const cars = await contractService.getCarsInCompany(userId);
+      const cars = await contractService.getCarListInCompany(userId);
       res.status(200).json(cars);
     } catch (error) {
       next(error);
@@ -16,7 +16,7 @@ class ContractController {
   getCustomersForContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
-      const customers = await contractService.getCustomersInCompany(userId);
+      const customers = await contractService.getCustomerListInCompany(userId);
       res.status(200).json(customers);
     } catch (error) {
       next(error);
@@ -26,7 +26,7 @@ class ContractController {
   getUsersForContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
-      const users = await contractService.getUsersInCompany(userId);
+      const users = await contractService.getUserListInCompany(userId);
       res.status(200).json(users);
     } catch (error) {
       next(error);
