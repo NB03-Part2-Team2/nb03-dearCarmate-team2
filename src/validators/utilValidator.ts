@@ -1,4 +1,4 @@
-import { refine, size, string, Struct, assert } from 'superstruct';
+import { refine, size, string, Struct, assert, optional, object } from 'superstruct';
 
 export const validator = <T, U>(data: T, schema: Struct<U>) => {
   assert(data, schema);
@@ -9,7 +9,7 @@ export const validator = <T, U>(data: T, schema: Struct<U>) => {
  *
  * 1. 필요한 필드를 뽑아 스키마 정의
  *
- * const somethingStruct = object({
+ * const somethingSchema = object({
  *  name: utilValidator.name
  *  email: utilValidator.email,
  *  phoneNumber: utilValidator.password,
@@ -18,9 +18,9 @@ export const validator = <T, U>(data: T, schema: Struct<U>) => {
  *  carNumber: otional(utilValidator.carNumber),
  * });
  *
- * 2. 컨트롤러에서 create()로 검증
+ * 2. 컨트롤러에서 검증
  * ...
- * const information = create(req.body, somethingStruct);
+ * validator(req.body, somethingStruct);
  * ...
  *
  */
@@ -57,4 +57,17 @@ const utilValidator = {
   }),
 };
 
-export { utilValidator };
+const paginationStruct = object({
+  page: optional(
+    refine(string(), 'pageError', (value) => {
+      return /^\d+$/.test(value) && Number(value) >= 1;
+    }),
+  ),
+  pageSize: optional(
+    refine(string(), 'pageSizeError', (value) => {
+      return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
+    }),
+  ),
+});
+
+export { utilValidator, paginationStruct };
