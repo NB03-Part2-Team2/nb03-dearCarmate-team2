@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { CSVValidator } from '../validators/csvValidator';
+import { validateCSVString } from '../validators/csvValidator';
 import { CSVParserUtil } from '../utils/csvParseUtil';
 import { CustomError } from '../utils/customErrorUtil';
 
@@ -13,7 +13,7 @@ export const csvParse = (req: Request, res: Response, next: NextFunction) => {
   const csvContent = req.file.buffer.toString('utf-8');
 
   // 1. CSV 문자열 검증
-  CSVValidator.validateCSVString(csvContent);
+  validateCSVString(csvContent);
 
   // 2. CSV 파싱
   const parsedData = CSVParserUtil.parseCSVString(csvContent);
