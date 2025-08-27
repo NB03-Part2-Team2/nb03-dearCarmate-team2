@@ -136,7 +136,7 @@ class ContractRepository {
     return contract;
   };
 
-  getContractsByCompanyId = async (searchCondition: Prisma.ContractWhereInput) => {
+  getContractListByCompanyId = async (searchCondition: Prisma.ContractWhereInput) => {
     const contracts = await prisma.contract.findMany({
       where: searchCondition,
       select: {

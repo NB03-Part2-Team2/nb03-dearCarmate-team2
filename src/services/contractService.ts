@@ -96,7 +96,7 @@ class ContractService {
         };
       }
     }
-    const contracts = await contractRepository.getContractsByCompanyId(searchCondition);
+    const contracts = await contractRepository.getContractListByCompanyId(searchCondition);
     const formattedContracts: FormattedContractsDTO = contracts.reduce((accumulator, contract) => {
       const status: string = contract.status;
       if (!accumulator[status]) {
