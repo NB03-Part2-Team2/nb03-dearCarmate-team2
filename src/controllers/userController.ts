@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import userService from '../services/userService';
-import { createUserValidator } from '../validators/userValidator';
-import { CreateUserRequestDTO, GetUserDTO } from '../types/userType';
+import { createUserValidator, updateUserValidator } from '../validators/userValidator';
+import { CreateUserRequestDTO, GetUserDTO, UpdateUserDTO } from '../types/userType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class UserController {
@@ -32,6 +32,25 @@ class UserController {
     };
     // 3. service레이어 호출
     const user = await userService.getUser(getUserDTO);
+    // 4. 유저 정보 반환
+    return res.status(200).json(user);
+  };
+
+  updateUser = async (req: Request, res: Response) => {
+    // 1. DTO 정의
+    const id = req.user!.userId;
+    const updateUserDTO: UpdateUserDTO = {
+      employeeNumber: req.body.employeeNumber,
+      phoneNumber: req.body.phoneNumber,
+      currentPassword: req.body.currentPassword,
+      password: req.body.password,
+      passwordConfirmation: req.body.passwordConfirmation,
+      imageUrl: req.body.imageUrl,
+    };
+    // 2. 유효성 검사 - id는 토큰 검증 미들웨어로 검증하므로 생략: 401 에러
+    updateUserValidator(updateUserDTO);
+    // 3. service레이어 호출
+    const user = await userService.updateUser(updateUserDTO, id);
     // 4. 유저 정보 반환
     return res.status(200).json(user);
   };

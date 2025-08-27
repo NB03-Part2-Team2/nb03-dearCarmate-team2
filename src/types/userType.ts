@@ -21,7 +21,9 @@ export interface CreateUserDTO {
 export type UpdateUserDTO = Partial<{
   employeeNumber: string;
   phoneNumber: string;
+  currentPassword: string;
   password: string;
+  passwordConfirmation: string;
   imageUrl: string | null;
   refreshToken: string;
 }>;

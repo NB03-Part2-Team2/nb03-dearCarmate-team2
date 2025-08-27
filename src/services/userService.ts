@@ -1,8 +1,9 @@
 import companyRepository from '../repositories/companyRepository';
 import userRepository from '../repositories/userRepository';
-import { GetUserDTO, UserDTO } from '../types/userType';
+import { GetUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 import { CreateUserDTO, CreateUserRequestDTO } from '../types/userType';
 import { CustomError } from '../utils/customErrorUtil';
+import hashUtil from '../utils/hashUtil';
 
 class UserService {
   createUser = async (createUserRequestDTO: CreateUserRequestDTO) => {
@@ -36,6 +37,27 @@ class UserService {
     }
     return this.filterSensitiveUserData(user);
   };
+  updateUser = async (updateUserDTO: UpdateUserDTO, id: number) => {
+    // 1. 인증용 데이터를 추출합니다.
+    const { currentPassword, passwordConfirmation, ...data } = updateUserDTO;
+    // 2. 비밀번호와 비밀번호 확인이 같은지 확인합니다.
+    if (passwordConfirmation !== data.password) {
+      throw CustomError.notFound('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+    }
+    // 3-1. 비밀번호 비교를 위해 유저 정보를 가져옵니다.
+    const oldUser = await userRepository.getById(id);
+    if (!oldUser) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+    // 3-2. 현재 비밀번호가 저장된 값과 맞는지 비교합니다
+    if (!hashUtil.checkPassword(currentPassword as string, oldUser.password)) {
+      throw CustomError.badRequest('현재 비밀번호가 맞지 않습니다.');
+    }
+    // 4. 전달받은 내용으로 user 정보를 업데이트 합니다.
+    const updatedUser: UserDTO = await userRepository.update(data, id);
+    return this.filterSensitiveUserData(updatedUser);
+  };
+
   /**
    *
    * @param user 민감정보가 포함된 유저 객체입니다.

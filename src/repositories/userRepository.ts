@@ -85,12 +85,14 @@ class UserRepository {
     return user;
   };
 
-  update = async (data: UpdateUserDTO, id: number): Promise<UserDTO> => {
+  update = async (updataUserDTO: UpdateUserDTO, id: number): Promise<UserDTO> => {
+    const { password, ...data } = updataUserDTO;
     const updatedUser: UserDTO = await prisma.user.update({
       where: {
         id,
       },
-      data: data,
+      // 비밀번호는 해싱해서 저장해야하므로 별도로 체크
+      data: { ...data, password: password ? hashUtil.hashPassword(password) : undefined },
       select: {
         id: true,
         name: true,

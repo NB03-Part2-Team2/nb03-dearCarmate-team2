@@ -1,5 +1,5 @@
-import { object, create, size, string } from 'superstruct';
-import { CreateUserRequestDTO } from '../types/userType';
+import { object, create, size, string, optional } from 'superstruct';
+import { CreateUserRequestDTO, UpdateUserDTO } from '../types/userType';
 import { utilValidator } from './utilValidator';
 /**
  *
@@ -19,4 +19,16 @@ const createUserValidator = (createUserRequestDTO: CreateUserRequestDTO) => {
   create(createUserRequestDTO, userStruct);
 };
 
-export { createUserValidator };
+const updateUserValidator = (updateUserDTO: UpdateUserDTO) => {
+  const userStruct = object({
+    currentPassword: optional(utilValidator.password),
+    password: optional(utilValidator.password),
+    passwordConfirmation: optional(utilValidator.password),
+    employeeNumber: optional(utilValidator.employeeNumber),
+    phoneNumber: optional(utilValidator.phoneNumber),
+    imageUrl: optional(string()),
+    refreshToken: optional(string()),
+  });
+  create(updateUserDTO, userStruct);
+};
+export { createUserValidator, updateUserValidator };
