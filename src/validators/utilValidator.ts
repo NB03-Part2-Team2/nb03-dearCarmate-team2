@@ -1,6 +1,6 @@
 import { refine, size, string, Struct, assert, optional, object } from 'superstruct';
 
-export const validator = <T, U>(data: T, schema: Struct<U>) => {
+const validator = <T, U>(data: T, schema: Struct<U>) => {
   assert(data, schema);
 };
 
@@ -70,4 +70,4 @@ const paginationStruct = object({
   ),
 });
 
-export { utilValidator, paginationStruct };
+export { utilValidator, paginationStruct, validator };
