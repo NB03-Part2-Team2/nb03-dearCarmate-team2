@@ -6,6 +6,7 @@ const customerRouter = express.Router();
 
 customerRouter
   .route('/')
-  .post(auth.verifyAccessToken, auth.verifyUserAuth, customerController.createCustomer);
+  .post(auth.verifyAccessToken, auth.verifyUserAuth, customerController.createCustomer)
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, customerController.getCustomerList);
 
 export default customerRouter;

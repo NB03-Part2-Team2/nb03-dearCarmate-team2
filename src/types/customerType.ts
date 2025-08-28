@@ -25,3 +25,10 @@ export interface CreateCustomerDTO {
   email: string;
   memo?: string;
 }
+
+export interface SearchParamsDTO {
+  searchBy?: 'name' | 'email';
+  keyword?: string;
+  page: number;
+  pageSize: number;
+}

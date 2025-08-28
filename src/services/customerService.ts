@@ -1,5 +1,7 @@
 import customerRepository from '../repositories/customerRepository';
-import { CreateCustomerDTO } from '../types/customerType';
+import { Prisma } from '../generated/prisma';
+import { CreateCustomerDTO, SearchParamsDTO } from '../types/customerType';
+import { CustomError } from '../utils/customErrorUtil';
 
 const reverseAgeGroupMap = {
   TEEN: '10대',
@@ -43,6 +45,53 @@ class CustomerService {
       contractCount: 0,
     };
     return resCustomer;
+  };
+
+  getCustomerList = async (userId: number, searchParams: SearchParamsDTO) => {
+    const { searchBy, keyword, page, pageSize } = searchParams;
+    const validSearchBy = ['name', 'email'];
+    if (searchBy && !validSearchBy.includes(searchBy)) {
+      throw CustomError.badRequest();
+    }
+    const companyId = await customerRepository.getCompanyId(userId);
+    let searchCondition: Prisma.CustomerWhereInput = {
+      companyId: companyId,
+    };
+    if (searchBy && keyword) {
+      if (searchBy === 'name') {
+        searchCondition.name = {
+          contains: keyword,
+          mode: 'insensitive',
+        };
+      } else if (searchBy === 'email') {
+        searchCondition.email = {
+          contains: keyword,
+          mode: 'insensitive',
+        };
+      }
+    }
+    const offset = (page - 1) * pageSize;
+    const { customers, totalCount } = await customerRepository.getCustomerListByCompanyId(
+      searchCondition,
+      offset,
+      pageSize,
+    );
+    const formattedCustomers = customers.map((customer) => {
+      const { _count, ...rest } = customer;
+      return {
+        ...rest,
+        ageGroup: rest.ageGroup ? reverseAgeGroupMap[rest.ageGroup] : undefined,
+        region: rest.region ? reverseRegionMap[rest.region] : undefined,
+        contractCount: _count.contract,
+      };
+    });
+    const result = {
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / pageSize),
+      totalItemCount: totalCount,
+      data: formattedCustomers,
+    };
+    return result;
   };
 }
 

@@ -5,7 +5,7 @@ import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import authRouter from './routes/authRoute';
 import userRouter from './routes/userRoute';
-import contractRouter from './routes/contractRouter';
+import contractRouter from './routes/contractRoute';
 import customerRouter from './routes/customerRoute';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';

@@ -1,4 +1,5 @@
 import prisma from '../libs/prisma';
+import { Prisma } from '../generated/prisma';
 import { CreateCustomerDTO } from '../types/customerType';
 import { CustomError } from '../utils/customErrorUtil';
 import { AgeGroup, Region } from '../generated/prisma';
@@ -78,6 +79,39 @@ class CustomerRepository {
       },
     });
     return customer;
+  };
+
+  getCustomerListByCompanyId = async (
+    searchCondition: Prisma.CustomerWhereInput,
+    skip: number,
+    take: number,
+  ) => {
+    // 트랜잭션을 사용하여 두 가지 쿼리를 동시에 실행
+    const [customers, totalCount] = await prisma.$transaction([
+      prisma.customer.findMany({
+        where: searchCondition,
+        skip: skip,
+        take: take,
+        select: {
+          id: true,
+          name: true,
+          gender: true,
+          phoneNumber: true,
+          ageGroup: true,
+          region: true,
+          email: true,
+          memo: true,
+          _count: {
+            select: { contract: true },
+          },
+        },
+      }),
+      prisma.customer.count({
+        where: searchCondition,
+      }),
+    ]);
+
+    return { customers, totalCount };
   };
 }
 
