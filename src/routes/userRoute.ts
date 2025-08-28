@@ -12,4 +12,7 @@ userRouter
   .patch(auth.verifyAccessToken, auth.verifyUserAuth, userController.updateUser)
   .delete(auth.verifyAccessToken, auth.verifyUserAuth, userController.deleteUser);
 
+userRouter
+  .route('/:userId')
+  .delete(auth.verifyAccessToken, auth.verifyAdminAuth, userController.deleteUserByAdmin);
 export default userRouter;

@@ -25,6 +25,11 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
       return res.status(400).json({ message: (err as any).message });
     }
 
+    // Prisma Unique 제약 조건 에러
+    if (err.name === 'PrismaClientKnownRequestError' && (err as any).code === 'P2002') {
+      return res.status(400).json({ message: '이미 존재하는 데이터입니다.' });
+    }
+
     // Prisma 레코드 없음 에러
     if (err.name === 'PrismaClientKnownRequestError' && (err as any).code === 'P2025') {
       return res.status(404).json({ message: '요청한 리소스를 찾을 수 없습니다.' });

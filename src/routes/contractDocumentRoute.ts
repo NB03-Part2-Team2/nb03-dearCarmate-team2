@@ -14,4 +14,9 @@ contractDocumentRouter
   .route('/upload')
   .post(uploadContractDocument.single('file'), contractDocumentController.uploadContractDocument);
 
+// 계약서 다운로드 (GET /contractDocuments/:contractDocumentId/download)
+contractDocumentRouter
+  .route('/:contractDocumentId/download')
+  .get(contractDocumentController.downloadContractDocument);
+
 export default contractDocumentRouter;

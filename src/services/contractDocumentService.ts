@@ -1,4 +1,5 @@
 import contractDocumentRepository from '../repositories/contractDocumentRepository';
+import { CustomError } from '../utils/customErrorUtil';
 import type {
   UploadContractDocumentDTO,
   UploadContractDocumentResponseDTO,
@@ -17,6 +18,18 @@ class ContractDocumentService {
     return {
       contractDocumentId: contractDocument.id,
     };
+  };
+
+  /**
+   * 계약서 문서를 조회합니다.
+   */
+  getContractDocument = async (contractDocumentId: number) => {
+    // 계약서 문서 조회
+    const contractDocument = await contractDocumentRepository.findById(contractDocumentId);
+    if (!contractDocument) {
+      throw CustomError.notFound('계약서 문서를 찾을 수 없습니다.');
+    }
+    return contractDocument;
   };
 }
 

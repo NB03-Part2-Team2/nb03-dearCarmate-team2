@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { createContractDTO, UpdateContractDTO } from '../types/contractType';
 import contractService from '../services/contractService';
+import { validator } from '../validators/utilValidator';
+import {
+  createContractBodySchema,
+  getContractListParamsSchema,
+  contractIdSchema,
+  updateContractBodySchema,
+} from '../validators/contractValidator';
 
 class ContractController {
   getCarListForContract = async (req: Request, res: Response, next: NextFunction) => {
@@ -39,6 +46,7 @@ class ContractController {
     next: NextFunction,
   ) => {
     try {
+      validator(req.body, createContractBodySchema);
       const userId = req.user!.userId;
       const { carId, customerId, meetings } = req.body;
       const contract = await contractService.createContract(userId, carId, customerId, meetings);
@@ -50,6 +58,7 @@ class ContractController {
 
   getContractListInCompany = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      validator(req.query, getContractListParamsSchema);
       const userId = req.user!.userId;
       const searchBy = req.query.searchBy as string | undefined;
       const keyword = req.query.keyword as string | undefined;
@@ -62,6 +71,8 @@ class ContractController {
 
   updateContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      validator(req.params.contractId, contractIdSchema);
+      validator(req.body, updateContractBodySchema);
       const logInUserId = req.user!.userId;
       const contractId = parseInt(req.params.contractId, 10);
       const updateData: UpdateContractDTO = req.body;
@@ -78,6 +89,7 @@ class ContractController {
 
   deleteContract = async (req: Request, res: Response, next: NextFunction) => {
     try {
+      validator(req.params.contractId, contractIdSchema);
       const logInUserId = req.user!.userId;
       const contractId = parseInt(req.params.contractId, 10);
       await contractService.deleteContract(contractId, logInUserId);

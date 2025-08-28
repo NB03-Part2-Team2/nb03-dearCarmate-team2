@@ -19,6 +19,18 @@ class ContractDocumentController {
     // 4. 결과 반환
     return res.status(200).json(result);
   };
+
+  downloadContractDocument = async (req: Request, res: Response) => {
+    // 1. 파라미터 추출
+    const contractDocumentId = parseInt(req.params.contractDocumentId);
+
+    // 2. service 레이어 호출
+    const document = await contractDocumentService.getContractDocument(contractDocumentId);
+
+    // 3. 파일 다운로드 응답
+    const filePath = `document/${document.fileName}`;
+    return res.download(filePath);
+  };
 }
 
 export default new ContractDocumentController();
