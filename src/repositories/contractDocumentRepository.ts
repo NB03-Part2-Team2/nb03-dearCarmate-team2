@@ -13,6 +13,13 @@ class ContractDocumentRepository {
 
     return contractDocument;
   };
+
+  findById = async (contractDocumentId: number) => {
+    const contractDocument = await prisma.contractDocument.findUnique({
+      where: { id: contractDocumentId },
+    });
+    return contractDocument;
+  };
 }
 
 export default new ContractDocumentRepository();

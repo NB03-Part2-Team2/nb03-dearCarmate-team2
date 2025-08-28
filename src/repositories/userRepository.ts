@@ -1,5 +1,4 @@
 import prisma from '../libs/prisma';
-import hashUtil from '../utils/hashUtil';
 import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 
 class UserRepository {

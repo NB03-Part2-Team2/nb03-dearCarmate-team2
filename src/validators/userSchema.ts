@@ -1,4 +1,4 @@
-import { object, size, string, optional } from 'superstruct';
+import { object, size, string, optional, refine } from 'superstruct';
 import { utilValidator } from './utilValidator';
 
 const createUserSchema = object({
@@ -22,4 +22,10 @@ const updateUserSchema = object({
   refreshToken: optional(string()),
 });
 
-export { createUserSchema, updateUserSchema };
+const deleteUserSchema = object({
+  id: refine(string(), 'idError', (value) => {
+    return /^[0-9]+$/.test(value);
+  }),
+});
+
+export { createUserSchema, updateUserSchema, deleteUserSchema };

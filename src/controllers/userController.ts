@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import userService from '../services/userService';
-import { createUserSchema, updateUserSchema } from '../validators/userSchema';
+import { createUserSchema, deleteUserSchema, updateUserSchema } from '../validators/userSchema';
 import { validator } from '../validators/utilValidator';
 import { CreateUserRequestDTO, DeleteUserDTO, GetUserDTO, UpdateUserDTO } from '../types/userType';
 
@@ -61,6 +61,19 @@ class UserController {
       id: req.user!.userId,
     };
     // 2. 유효성 검사 - id는 토큰 검증 미들웨어로 검증하므로 생략: 401 에러
+    // 3. service레이어 호출
+    await userService.deleteUser(deleteUserDTO);
+    // 4. 삭제 성공 메세지 반환
+    return res.status(200).json({ message: '유저 삭제 성공' });
+  };
+
+  deleteUserByAdmin = async (req: Request, res: Response) => {
+    // 1. DTO 정의
+    const deleteUserDTO: DeleteUserDTO = {
+      id: parseInt(req.params.userId),
+    };
+    // 2. 유효성 검사 - req.params로 받은 유저 값은 검증되지 않았으므로 체크
+    validator({ id: req.params.userId }, deleteUserSchema);
     // 3. service레이어 호출
     await userService.deleteUser(deleteUserDTO);
     // 4. 삭제 성공 메세지 반환
