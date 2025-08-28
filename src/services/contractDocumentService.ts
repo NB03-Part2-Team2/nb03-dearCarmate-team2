@@ -27,7 +27,7 @@ class ContractDocumentService {
     // 계약서 문서 조회
     const contractDocument = await contractDocumentRepository.findById(contractDocumentId);
     if (!contractDocument) {
-      throw CustomError.badRequest('계약서 문서를 찾을 수 없습니다.');
+      throw CustomError.notFound('계약서 문서를 찾을 수 없습니다.');
     }
     return contractDocument;
   };
