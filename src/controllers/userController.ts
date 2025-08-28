@@ -73,7 +73,7 @@ class UserController {
       id: parseInt(req.params.userId),
     };
     // 2. 유효성 검사 - req.params로 받은 유저 값은 검증되지 않았으므로 체크
-    validator(deleteUserDTO, deleteUserSchema);
+    validator({ id: req.params.userId }, deleteUserSchema);
     // 3. service레이어 호출
     await userService.deleteUser(deleteUserDTO);
     // 4. 삭제 성공 메세지 반환
