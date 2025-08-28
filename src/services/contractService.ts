@@ -117,7 +117,16 @@ class ContractService {
     updateData: UpdateContractDTO,
     logInUserId: number,
   ) => {
-    const { userId, customerId, carId, meetings, contractDocuments, ...restOfData } = updateData;
+    const {
+      userId,
+      customerId,
+      carId,
+      isMeetingChanged,
+      meetings,
+      isContractDocumentsChanged,
+      contractDocuments,
+      ...restOfData
+    } = updateData;
     const contractUserId = await contractRepository.getContractUserId(contractId);
     if (logInUserId !== contractUserId) {
       throw CustomError.forbidden();
@@ -135,7 +144,7 @@ class ContractService {
     };
     const result = await prisma.$transaction(async (tx) => {
       // 미팅 업데이트 로직
-      if (meetings) {
+      if (isMeetingChanged && meetings) {
         await contractRepository.deleteMeetingList(contractId, tx);
         const meetingsForCreate = meetings.map((m) => ({
           date: m.date,
@@ -145,7 +154,7 @@ class ContractService {
         await contractRepository.createMeetingList(meetingsForCreate, tx);
       }
       // 문서 업데이트 로직
-      if (contractDocuments) {
+      if (isContractDocumentsChanged && contractDocuments) {
         await contractRepository.deleteContractDocumentRelation(contractId, tx);
         const createPromises = contractDocuments
           .map((doc) => {
