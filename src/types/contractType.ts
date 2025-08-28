@@ -57,7 +57,9 @@ export interface UpdateContractDTO {
   userId?: number;
   customerId?: number;
   carId?: number;
+  isMeetingChanged: boolean;
   meetings?: meetingsDTO[];
+  isContractDocumentsChanged: boolean;
   contractDocuments?: ContractDocumentDTO[];
 }
 
