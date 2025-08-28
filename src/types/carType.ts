@@ -16,7 +16,7 @@ export interface carModelDTO extends carDTO {
   type: string;
 }
 
-type CarStatus = 'possession' | 'contractProceeding' | 'contractCompleted';
+type CarStatus = 'possession' | 'contractProceeding' | 'contractCompleted' | undefined;
 
 export interface carListDTO {
   page: number;

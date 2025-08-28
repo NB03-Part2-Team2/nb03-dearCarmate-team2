@@ -27,6 +27,19 @@ class CarRepository {
     return code;
   };
 
+  getCompanyIdByCompanyCode = async (companyCode: string) => {
+    const company = await prisma.company.findUnique({
+      where: { companyCode: companyCode },
+      select: {
+        id: true,
+      },
+    });
+    if (!company) {
+      throw CustomError.notFound();
+    }
+    return company;
+  };
+
   getCarByCarId = async (carId: number) => {
     const car = await prisma.car.findUnique({
       where: { id: carId },
@@ -60,18 +73,20 @@ class CarRepository {
 
   getCarList = async (
     { page, pageSize, status, searchBy, keyword }: carListDTO,
-    companyCode: string,
+    companyId: number,
   ) => {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
-    const where = Prisma.validator<> { companyCode: companyCode };
+    let where: Prisma.CarWhereInput = { companyId: companyId };
     if (searchBy === 'carNumber') {
       where = {
         ...where,
-        AND: {carNumber: {
-          contains: keyword,
-          mode: 'insensitive'},
+        AND: {
+          carNumber: {
+            contains: keyword,
+            mode: 'insensitive',
+          },
         },
       };
     } else if (searchBy === 'model') {
