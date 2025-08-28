@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import customerService from '../services/customerService';
-import { SearchParamsDTO } from '../types/customerType';
+import { SearchParamListDTO } from '../types/customerType';
 
 class CustomerController {
   createCustomer = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +17,7 @@ class CustomerController {
   getCustomerList = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
-      const searchParams: SearchParamsDTO = {
+      const searchParams: SearchParamListDTO = {
         searchBy: req.query.searchBy as 'name' | 'email' | undefined,
         keyword: req.query.keyword as string | undefined,
         page: Number(req.query.page) || 1,

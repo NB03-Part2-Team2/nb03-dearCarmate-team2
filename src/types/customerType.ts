@@ -26,7 +26,7 @@ export interface CreateCustomerDTO {
   memo?: string;
 }
 
-export interface SearchParamsDTO {
+export interface SearchParamListDTO {
   searchBy?: 'name' | 'email';
   keyword?: string;
   page: number;

@@ -1,6 +1,6 @@
 import customerRepository from '../repositories/customerRepository';
 import { Prisma } from '../generated/prisma';
-import { CreateCustomerDTO, SearchParamsDTO } from '../types/customerType';
+import { CreateCustomerDTO, SearchParamListDTO } from '../types/customerType';
 import { CustomError } from '../utils/customErrorUtil';
 
 const reverseAgeGroupMap = {
@@ -47,7 +47,7 @@ class CustomerService {
     return resCustomer;
   };
 
-  getCustomerList = async (userId: number, searchParams: SearchParamsDTO) => {
+  getCustomerList = async (userId: number, searchParams: SearchParamListDTO) => {
     const { searchBy, keyword, page, pageSize } = searchParams;
     const validSearchBy = ['name', 'email'];
     if (searchBy && !validSearchBy.includes(searchBy)) {
@@ -78,6 +78,7 @@ class CustomerService {
     );
     const formattedCustomers = customers.map((customer) => {
       const { _count, ...rest } = customer;
+
       return {
         ...rest,
         ageGroup: rest.ageGroup ? reverseAgeGroupMap[rest.ageGroup] : undefined,
