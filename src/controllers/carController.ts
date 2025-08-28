@@ -13,6 +13,10 @@ class CarController {
   };
 
   getCarList = async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const user = req.user.userId;
     const { page = 1, pageSize = 8, status = '', searchBy = 'carNumber', keyword = '' } = req.query;
     const params: carListDTO = {
       page: Number(page),
@@ -21,7 +25,7 @@ class CarController {
       searchBy: searchBy as 'carNumber' | 'model',
       keyword: keyword as string,
     };
-    const cars = await carService.getCarList(params);
+    const cars = await carService.getCarList(params, user);
     return res.status(200).json(cars);
   };
 
@@ -29,7 +33,7 @@ class CarController {
     if (!req.user) {
       throw CustomError.unauthorized();
     }
-    const user = req.user.userId;
+    const user = Number(req.user.userId);
     const data = req.body;
     createCarValidator(data);
     const createdCar = await carService.createCar(data, user);

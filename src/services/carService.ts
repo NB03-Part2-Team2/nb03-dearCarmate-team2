@@ -11,8 +11,15 @@ class CarService {
     return car;
   };
 
-  getCarList = async ({ page, pageSize, status, searchBy, keyword }: carListDTO) => {
-    const cars = await carRepository.getCarList({ page, pageSize, status, searchBy, keyword });
+  getCarList = async (
+    { page, pageSize, status, searchBy, keyword }: carListDTO,
+    userId: number,
+  ) => {
+    const companyCode = await carRepository.getCompanyCodeByUserId(userId);
+    const cars = await carRepository.getCarList(
+      { page, pageSize, status, searchBy, keyword },
+      companyCode.companyCode,
+    );
     return cars;
   };
 

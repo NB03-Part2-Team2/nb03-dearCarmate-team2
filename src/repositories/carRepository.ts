@@ -1,3 +1,4 @@
+import { Prisma } from '../generated/prisma';
 import prisma from '../libs/prisma';
 import { carDTO, carListDTO } from '../types/carType';
 import { CustomError } from '../utils/customErrorUtil';
@@ -57,20 +58,25 @@ class CarRepository {
     return carByNumber;
   };
 
-  getCarList = async ({ page, pageSize, status, searchBy, keyword }: carListDTO) => {
+  getCarList = async (
+    { page, pageSize, status, searchBy, keyword }: carListDTO,
+    companyCode: string,
+  ) => {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
 
-    let where = {};
+    const where = Prisma.validator<> { companyCode: companyCode };
     if (searchBy === 'carNumber') {
       where = {
-        carNumber: {
+        ...where,
+        AND: {carNumber: {
           contains: keyword,
-          mode: 'insensitive',
+          mode: 'insensitive'},
         },
       };
     } else if (searchBy === 'model') {
       where = {
+        ...where,
         model: {
           contains: keyword,
           mode: 'insensitive',
@@ -86,6 +92,7 @@ class CarRepository {
     }
 
     const [carsData, total] = await Promise.all([
+      //prisma.$transaction
       prisma.car.findMany({
         where,
         skip,
