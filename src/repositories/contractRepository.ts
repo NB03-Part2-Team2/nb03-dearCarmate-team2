@@ -229,14 +229,14 @@ class ContractRepository {
     });
   };
 
-  deleteContractDocument = async (contractId: number, tx?: TransactionClient) => {
+  deleteContractDocumentRelation = async (contractId: number, tx?: TransactionClient) => {
     const prismaClient = tx || prisma;
     return await prismaClient.contractDocumentRelation.deleteMany({
       where: { contractId },
     });
   };
 
-  createContractDocument = async (
+  createContractDocumentRelation = async (
     contractDocumentId: number,
     contractId: number,
     tx?: TransactionClient,

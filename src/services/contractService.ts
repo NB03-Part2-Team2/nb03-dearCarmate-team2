@@ -146,11 +146,11 @@ class ContractService {
       }
       // 문서 업데이트 로직
       if (contractDocuments) {
-        await contractRepository.deleteContractDocument(contractId, tx);
+        await contractRepository.deleteContractDocumentRelation(contractId, tx);
         const createPromises = contractDocuments
           .map((doc) => {
             if (doc.id) {
-              return contractRepository.createContractDocument(doc.id, contractId, tx);
+              return contractRepository.createContractDocumentRelation(doc.id, contractId, tx);
             }
             return null;
           })
