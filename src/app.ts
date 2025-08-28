@@ -5,6 +5,7 @@ import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import authRouter from './routes/authRoute';
 import userRouter from './routes/userRoute';
+import customerRouter from './routes/customerRoute';
 import contractRouter from './routes/contractRouter';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
+app.use('/customers', customerRouter);
 app.use('/contracts', contractRouter);
 
 app.use('/images', imageUploadRouter);
