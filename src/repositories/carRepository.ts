@@ -1,5 +1,5 @@
 import prisma from '../libs/prisma';
-import { carDTO } from '../types/carType';
+import { carDTO, carListDTO } from '../types/carType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class CarRepository {
@@ -25,7 +25,8 @@ class CarRepository {
     }
     return code;
   };
-  getCarId = async (carId: number) => {
+
+  getCarByCarId = async (carId: number) => {
     const car = await prisma.car.findUnique({
       where: { id: carId },
       select: {
@@ -43,6 +44,7 @@ class CarRepository {
     });
     return car;
   };
+
   getCarByCarNumber = async (carNum: string) => {
     const carByNumber = await prisma.car.findUnique({
       where: {
@@ -54,6 +56,70 @@ class CarRepository {
     });
     return carByNumber;
   };
+
+  getCarList = async ({ page, pageSize, status, searchBy, keyword }: carListDTO) => {
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    let where = {};
+    if (searchBy === 'carNumber') {
+      where = {
+        carNumber: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      };
+    } else if (searchBy === 'model') {
+      where = {
+        model: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      };
+    }
+
+    if (status) {
+      where = {
+        ...where,
+        status,
+      };
+    }
+
+    const [carsData, total] = await Promise.all([
+      prisma.car.findMany({
+        where,
+        skip,
+        take,
+        select: {
+          id: true,
+          carNumber: true,
+          manufacturingYear: true,
+          mileage: true,
+          price: true,
+          accidentCount: true,
+          explanation: true,
+          accidentDetails: true,
+          status: true,
+          carModel: {
+            select: {
+              model: true,
+              manufacturer: true,
+              type: true,
+            },
+          },
+        },
+      }),
+      prisma.car.count({
+        where,
+      }),
+    ]);
+
+    return {
+      data: carsData,
+      total,
+    };
+  };
+
   createCar = async (data: carDTO, code: string) => {
     const car = await prisma.car.create({
       data: {

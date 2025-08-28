@@ -7,12 +7,13 @@ const carRouter = express.Router();
 carRouter
   .route('/')
   .post(auth.verifyAccessToken, auth.verifyUserAuth, carController.createCar)
-  .get();
+  .get(carController.getCarList);
 
-carRouter.route('/:carId').get().patch().delete();
+carRouter.route('/:carId').get(carController.getCar);
+// .patch().delete();
 
-carRouter.route('/upload').post();
+// carRouter.route('/upload').post();
 
-carRouter.route('/models').get();
+// carRouter.route('/models').get();
 
 export default carRouter;

@@ -1,4 +1,4 @@
-import { object, create, size, string } from 'superstruct';
+import { object, create, size, string, assert } from 'superstruct';
 import { utilValidator } from './utilValidator';
 import { carDTO } from '../types/carType';
 /**
@@ -9,7 +9,7 @@ const createCarValidator = (createCarDTO: carDTO) => {
   const carStruct = object({
     carNumber: utilValidator.carNumber,
   });
-  create(createCarDTO, carStruct);
+  assert(createCarDTO, carStruct);
 };
 
 export { createCarValidator };
