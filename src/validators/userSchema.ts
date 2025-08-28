@@ -1,4 +1,4 @@
-import { object, size, string, optional, number, min, refine } from 'superstruct';
+import { object, size, string, optional, refine } from 'superstruct';
 import { utilValidator } from './utilValidator';
 
 const createUserSchema = object({
