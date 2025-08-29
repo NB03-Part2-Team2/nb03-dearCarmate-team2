@@ -1,7 +1,12 @@
 import { Request, Response } from 'express';
-import { carDTO, carListDTO } from '../types/carType';
+import { carDTO, carListDTO, carUpdateDTO } from '../types/carType';
 import carService from '../services/carService';
-import { createCarSchema, getCarListSchema, getCarSchema } from '../validators/carValidator';
+import {
+  createCarSchema,
+  getCarListSchema,
+  getCarSchema,
+  updateCarSchema,
+} from '../validators/carValidator';
 import { CustomError } from '../utils/customErrorUtil';
 import { CarStatus } from '../generated/prisma';
 import { validator } from '../validators/utilValidator';
@@ -9,8 +14,15 @@ import { validator } from '../validators/utilValidator';
 class CarController {
   getCar = async (req: Request, res: Response) => {
     const carId = parseInt(req.params.carId, 10);
+    if (!carId) {
+      throw CustomError.badRequest();
+    }
     validator({ carId }, getCarSchema);
-    const car = await carService.getCar(carId);
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const userId = req.user.userId;
+    const car = await carService.getCar(carId, userId);
     return res.status(200).json(car);
   };
 
@@ -48,11 +60,37 @@ class CarController {
     return res.status(201).json(createdCar);
   };
 
-  // updateCar = async (req: Request, res: Response) => {
-  //   const carId = Number(req.params);
-  //   const car = await carService.getCar(carId);
-  //   const updatedCar =
-  // };
+  //validator 오류 수정 필요
+  updateCar = async (req: Request, res: Response) => {
+    // validator(req.body, updateCarSchema);
+    const carId = parseInt(req.params.carId, 10);
+    if (!carId) {
+      throw CustomError.badRequest();
+    }
+    const data: carUpdateDTO = req.body;
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const user = Number(req.user.userId);
+    const updatedCar = await carService.updateCar(data, carId, user);
+    return res.status(200).json(updatedCar);
+  };
+
+  deleteCar = async (req: Request, res: Response) => {
+    //params 검사
+    const carId = parseInt(req.params.carId, 10);
+    if (!carId) {
+      throw CustomError.badRequest();
+    }
+    //회사 조회 위한 유저 조회
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const user = Number(req.user.userId);
+    //회사 id, 차량 id 일치하는 차량 삭제
+    await carService.deleteCar(carId, user);
+    return res.json(200).json({ message: '차량 삭제 성공' });
+  };
 }
 
 export default new CarController();
