@@ -194,15 +194,11 @@ class ContractService {
         .filter((id): id is number => id !== undefined);
 
       setImmediate(async () => {
-        try {
-          await this.sendContractDocumentConnectionEmails(
-            contractId,
-            contractDocumentIds,
-            result.customer,
-          );
-        } catch (error) {
-          console.error('이메일 발송 실패:', error);
-        }
+        await this.sendContractDocumentConnectionEmails(
+          contractId,
+          contractDocumentIds,
+          result.customer,
+        );
       });
     }
 
