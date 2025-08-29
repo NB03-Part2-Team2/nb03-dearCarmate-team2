@@ -1,4 +1,4 @@
-import { object, string, number, enums, optional, min, defaulted } from 'superstruct';
+import { object, string, number, enums, optional } from 'superstruct';
 import { utilValidator } from './utilValidator';
 /**
  *
