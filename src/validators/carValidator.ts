@@ -27,4 +27,16 @@ const getCarSchema = object({
   carId: number(),
 });
 
-export { createCarSchema, getCarListSchema, getCarSchema };
+const updateCarSchema = object({
+  carNumber: utilValidator.carNumber,
+  manufacturer: string(),
+  model: string(),
+  manufacturingYear: number(),
+  mileage: number(),
+  price: number(),
+  accidentCount: number(),
+  explanation: string(),
+  accidentDetails: string(),
+});
+
+export { createCarSchema, getCarListSchema, getCarSchema, updateCarSchema };

@@ -33,6 +33,22 @@ class CarService {
     const createdCar = await carRepository.createCar(data, companyCode.company.companyCode);
     return createdCar;
   };
+
+  updateCar = async (data: carDTO, carId: number) => {
+    const updatedCar = await carRepository.updateCar(data, carId);
+    return updatedCar;
+  };
+
+  deleteCar = async (carId: number) => {
+    const checkStatus = await carRepository.getCarByCarId(carId);
+    if (
+      checkStatus!.status === 'contractProceeding' ||
+      checkStatus!.status === 'contractCompleted'
+    ) {
+      throw CustomError.badRequest();
+    }
+    await carRepository.deleteCar(carId);
+  };
 }
 
 export default new CarService();
