@@ -257,6 +257,27 @@ class ContractRepository {
     });
   };
 
+  deleteContractDocument = async (contractDocumentId: number, tx?: TransactionClient) => {
+    const prismaClient = tx || prisma;
+    return await prismaClient.contractDocument.delete({
+      where: { id: contractDocumentId },
+    });
+  };
+
+  createContractDocument = async (
+    contractDocumentId: number,
+    fileName: string,
+    tx?: TransactionClient,
+  ) => {
+    const prismaClient = tx || prisma;
+    return await prismaClient.contractDocument.create({
+      data: {
+        id: contractDocumentId,
+        fileName,
+      },
+    });
+  };
+
   // customerRepository에 추가될 시 삭제 예정
   getCustomerById = async (customerId: number) => {
     const customer = await prisma.customer.findUnique({
