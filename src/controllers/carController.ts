@@ -8,8 +8,7 @@ import { validator } from '../validators/utilValidator';
 
 class CarController {
   getCar = async (req: Request, res: Response) => {
-    const carId = Number(req.params.carId);
-    console.log(carId);
+    const carId = parseInt(req.params.carId, 10);
     validator({ carId }, getCarSchema);
     const car = await carService.getCar(carId);
     return res.status(200).json(car);
