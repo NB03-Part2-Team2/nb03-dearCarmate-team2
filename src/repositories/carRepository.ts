@@ -17,9 +17,9 @@ class CarRepository {
     return company;
   };
 
-  getCarByCarId = async (carId: number) => {
+  getCarByCarId = async (carId: number, companyId: number) => {
     const car = await prisma.car.findUnique({
-      where: { id: carId },
+      where: { id: carId, companyId: companyId },
       select: {
         id: true,
         carNumber: true,
@@ -152,8 +152,8 @@ class CarRepository {
     return car;
   };
 
-  updateCar = async (data: carDTO, carId: number) => {
-    const updatedCar = prisma.car.update({
+  updateCar = async (data: carDTO, carId: number, companyId: number) => {
+    const updatedCar = await prisma.car.update({
       data: {
         carNumber: data.carNumber,
         carModel: { connect: { model: data.model } },
@@ -164,7 +164,7 @@ class CarRepository {
         explanation: data.explanation,
         accidentDetails: data.accidentDetails,
       },
-      where: { id: carId },
+      where: { id: carId, companyId: companyId },
       select: {
         id: true,
         carNumber: true,

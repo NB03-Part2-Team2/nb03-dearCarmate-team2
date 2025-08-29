@@ -15,24 +15,14 @@ class CarController {
   getCar = async (req: Request, res: Response) => {
     const carId = parseInt(req.params.carId, 10);
     if (!carId) {
-      throw CustomError.notFound('존재하지 않는 차량입니다.');
+      throw CustomError.badRequest();
     }
     validator({ carId }, getCarSchema);
-    const rawCar = await carService.getCar(carId);
-    const car = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
-    };
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const userId = req.user.userId;
+    const car = await carService.getCar(carId, userId);
     return res.status(200).json(car);
   };
 
@@ -66,21 +56,7 @@ class CarController {
     }
     const user = Number(req.user.userId);
     const data = req.body;
-    const rawCar = await carService.createCar(data, user);
-    const createdCar = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
-    };
+    const createdCar = await carService.createCar(data, user);
     return res.status(201).json(createdCar);
   };
 
@@ -89,34 +65,31 @@ class CarController {
     // validator(req.body, updateCarSchema);
     const carId = parseInt(req.params.carId, 10);
     if (!carId) {
-      throw CustomError.notFound('존재하지 않는 차량입니다.');
+      throw CustomError.badRequest();
     }
     const data: carUpdateDTO = req.body;
-    const rawCar = await carService.updateCar(data, carId);
-    const updatedCar = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
-    };
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const user = Number(req.user.userId);
+    const updatedCar = await carService.updateCar(data, carId, user);
     return res.status(200).json(updatedCar);
   };
 
   deleteCar = async (req: Request, res: Response) => {
+    //params 검사
     const carId = parseInt(req.params.carId, 10);
     if (!carId) {
-      throw CustomError.notFound('존재하지 않는 차량입니다.');
+      throw CustomError.badRequest();
     }
-    await carService.deleteCar(carId);
-    return res.json(200);
+    //회사 조회 위한 유저 조회
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const user = Number(req.user.userId);
+    //회사 id, 차량 id 일치하는 차량 삭제
+    await carService.deleteCar(carId, user);
+    return res.json(200).json({ message: '차량 삭제 성공' });
   };
 }
 
