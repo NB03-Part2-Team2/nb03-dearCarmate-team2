@@ -256,6 +256,19 @@ class ContractRepository {
       where: { id: contractId },
     });
   };
+
+  // customerRepository에 추가될 시 삭제 예정
+  getCustomerById = async (customerId: number) => {
+    const customer = await prisma.customer.findUnique({
+      where: { id: customerId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+    return customer;
+  };
 }
 
 export default new ContractRepository();
