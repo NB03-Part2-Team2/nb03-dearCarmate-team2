@@ -7,13 +7,7 @@ export interface carDTO {
   accidentCount: number;
   explanation?: string;
   accidentDetails?: string;
-  status: string;
-}
-
-export interface carModelDTO extends carDTO {
-  model: string;
-  manufacturer: string;
-  type: string;
+  status: CarStatus;
 }
 
 type CarStatus = 'possession' | 'contractProceeding' | 'contractCompleted' | undefined;

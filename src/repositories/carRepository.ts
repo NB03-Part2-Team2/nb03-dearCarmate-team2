@@ -4,38 +4,15 @@ import { carDTO, carListDTO } from '../types/carType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class CarRepository {
-  getCompanyCodeByUserId = async (userId: number) => {
-    const user = await prisma.user.findUnique({
+  getCompanyByUserId = async (userId: number) => {
+    const company = await prisma.user.findUnique({
       where: { id: userId },
       select: {
-        id: true,
-        companyId: true,
-      },
-    });
-    if (!user) {
-      throw CustomError.badRequest();
-    }
-    const code = await prisma.company.findUnique({
-      where: { id: user.companyId },
-      select: {
-        companyCode: true,
-      },
-    });
-    if (!code) {
-      throw CustomError.badRequest();
-    }
-    return code;
-  };
-
-  getCompanyIdByCompanyCode = async (companyCode: string) => {
-    const company = await prisma.company.findUnique({
-      where: { companyCode: companyCode },
-      select: {
-        id: true,
+        company: { select: { id: true, companyCode: true } },
       },
     });
     if (!company) {
-      throw CustomError.notFound();
+      throw CustomError.badRequest();
     }
     return company;
   };
@@ -82,11 +59,9 @@ class CarRepository {
     if (searchBy === 'carNumber') {
       where = {
         ...where,
-        AND: {
-          carNumber: {
-            contains: keyword,
-            mode: 'insensitive',
-          },
+        carNumber: {
+          contains: keyword,
+          mode: 'insensitive',
         },
       };
     } else if (searchBy === 'model') {
@@ -107,7 +82,6 @@ class CarRepository {
     }
 
     const [carsData, total] = await Promise.all([
-      //prisma.$transaction
       prisma.car.findMany({
         where,
         skip,

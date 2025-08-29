@@ -15,11 +15,10 @@ class CarService {
     { page, pageSize, status, searchBy, keyword }: carListDTO,
     userId: number,
   ) => {
-    const companyCode = await carRepository.getCompanyCodeByUserId(userId);
-    const companyId = await carRepository.getCompanyIdByCompanyCode(companyCode.companyCode);
+    const companyId = await carRepository.getCompanyByUserId(userId);
     const cars = await carRepository.getCarList(
       { page, pageSize, status, searchBy, keyword },
-      companyId.id,
+      companyId.company.id,
     );
     return cars;
   };
@@ -30,8 +29,8 @@ class CarService {
     if (carNum) {
       throw CustomError.conflict();
     }
-    const companyCode = await carRepository.getCompanyCodeByUserId(userId);
-    const createdCar = await carRepository.createCar(data, companyCode.companyCode);
+    const companyCode = await carRepository.getCompanyByUserId(userId);
+    const createdCar = await carRepository.createCar(data, companyCode.company.companyCode);
     return createdCar;
   };
 }

@@ -1,23 +1,31 @@
-import { object, assert, string, number } from 'superstruct';
+import { object, string, number, enums, optional, min, defaulted } from 'superstruct';
 import { utilValidator } from './utilValidator';
-import { carDTO } from '../types/carType';
 /**
  *
  * @param carDTO 입력받아 형식을 검증하는 validator 입니다.
  */
-const createCarValidator = (createCarDTO: carDTO) => {
-  const carStruct = object({
-    carNumber: utilValidator.carNumber,
-    model: string(),
-    manufacturingYear: number(),
-    mileage: number(),
-    price: number(),
-    accidentCount: number(),
-    explanation: string(),
-    accidentDetails: string(),
-    company: string(),
-  });
-  assert(createCarDTO, carStruct);
-};
+const createCarSchema = object({
+  carNumber: utilValidator.carNumber,
+  model: string(),
+  manufacturingYear: number(),
+  mileage: number(),
+  price: number(),
+  accidentCount: number(),
+  explanation: string(),
+  accidentDetails: string(),
+  company: string(),
+});
 
-export { createCarValidator };
+const getCarListSchema = object({
+  page: optional(number()),
+  pageSize: optional(number()),
+  status: optional(enums(['possession', 'contractProceeding', 'contractCompleted'])),
+  searchBy: optional(enums(['carNumber', 'model'])),
+  keyword: optional(string()),
+});
+
+const getCarSchema = object({
+  carId: string(),
+});
+
+export { createCarSchema, getCarListSchema, getCarSchema };
