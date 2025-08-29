@@ -8,8 +8,9 @@ import { validator } from '../validators/utilValidator';
 
 class CarController {
   getCar = async (req: Request, res: Response) => {
-    validator(req.params, getCarSchema);
     const carId = Number(req.params.carId);
+    console.log(carId);
+    validator({ carId }, getCarSchema);
     const car = await carService.getCar(carId);
     return res.status(200).json(car);
   };
@@ -48,9 +49,11 @@ class CarController {
     return res.status(201).json(createdCar);
   };
 
-  updateCar = async (req: Request, res: Response) => {
-    const car = await carService.getCar(carId);
-  };
+  // updateCar = async (req: Request, res: Response) => {
+  //   const carId = Number(req.params);
+  //   const car = await carService.getCar(carId);
+  //   const updatedCar =
+  // };
 }
 
 export default new CarController();

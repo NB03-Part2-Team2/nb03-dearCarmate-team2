@@ -24,7 +24,7 @@ const getCarListSchema = object({
 });
 
 const getCarSchema = object({
-  carId: string(),
+  carId: number(),
 });
 
 export { createCarSchema, getCarListSchema, getCarSchema };
