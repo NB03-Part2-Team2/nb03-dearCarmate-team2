@@ -22,12 +22,13 @@ class CompanyRepository {
   };
 
   create = async (createCompanyDTO: CreateCompanyDTO) => {
-    const company = await prisma.company.create({
+    let company = await prisma.company.create({
       data: createCompanyDTO,
       select: {
         id: true,
         companyName: true,
         companyCode: true,
+        _count: { select: { user: true } },
       },
     });
     return company;
@@ -42,6 +43,7 @@ class CompanyRepository {
         id: true,
         companyName: true,
         companyCode: true,
+        _count: { select: { user: true } },
       },
     });
     return company;

@@ -140,13 +140,6 @@ class UserRepository {
       },
     });
   };
-
-  getUserCountByCompanyId = async (companyId: number): Promise<number> => {
-    const userCount = await prisma.user.count({
-      where: { companyId },
-    });
-    return userCount;
-  };
 }
 
 export default new UserRepository();
