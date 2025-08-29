@@ -11,10 +11,10 @@ class ContractDocumentController {
     };
 
     // 2. 유효성 검사 및 검증된 DTO 반환
-    const validatedDTO = uploadContractDocumentValidator(uploadDTO);
+    uploadContractDocumentValidator(uploadDTO);
 
     // 3. service 레이어 호출
-    const result = await contractDocumentService.uploadContractDocument(validatedDTO);
+    const result = await contractDocumentService.uploadContractDocument(uploadDTO);
 
     // 4. 결과 반환
     return res.status(200).json(result);

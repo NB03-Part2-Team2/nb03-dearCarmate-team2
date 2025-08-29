@@ -1,4 +1,4 @@
-import { object, create, string } from 'superstruct';
+import { assert, object, string } from 'superstruct';
 import { UploadContractDocumentDTO } from '../types/contractDocumentType';
 
 /**
@@ -6,14 +6,12 @@ import { UploadContractDocumentDTO } from '../types/contractDocumentType';
  * @param uploadDTO fileName을 입력받아 형식을 검증하는 validator 입니다.
  * @returns 검증된 DTO 객체
  */
-const uploadContractDocumentValidator = (
-  uploadDTO: UploadContractDocumentDTO,
-): UploadContractDocumentDTO => {
+const uploadContractDocumentValidator = (uploadDTO: UploadContractDocumentDTO) => {
   const uploadStruct = object({
     fileName: string(),
   });
 
-  return create(uploadDTO, uploadStruct);
+  assert(uploadDTO, uploadStruct);
 };
 
 export { uploadContractDocumentValidator };
