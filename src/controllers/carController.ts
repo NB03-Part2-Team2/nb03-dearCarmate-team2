@@ -20,7 +20,6 @@ class CarController {
       page: Number(req.query.page) | 1,
       pageSize: Number(req.query.pageSize) | 8,
     };
-    console.log(query);
     validator(query, getCarListSchema);
     if (!req.user) {
       throw CustomError.unauthorized();
@@ -49,7 +48,9 @@ class CarController {
     return res.status(201).json(createdCar);
   };
 
-  updateCar = async (req: Request, res: Response) => {};
+  updateCar = async (req: Request, res: Response) => {
+    const car = await carService.getCar(carId);
+  };
 }
 
 export default new CarController();

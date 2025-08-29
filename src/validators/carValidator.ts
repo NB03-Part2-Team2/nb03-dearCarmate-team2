@@ -13,7 +13,6 @@ const createCarSchema = object({
   accidentCount: number(),
   explanation: string(),
   accidentDetails: string(),
-  company: string(),
 });
 
 const getCarListSchema = object({
