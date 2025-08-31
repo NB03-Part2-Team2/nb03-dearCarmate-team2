@@ -76,9 +76,14 @@ class CarService {
   deleteCar = async (carId: number, userId: number) => {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
-    //2. 차량 status 확인
+    //2. 차량 존재 여부 및 status 확인
     const checkStatus = await carRepository.getCarByCarId(carId, companyId.company.id);
-    if (checkStatus!.status === 'contractCompleted') {
+    if (!checkStatus) {
+      throw CustomError.notFound('존재하지 않는 차량입니다.');
+    } else if (
+      checkStatus.status === 'contractCompleted' ||
+      checkStatus.status === 'contractProceeding'
+    ) {
       throw CustomError.badRequest();
     }
     //3. 차량 삭제
