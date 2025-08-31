@@ -16,9 +16,6 @@ class CarController {
   getCar = async (req: Request, res: Response) => {
     validator(req.params.carId, intIdSchema);
     const carId = parseInt(req.params.carId, 10);
-    if (!carId) {
-      throw CustomError.badRequest();
-    }
     validator({ carId }, getCarSchema);
     if (!req.user) {
       throw CustomError.unauthorized();
