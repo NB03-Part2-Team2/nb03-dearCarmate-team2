@@ -10,7 +10,7 @@ class CarService {
     //2. 회사 및 차량 아이디 검색
     const car = await carRepository.getCarByCarId(carId, companyId.company.id);
     if (!car) {
-      throw CustomError.notFound();
+      throw CustomError.notFound('존재하지 않는 차량입니다.');
     }
     return car;
   };
@@ -68,7 +68,12 @@ class CarService {
   updateCar = async (data: carDTO, carId: number, userId: number) => {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
-    //2. 차량 정보 수정
+    //2. 차량 존재 여부 확인
+    const car = await carRepository.getCarByCarId(carId, companyId.company.id);
+    if (!car) {
+      throw CustomError.notFound('존재하지 않는 차량입니다.');
+    }
+    //3. 차량 정보 수정
     const updatedCar = await carRepository.updateCar(data, carId, companyId.company.id);
     return updatedCar;
   };
