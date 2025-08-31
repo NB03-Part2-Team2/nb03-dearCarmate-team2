@@ -58,8 +58,31 @@ class CarController {
       searchBy: searchBy as 'carNumber' | 'model',
       keyword: keyword as string,
     };
-    const cars = await carService.getCarList(params, user);
-    return res.status(200).json(cars);
+    const rawCars = await carService.getCarList(params, user);
+    console.log(rawCars);
+    const cars = rawCars.data.map((car) => ({
+      id: car.id,
+      carNumber: car.carNumber,
+      manufacturer: car.carModel.manufacturer,
+      model: car.carModel.model,
+      type: car.carModel.type,
+      manufacturingYear: car.manufacturingYear,
+      mileage: car.mileage,
+      price: car.price,
+      accidentCount: car.accidentCount,
+      explanation: car.explanation,
+      accidentDetails: car.accidentDetails,
+      status: car.status,
+    }));
+    const total = rawCars.total;
+    const totalPages = Math.floor(total / Number(pageSize));
+    const response = {
+      currentPage: Number(page),
+      totalPages: totalPages,
+      totalItemCount: total,
+      data: cars,
+    };
+    return res.status(200).json(response);
   };
 
   createCar = async (req: Request<{}, {}, carDTO>, res: Response) => {
