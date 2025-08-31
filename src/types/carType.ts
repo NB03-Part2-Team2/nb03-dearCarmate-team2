@@ -17,9 +17,9 @@ export interface carListDTO {
   pageSize: number;
   skip?: number;
   take?: number;
-  keyword: string;
-  searchBy: 'carNumber' | 'model';
-  status: CarStatus | undefined;
+  keyword?: string;
+  searchBy?: 'carNumber' | 'model';
+  status?: CarStatus | undefined;
 }
 
 export interface carUpdateDTO extends carDTO {

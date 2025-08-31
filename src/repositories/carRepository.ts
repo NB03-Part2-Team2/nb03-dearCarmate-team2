@@ -54,38 +54,9 @@ class CarRepository {
     return carByNumber;
   };
 
-  getCarList = async (
-    { page, pageSize, status, searchBy, keyword }: carListDTO,
-    companyId: number,
-  ) => {
+  getCarList = async ({ page, pageSize }: carListDTO, where: Prisma.CarWhereInput) => {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
-
-    let where: Prisma.CarWhereInput = { companyId: companyId };
-    if (searchBy === 'carNumber') {
-      where = {
-        ...where,
-        carNumber: {
-          contains: keyword,
-          mode: 'insensitive',
-        },
-      };
-    } else if (searchBy === 'model') {
-      where = {
-        ...where,
-        model: {
-          contains: keyword,
-          mode: 'insensitive',
-        },
-      };
-    }
-
-    if (status) {
-      where = {
-        ...where,
-        status,
-      };
-    }
 
     const [carsData, total] = await Promise.all([
       prisma.car.findMany({

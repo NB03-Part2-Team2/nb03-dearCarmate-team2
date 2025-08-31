@@ -5,6 +5,7 @@ import {
   createCarSchema,
   getCarListSchema,
   getCarSchema,
+  intIdSchema,
   updateCarSchema,
 } from '../validators/carValidator';
 import { CustomError } from '../utils/customErrorUtil';
@@ -13,6 +14,7 @@ import { validator } from '../validators/utilValidator';
 
 class CarController {
   getCar = async (req: Request, res: Response) => {
+    validator(req.params.carId, intIdSchema);
     const carId = parseInt(req.params.carId, 10);
     if (!carId) {
       throw CustomError.badRequest();
@@ -22,7 +24,21 @@ class CarController {
       throw CustomError.unauthorized();
     }
     const userId = req.user.userId;
-    const car = await carService.getCar(carId, userId);
+    const rawCar = await carService.getCar(carId, userId);
+    const car = {
+      id: rawCar.id,
+      carNumber: rawCar.carNumber,
+      manufacturer: rawCar.carModel.manufacturer,
+      model: rawCar.carModel.model,
+      type: rawCar.carModel.type,
+      manufacturingYear: rawCar.manufacturingYear,
+      mileage: rawCar.mileage,
+      price: rawCar.price,
+      accidentCount: rawCar.accidentCount,
+      explanation: rawCar.explanation,
+      accidentDetails: rawCar.accidentDetails,
+      status: rawCar.status,
+    };
     return res.status(200).json(car);
   };
 
@@ -56,13 +72,27 @@ class CarController {
     }
     const user = Number(req.user.userId);
     const data = req.body;
-    const createdCar = await carService.createCar(data, user);
+    const rawCar = await carService.createCar(data, user);
+    const createdCar = {
+      id: rawCar.id,
+      carNumber: rawCar.carNumber,
+      manufacturer: rawCar.carModel.manufacturer,
+      model: rawCar.carModel.model,
+      type: rawCar.carModel.type,
+      manufacturingYear: rawCar.manufacturingYear,
+      mileage: rawCar.mileage,
+      price: rawCar.price,
+      accidentCount: rawCar.accidentCount,
+      explanation: rawCar.explanation,
+      accidentDetails: rawCar.accidentDetails,
+      status: rawCar.status,
+    };
     return res.status(201).json(createdCar);
   };
 
-  //validator 오류 수정 필요
   updateCar = async (req: Request, res: Response) => {
-    // validator(req.body, updateCarSchema);
+    validator(req.params.carId, intIdSchema);
+    validator(req.body, updateCarSchema);
     const carId = parseInt(req.params.carId, 10);
     if (!carId) {
       throw CustomError.badRequest();
@@ -72,12 +102,27 @@ class CarController {
       throw CustomError.unauthorized();
     }
     const user = Number(req.user.userId);
-    const updatedCar = await carService.updateCar(data, carId, user);
+    const rawCar = await carService.updateCar(data, carId, user);
+    const updatedCar = {
+      id: rawCar.id,
+      carNumber: rawCar.carNumber,
+      manufacturer: rawCar.carModel.manufacturer,
+      model: rawCar.carModel.model,
+      type: rawCar.carModel.type,
+      manufacturingYear: rawCar.manufacturingYear,
+      mileage: rawCar.mileage,
+      price: rawCar.price,
+      accidentCount: rawCar.accidentCount,
+      explanation: rawCar.explanation,
+      accidentDetails: rawCar.accidentDetails,
+      status: rawCar.status,
+    };
     return res.status(200).json(updatedCar);
   };
 
   deleteCar = async (req: Request, res: Response) => {
     //params 검사
+    validator(req.params.carId, intIdSchema);
     const carId = parseInt(req.params.carId, 10);
     if (!carId) {
       throw CustomError.badRequest();

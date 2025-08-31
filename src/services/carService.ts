@@ -1,3 +1,4 @@
+import { Prisma } from '../generated/prisma';
 import carRepository from '../repositories/carRepository';
 import { carDTO, carListDTO } from '../types/carType';
 import { CustomError } from '../utils/customErrorUtil';
@@ -7,25 +8,10 @@ class CarService {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
     //2. 회사 및 차량 아이디 검색
-    const rawCar = await carRepository.getCarByCarId(carId, companyId.company.id);
-    if (!rawCar) {
+    const car = await carRepository.getCarByCarId(carId, companyId.company.id);
+    if (!car) {
       throw CustomError.notFound();
     }
-    //3. api 명세서에 맞게 배열 변경
-    const car = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
-    };
     return car;
   };
 
@@ -35,11 +21,34 @@ class CarService {
   ) => {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
-    //2. 회사 및 차량 목록 검색
-    const cars = await carRepository.getCarList(
-      { page, pageSize, status, searchBy, keyword },
-      companyId.company.id,
-    );
+    //2. 검색 조건 설정
+    let where: Prisma.CarWhereInput = { companyId: companyId.company.id };
+    if (searchBy === 'carNumber') {
+      where = {
+        ...where,
+        carNumber: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      };
+    } else if (searchBy === 'model') {
+      where = {
+        ...where,
+        model: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      };
+    }
+
+    if (status) {
+      where = {
+        ...where,
+        status,
+      };
+    }
+    //3. 회사 및 차량 목록 검색
+    const cars = await carRepository.getCarList({ page, pageSize }, where);
     return cars;
   };
 
@@ -52,22 +61,7 @@ class CarService {
     //2. 회사 확인
     const companyCode = await carRepository.getCompanyByUserId(userId);
     //3. 차량 데이터 및 소속 회사 추가
-    const rawCar = await carRepository.createCar(data, companyCode.company.companyCode);
-    //4. api 명세서에 맞게 배열 변경
-    const createdCar = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
-    };
+    const createdCar = await carRepository.createCar(data, companyCode.company.companyCode);
     return createdCar;
   };
 
@@ -75,22 +69,7 @@ class CarService {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
     //2. 차량 정보 수정
-    const rawCar = await carRepository.updateCar(data, carId, companyId.company.id);
-    //3. api 명세서에 맞게 배열 변경
-    const updatedCar = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
-    };
+    const updatedCar = await carRepository.updateCar(data, carId, companyId.company.id);
     return updatedCar;
   };
 
