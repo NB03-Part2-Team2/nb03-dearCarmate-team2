@@ -110,8 +110,61 @@ class CustomerRepository {
         where: searchCondition,
       }),
     ]);
-
     return { customers, totalCount };
+  };
+
+  updateCustomer = async (customerId: number, data: CreateCustomerDTO) => {
+    const prismaData = {
+      ...data,
+      ageGroup: data.ageGroup ? ageGroupMap[data.ageGroup] : undefined,
+      region: data.region ? regionMap[data.region] : undefined,
+    };
+
+    const customer = await prisma.customer.update({
+      where: { id: customerId },
+      data: prismaData,
+      select: {
+        id: true,
+        name: true,
+        gender: true,
+        phoneNumber: true,
+        ageGroup: true,
+        region: true,
+        email: true,
+        memo: true,
+        _count: {
+          select: { contract: true },
+        },
+      },
+    });
+    return customer;
+  };
+
+  deleteCustomer = async (customerId: number) => {
+    const customer = await prisma.customer.delete({
+      where: { id: customerId },
+    });
+    return customer;
+  };
+
+  getCustomer = async (customerId: number) => {
+    const customer = await prisma.customer.findUnique({
+      where: { id: customerId },
+      select: {
+        id: true,
+        name: true,
+        gender: true,
+        phoneNumber: true,
+        ageGroup: true,
+        region: true,
+        email: true,
+        memo: true,
+        _count: {
+          select: { contract: true },
+        },
+      },
+    });
+    return customer;
   };
 }
 

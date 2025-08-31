@@ -78,7 +78,6 @@ class CustomerService {
     );
     const formattedCustomers = customers.map((customer) => {
       const { _count, ...rest } = customer;
-
       return {
         ...rest,
         ageGroup: rest.ageGroup ? reverseAgeGroupMap[rest.ageGroup] : undefined,
@@ -93,6 +92,43 @@ class CustomerService {
       data: formattedCustomers,
     };
     return result;
+  };
+
+  updateCustomer = async (customerId: number, data: CreateCustomerDTO) => {
+    const customer = await customerRepository.updateCustomer(customerId, data);
+    if (!customer) {
+      throw CustomError.notFound('존재하지 않는 고객입니다.');
+    }
+    const { _count, ...rest } = customer;
+    const resCustomer = {
+      ...rest,
+      ageGroup: rest.ageGroup ? reverseAgeGroupMap[rest.ageGroup] : undefined,
+      region: rest.region ? reverseRegionMap[rest.region] : undefined,
+      contractCount: _count.contract,
+    };
+    return resCustomer;
+  };
+
+  deleteCustomer = async (customerId: number) => {
+    const customer = await customerRepository.deleteCustomer(customerId);
+    if (!customer) {
+      throw CustomError.notFound('존재하지 않는 고객입니다.');
+    }
+  };
+
+  getCustomer = async (customerId: number) => {
+    const customer = await customerRepository.getCustomer(customerId);
+    if (!customer) {
+      throw CustomError.notFound('존재하지 않는 고객입니다.');
+    }
+    const { _count, ...rest } = customer;
+    const resCustomer = {
+      ...rest,
+      ageGroup: rest.ageGroup ? reverseAgeGroupMap[rest.ageGroup] : undefined,
+      region: rest.region ? reverseRegionMap[rest.region] : undefined,
+      contractCount: _count.contract,
+    };
+    return resCustomer;
   };
 }
 
