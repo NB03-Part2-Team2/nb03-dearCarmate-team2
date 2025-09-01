@@ -5,8 +5,13 @@ import {
   deleteCompanySchema,
   updateCompanySchema,
 } from '../validators/companySchema';
-import { validator } from '../validators/utilValidator';
-import { CreateCompanyDTO, DeleteCompanyDTO, UpdateCompanyDTO } from '../types/companyType';
+import { validator, paginationStruct } from '../validators/utilValidator';
+import {
+  CreateCompanyDTO,
+  DeleteCompanyDTO,
+  UpdateCompanyDTO,
+  GetCompanyListDTO,
+} from '../types/companyType';
 
 class CompanyController {
   createCompany = async (req: Request, res: Response) => {
@@ -56,6 +61,22 @@ class CompanyController {
     await companyService.deleteCompany(deleteCompanyDTO);
     // 4. 삭제 성공 메세지 반환
     return res.status(200).json({ message: '회사 삭제 성공' });
+  };
+
+  getCompanyList = async (req: Request, res: Response) => {
+    // 1. DTO 정의
+    const getCompanyListDTO: GetCompanyListDTO = {
+      page: Number(req.query.page) ? Number(req.query.page) : undefined,
+      pageSize: Number(req.query.pageSize) ? Number(req.query.pageSize) : undefined,
+      searchBy: req.query.searchBy as string | undefined,
+      keyword: req.query.keyword as string | undefined,
+    };
+    // 2. 유효성 검사 - req.params로 받은 유저 값은 검증되지 않았으므로 체크
+    validator({ page: req.query.page, pageSize: req.query.pageSize }, paginationStruct);
+    // 3. service레이어 호출
+    const { companies, pageInfo } = await companyService.getCompanyList(getCompanyListDTO);
+    // 4. 삭제 성공 메세지 반환
+    return res.status(200).json({ ...pageInfo, data: companies });
   };
 }
 

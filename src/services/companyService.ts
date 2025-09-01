@@ -1,6 +1,12 @@
+import { Prisma } from '../generated/prisma';
 import companyRepository from '../repositories/companyRepository';
 import userRepository from '../repositories/userRepository';
-import { CreateCompanyDTO, DeleteCompanyDTO, UpdateCompanyDTO } from '../types/companyType';
+import {
+  CreateCompanyDTO,
+  DeleteCompanyDTO,
+  GetCompanyListDTO,
+  UpdateCompanyDTO,
+} from '../types/companyType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class CompanyService {
@@ -40,6 +46,45 @@ class CompanyService {
         throw err;
       }
     }
+  };
+
+  getCompanyList = async (getCompanyListDTO: GetCompanyListDTO) => {
+    const { page = 1, pageSize = 8, searchBy = 'companyName', keyword = '' } = getCompanyListDTO;
+    // 1. searchBy의 값이 유효한지 검사
+    const validSearchBy = ['companyName'];
+    if (searchBy && !validSearchBy.includes(searchBy)) {
+      throw CustomError.badRequest();
+    }
+    // 2. 검색 조건 설정, 추후 확장 가능성도 있으므로 where 조건을 else if 로 확장할 수 있게 구성
+    let where: Prisma.CompanyWhereInput = {};
+    if (searchBy === 'companyName') {
+      where = {
+        ...where,
+        companyName: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      };
+    }
+    // 3. 회사 목록 검색
+    const { data, totalItemCount } = await companyRepository.getCompanyList(page, pageSize, where);
+
+    // 4-1. 회사 정보 형식 변환
+    const formattedCompanies = data.map((company) => {
+      const { _count, ...companyData } = company;
+      return { ...companyData, userCount: _count.user };
+    });
+    // 4-2. 페이지 정보
+    const pageInfo = {
+      currentPage: page,
+      totalPages:
+        totalItemCount % pageSize === 0
+          ? totalItemCount / pageSize
+          : (totalItemCount - (totalItemCount % pageSize)) / pageSize + 1,
+      totalItemCount,
+    };
+    // 5. 데이터 반환
+    return { companies: formattedCompanies, pageInfo };
   };
 }
 
