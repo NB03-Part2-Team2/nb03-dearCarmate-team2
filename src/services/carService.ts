@@ -8,7 +8,7 @@ class CarService {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
     //2. 회사 및 차량 아이디 검색
-    const car = await carRepository.getCarByCarId(carId, companyId.company.id);
+    const car = await carRepository.getCarByCarId(carId, companyId);
     if (!car) {
       throw CustomError.notFound('존재하지 않는 차량입니다.');
     }
@@ -22,7 +22,7 @@ class CarService {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
     //2. 검색 조건 설정
-    let where: Prisma.CarWhereInput = { companyId: companyId.company.id };
+    let where: Prisma.CarWhereInput = { companyId: companyId };
     if (searchBy === 'carNumber') {
       where = {
         ...where,
@@ -59,9 +59,9 @@ class CarService {
       throw CustomError.conflict();
     }
     //2. 회사 확인
-    const companyCode = await carRepository.getCompanyByUserId(userId);
+    const companyId = await carRepository.getCompanyByUserId(userId);
     //3. 차량 데이터 및 소속 회사 추가
-    const createdCar = await carRepository.createCar(data, companyCode.company.companyCode);
+    const createdCar = await carRepository.createCar(data, companyId);
     return createdCar;
   };
 
@@ -69,12 +69,12 @@ class CarService {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
     //2. 차량 존재 여부 확인
-    const car = await carRepository.getCarByCarId(carId, companyId.company.id);
+    const car = await carRepository.getCarByCarId(carId, companyId);
     if (!car) {
       throw CustomError.notFound('존재하지 않는 차량입니다.');
     }
     //3. 차량 정보 수정
-    const updatedCar = await carRepository.updateCar(data, carId, companyId.company.id);
+    const updatedCar = await carRepository.updateCar(data, carId, companyId);
     return updatedCar;
   };
 
@@ -82,7 +82,7 @@ class CarService {
     //1. 회사 확인
     const companyId = await carRepository.getCompanyByUserId(userId);
     //2. 차량 존재 여부 및 status 확인
-    const checkStatus = await carRepository.getCarByCarId(carId, companyId.company.id);
+    const checkStatus = await carRepository.getCarByCarId(carId, companyId);
     if (!checkStatus) {
       throw CustomError.notFound('존재하지 않는 차량입니다.');
     } else if (
@@ -93,6 +93,35 @@ class CarService {
     }
     //3. 차량 삭제
     await carRepository.deleteCar(carId);
+  };
+
+  uploadCarList = async (
+    data: Record<string, string | number | boolean | null>[],
+    userId: number,
+  ) => {
+    const companyId = await carRepository.getCompanyByUserId(userId);
+    const mappedCars: Prisma.CarCreateInput[] = data.map((row) => ({
+      carNumber: row['carNumber'] as string,
+      carModel: {
+        connect: {
+          model: row['model'] as string,
+        },
+      },
+      manufacturingYear: Number(row['manufacturingYear']),
+      mileage: Number(row['mileage']),
+      price: Number(row['price']),
+      accidentCount: Number(row['accidentCount']),
+      explanation: row['explanation'] as string,
+      accidentDetails: row['accidentDetails'] as string,
+      company: {
+        connect: {
+          id: companyId,
+        },
+      },
+      status: 'possession',
+    }));
+    const cars = await carRepository.uploadCarList(mappedCars);
+    return cars;
   };
 }
 
