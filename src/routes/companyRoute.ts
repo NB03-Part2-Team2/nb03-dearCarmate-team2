@@ -6,6 +6,7 @@ const companyRouter: Router = express.Router();
 
 companyRouter
   .route('/')
+  .get(auth.verifyAccessToken, auth.verifyAdminAuth, companyController.getCompanyList)
   .post(auth.verifyAccessToken, auth.verifyAdminAuth, companyController.createCompany);
 
 companyRouter

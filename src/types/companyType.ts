@@ -10,3 +10,10 @@ export interface UpdateCompanyDTO extends CreateCompanyDTO {
 export interface DeleteCompanyDTO {
   id: number;
 }
+
+export interface GetCompanyListDTO {
+  page?: number;
+  pageSize?: number;
+  searchBy?: string;
+  keyword?: string;
+}
