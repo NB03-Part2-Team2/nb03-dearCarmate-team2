@@ -1,9 +1,11 @@
 import contractDocumentRepository from '../repositories/contractDocumentRepository';
-import { CustomError } from '../utils/customErrorUtil';
+import contractRepository from '../repositories/contractRepository';
 import type {
   UploadContractDocumentDTO,
   UploadContractDocumentResponseDTO,
+  GetContractDocumentsParamsDTO,
 } from '../types/contractDocumentType';
+import { CustomError } from '../utils/customErrorUtil';
 
 class ContractDocumentService {
   /**
@@ -30,6 +32,25 @@ class ContractDocumentService {
       throw CustomError.notFound('계약서 문서를 찾을 수 없습니다.');
     }
     return contractDocument;
+  };
+
+  /**
+   * 계약서 목록을 조회합니다.
+   */
+  getContractDocumentList = async (
+    { page, pageSize, searchBy, keyword }: GetContractDocumentsParamsDTO,
+    userId: number,
+  ) => {
+    // 사용자의 회사 ID 조회
+    const companyId = await contractRepository.getCompanyId(userId);
+
+    // 계약서 목록 조회
+    const result = await contractDocumentRepository.findContractDocumentList(
+      { page, pageSize, searchBy, keyword },
+      companyId,
+    );
+
+    return result;
   };
 }
 

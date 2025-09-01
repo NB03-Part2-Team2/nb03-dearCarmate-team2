@@ -17,13 +17,19 @@ class CarRepository {
     return company;
   };
 
-  getCarByCarId = async (carId: number) => {
+  getCarByCarId = async (carId: number, companyId: number) => {
     const car = await prisma.car.findUnique({
-      where: { id: carId },
+      where: { id: carId, companyId: companyId },
       select: {
         id: true,
         carNumber: true,
-        carModel: true,
+        carModel: {
+          select: {
+            model: true,
+            manufacturer: true,
+            type: true,
+          },
+        },
         manufacturingYear: true,
         mileage: true,
         price: true,
@@ -48,38 +54,9 @@ class CarRepository {
     return carByNumber;
   };
 
-  getCarList = async (
-    { page, pageSize, status, searchBy, keyword }: carListDTO,
-    companyId: number,
-  ) => {
+  getCarList = async ({ page, pageSize }: carListDTO, where: Prisma.CarWhereInput) => {
     const skip = (page - 1) * pageSize;
     const take = pageSize;
-
-    let where: Prisma.CarWhereInput = { companyId: companyId };
-    if (searchBy === 'carNumber') {
-      where = {
-        ...where,
-        carNumber: {
-          contains: keyword,
-          mode: 'insensitive',
-        },
-      };
-    } else if (searchBy === 'model') {
-      where = {
-        ...where,
-        model: {
-          contains: keyword,
-          mode: 'insensitive',
-        },
-      };
-    }
-
-    if (status) {
-      where = {
-        ...where,
-        status,
-      };
-    }
 
     const [carsData, total] = await Promise.all([
       prisma.car.findMany({
@@ -127,7 +104,7 @@ class CarRepository {
         accidentCount: data.accidentCount,
         explanation: data.explanation ?? null,
         accidentDetails: data.accidentDetails ?? null,
-        company: { connect: { companyCode: code } }, //companyId가 CompanyWhereUniqueInput에 없어서 code로 연결
+        company: { connect: { companyCode: code } },
         status: 'possession',
       },
       select: {
@@ -144,6 +121,41 @@ class CarRepository {
       },
     });
     return car;
+  };
+
+  updateCar = async (data: carDTO, carId: number, companyId: number) => {
+    const updatedCar = await prisma.car.update({
+      data: {
+        carNumber: data.carNumber,
+        carModel: { connect: { model: data.model } },
+        manufacturingYear: data.manufacturingYear,
+        mileage: data.mileage,
+        price: data.price,
+        accidentCount: data.accidentCount,
+        explanation: data.explanation,
+        accidentDetails: data.accidentDetails,
+      },
+      where: { id: carId, companyId: companyId },
+      select: {
+        id: true,
+        carNumber: true,
+        carModel: { select: { model: true, manufacturer: true, type: true } },
+        manufacturingYear: true,
+        mileage: true,
+        price: true,
+        accidentCount: true,
+        explanation: true,
+        accidentDetails: true,
+        status: true,
+      },
+    });
+    return updatedCar;
+  };
+
+  deleteCar = async (carId: number) => {
+    await prisma.car.delete({
+      where: { id: carId },
+    });
   };
 }
 

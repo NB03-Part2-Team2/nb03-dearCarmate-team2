@@ -1,3 +1,5 @@
+type CarStatus = 'possession' | 'contractProceeding' | 'contractCompleted';
+
 export interface carDTO {
   carNumber: string;
   model: string;
@@ -10,14 +12,16 @@ export interface carDTO {
   status: CarStatus;
 }
 
-type CarStatus = 'possession' | 'contractProceeding' | 'contractCompleted' | undefined;
-
 export interface carListDTO {
   page: number;
   pageSize: number;
   skip?: number;
   take?: number;
-  keyword: string;
-  searchBy: 'carNumber' | 'model';
-  status: CarStatus;
+  keyword?: string;
+  searchBy?: 'carNumber' | 'model';
+  status?: CarStatus | undefined;
+}
+
+export interface carUpdateDTO extends carDTO {
+  manufacturer: string;
 }
