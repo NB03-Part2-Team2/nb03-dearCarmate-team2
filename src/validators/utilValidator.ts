@@ -55,6 +55,10 @@ const utilValidator = {
   employeeNumber: refine(string(), 'employeeNumberError', (value) => {
     return /^[a-zA-Z가-힣0-9\-]+$/.test(value);
   }),
+
+  intId: refine(string(), 'numeric_string', (value) => {
+    return /^\d+$/.test(value);
+  }),
 };
 
 const paginationStruct = object({
