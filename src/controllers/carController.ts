@@ -4,7 +4,6 @@ import carService from '../services/carService';
 import {
   createCarSchema,
   getCarListSchema,
-  getCarSchema,
   intIdSchema,
   updateCarSchema,
 } from '../validators/carValidator';
@@ -16,7 +15,6 @@ class CarController {
   getCar = async (req: Request, res: Response) => {
     validator(req.params.carId, intIdSchema);
     const carId = parseInt(req.params.carId, 10);
-    validator({ carId }, getCarSchema);
     if (!req.user) {
       throw CustomError.unauthorized();
     }
@@ -59,7 +57,6 @@ class CarController {
       keyword: keyword as string,
     };
     const rawCars = await carService.getCarList(params, user);
-    console.log(rawCars);
     const cars = rawCars.data.map((car) => ({
       id: car.id,
       carNumber: car.carNumber,
@@ -155,6 +152,11 @@ class CarController {
     //회사 id, 차량 id 일치하는 차량 삭제
     await carService.deleteCar(carId, user);
     return res.json(200).json({ message: '차량 삭제 성공' });
+  };
+
+  uploadCarList = async (req: Request, res: Response) => {
+    const parsedData = req.parsedData;
+    return res.status(200).json(parsedData);
   };
 }
 

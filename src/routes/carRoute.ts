@@ -1,3 +1,5 @@
+import { csvParse } from '../middlewares/csvParse';
+import { uploadCSV } from '../middlewares/csvUpload';
 import express from 'express';
 import auth from '../middlewares/auth';
 import carController from '../controllers/carController';
@@ -15,7 +17,7 @@ carRouter
   .patch(auth.verifyAccessToken, auth.verifyUserAuth, carController.updateCar)
   .delete(auth.verifyAccessToken, auth.verifyUserAuth, carController.deleteCar);
 
-// carRouter.route('/upload').post();
+// carRouter.route('/upload').post(uploadCSV.single('file'), csvParse, carController.uploadCarList);
 
 // carRouter.route('/models').get();
 

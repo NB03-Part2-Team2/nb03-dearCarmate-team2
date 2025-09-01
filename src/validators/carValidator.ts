@@ -26,10 +26,6 @@ const getCarListSchema = object({
   keyword: optional(string()),
 });
 
-const getCarSchema = object({
-  carId: number(),
-});
-
 const updateCarSchema = object({
   carNumber: utilValidator.carNumber,
   manufacturer: string(),
