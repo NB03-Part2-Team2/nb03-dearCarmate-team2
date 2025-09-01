@@ -19,4 +19,7 @@ contractDocumentRouter
   .route('/:contractDocumentId/download')
   .get(contractDocumentController.downloadContractDocument);
 
+// 계약서 목록 조회 (GET /contractDocuments)
+contractDocumentRouter.route('/').get(contractDocumentController.getContractDocumentList);
+
 export default contractDocumentRouter;
