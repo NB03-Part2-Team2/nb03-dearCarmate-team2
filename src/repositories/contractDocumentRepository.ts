@@ -1,6 +1,10 @@
 import prisma from '../libs/prisma';
 import { Prisma } from '../generated/prisma';
-import type { GetContractDocumentsParamsDTO } from '../types/contractDocumentType';
+import type {
+  GetContractDocumentsParamsDTO,
+  DraftContractDTO,
+  ContractDocumentRawData,
+} from '../types/contractDocumentType';
 
 class ContractDocumentRepository {
   /**
@@ -29,7 +33,7 @@ class ContractDocumentRepository {
   findContractDocumentList = async (
     { page, pageSize, searchBy, keyword }: GetContractDocumentsParamsDTO,
     companyId: number,
-  ) => {
+  ): Promise<ContractDocumentRawData> => {
     // 검색 조건 구성
     let whereCondition: Prisma.ContractWhereInput = {
       companyId,
@@ -86,10 +90,6 @@ class ContractDocumentRepository {
     const currentPage = page || 1;
     const currentPageSize = pageSize || 8;
     const skip = (currentPage - 1) * currentPageSize;
-    const totalPages =
-      totalItemCount % currentPageSize === 0
-        ? totalItemCount / currentPageSize
-        : (totalItemCount - (totalItemCount % currentPageSize)) / currentPageSize + 1;
 
     // 계약서 목록 조회
     const contracts = await prisma.contract.findMany({
@@ -131,26 +131,37 @@ class ContractDocumentRepository {
       },
     });
 
-    // 응답 데이터 변환
-    const data = contracts.map((contract) => ({
-      id: contract.id,
-      contractName: `${contract.car.model} - ${contract.customer.name} 고객님`,
-      resolutionDate: contract.resolutionDate,
-      documentCount: contract.contractDocumentRelation.length,
-      manager: contract.user.name,
-      carNumber: contract.car.carNumber,
-      documents: contract.contractDocumentRelation.map((relation) => ({
-        id: relation.contractDocument.id,
-        fileName: relation.contractDocument.fileName,
-      })),
-    }));
+    return { contracts, totalItemCount, page: currentPage, pageSize: currentPageSize };
+  };
 
-    return {
-      currentPage,
-      totalPages,
-      totalItemCount,
-      data,
-    };
+  /**
+   * 계약서 작성 중인 거래 목록을 조회합니다.
+   */
+  findDraftContractList = async (companyId: number): Promise<DraftContractDTO[]> => {
+    const draftContracts = await prisma.contract.findMany({
+      where: {
+        companyId,
+        status: 'contractDraft',
+      },
+      select: {
+        id: true,
+        car: {
+          select: {
+            model: true,
+          },
+        },
+        customer: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        id: 'desc',
+      },
+    });
+
+    return draftContracts;
   };
 }
 
