@@ -20,19 +20,31 @@ class CarController {
     }
     const userId = req.user.userId;
     const rawCar = await carService.getCar(carId, userId);
+    const {
+      id,
+      carNumber,
+      manufacturingYear,
+      mileage,
+      price,
+      accidentCount,
+      explanation,
+      accidentDetails,
+      status,
+    } = rawCar;
+    const { manufacturer, model, type } = rawCar.carModel;
     const car = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
+      id,
+      carNumber,
+      manufacturer,
+      model,
+      type,
+      manufacturingYear,
+      mileage,
+      price,
+      accidentCount,
+      explanation,
+      accidentDetails,
+      status,
     };
     return res.status(200).json(car);
   };
@@ -90,19 +102,31 @@ class CarController {
     const user = Number(req.user.userId);
     const data = req.body;
     const rawCar = await carService.createCar(data, user);
+    const {
+      id,
+      carNumber,
+      manufacturingYear,
+      mileage,
+      price,
+      accidentCount,
+      explanation,
+      accidentDetails,
+      status,
+    } = rawCar;
+    const { manufacturer, model, type } = rawCar.carModel;
     const createdCar = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
+      id,
+      carNumber,
+      manufacturer,
+      model,
+      type,
+      manufacturingYear,
+      mileage,
+      price,
+      accidentCount,
+      explanation,
+      accidentDetails,
+      status,
     };
     return res.status(201).json(createdCar);
   };
@@ -120,19 +144,31 @@ class CarController {
     }
     const user = Number(req.user.userId);
     const rawCar = await carService.updateCar(data, carId, user);
+    const {
+      id,
+      carNumber,
+      manufacturingYear,
+      mileage,
+      price,
+      accidentCount,
+      explanation,
+      accidentDetails,
+      status,
+    } = rawCar;
+    const { manufacturer, model, type } = rawCar.carModel;
     const updatedCar = {
-      id: rawCar.id,
-      carNumber: rawCar.carNumber,
-      manufacturer: rawCar.carModel.manufacturer,
-      model: rawCar.carModel.model,
-      type: rawCar.carModel.type,
-      manufacturingYear: rawCar.manufacturingYear,
-      mileage: rawCar.mileage,
-      price: rawCar.price,
-      accidentCount: rawCar.accidentCount,
-      explanation: rawCar.explanation,
-      accidentDetails: rawCar.accidentDetails,
-      status: rawCar.status,
+      id,
+      carNumber,
+      manufacturer,
+      model,
+      type,
+      manufacturingYear,
+      mileage,
+      price,
+      accidentCount,
+      explanation,
+      accidentDetails,
+      status,
     };
     return res.status(200).json(updatedCar);
   };
