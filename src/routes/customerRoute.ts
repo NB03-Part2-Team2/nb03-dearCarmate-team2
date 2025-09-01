@@ -8,5 +8,10 @@ customerRouter
   .route('/')
   .post(auth.verifyAccessToken, auth.verifyUserAuth, customerController.createCustomer)
   .get(auth.verifyAccessToken, auth.verifyUserAuth, customerController.getCustomerList);
+customerRouter
+  .route('/:customerId')
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, customerController.getCustomer)
+  .patch(auth.verifyAccessToken, auth.verifyUserAuth, customerController.updateCustomer)
+  .delete(auth.verifyAccessToken, auth.verifyUserAuth, customerController.deleteCustomer);
 
 export default customerRouter;
