@@ -96,9 +96,6 @@ class CustomerService {
 
   updateCustomer = async (customerId: number, data: CreateCustomerDTO) => {
     const customer = await customerRepository.updateCustomer(customerId, data);
-    if (!customer) {
-      throw CustomError.notFound('존재하지 않는 고객입니다.');
-    }
     const { _count, ...rest } = customer;
     const resCustomer = {
       ...rest,
@@ -110,10 +107,7 @@ class CustomerService {
   };
 
   deleteCustomer = async (customerId: number) => {
-    const customer = await customerRepository.deleteCustomer(customerId);
-    if (!customer) {
-      throw CustomError.notFound('존재하지 않는 고객입니다.');
-    }
+    await customerRepository.deleteCustomer(customerId);
   };
 
   getCustomer = async (customerId: number) => {
@@ -129,6 +123,11 @@ class CustomerService {
       contractCount: _count.contract,
     };
     return resCustomer;
+  };
+
+  createManyCustomerList = async (data: CreateCustomerDTO[], userId: number) => {
+    const companyId = await customerRepository.getCompanyId(userId);
+    await customerRepository.createManyCustomerList(data, companyId);
   };
 }
 

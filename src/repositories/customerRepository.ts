@@ -166,6 +166,18 @@ class CustomerRepository {
     });
     return customer;
   };
+
+  createManyCustomerList = async (data: CreateCustomerDTO[], companyId: number) => {
+    const prismaData = data.map((customer) => ({
+      ...customer,
+      ageGroup: customer.ageGroup ? ageGroupMap[customer.ageGroup] : undefined,
+      region: customer.region ? regionMap[customer.region] : undefined,
+      companyId: companyId,
+    }));
+    await prisma.customer.createMany({
+      data: prismaData,
+    });
+  };
 }
 
 export default new CustomerRepository();
