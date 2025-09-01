@@ -4,8 +4,10 @@ import cookieParser from 'cookie-parser';
 import express, { Express } from 'express';
 import { errorHandler } from './middlewares/errorHandler';
 import authRouter from './routes/authRoute';
+import companyRouter from './routes/companyRoute';
 import userRouter from './routes/userRoute';
 import contractRouter from './routes/contractRoute';
+import customerRouter from './routes/customerRoute';
 import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
 import contractDocumentRouter from './routes/contractDocumentRoute';
@@ -20,7 +22,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/auth', authRouter);
+app.use('/companies', companyRouter);
 app.use('/users', userRouter);
+app.use('/customers', customerRouter);
 app.use('/contracts', contractRouter);
 app.use('/cars', carRouter);
 

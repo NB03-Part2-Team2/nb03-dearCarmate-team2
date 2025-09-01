@@ -1,6 +1,8 @@
 import { Prisma } from '../generated/prisma';
 import prisma from '../libs/prisma';
 import contractRepository from '../repositories/contractRepository';
+import contractDocumentRepository from '../repositories/contractDocumentRepository';
+import { EmailUtil } from '../utils/emailUtil';
 import {
   FormattedContractsDTO,
   ListItemDTO,
@@ -155,6 +157,12 @@ class ContractService {
       }
       // 문서 업데이트 로직
       if (isContractDocumentsChanged && contractDocuments) {
+        contractDocuments.map(async (doc) => {
+          if (doc.id) {
+            await contractRepository.deleteContractDocument(doc.id, tx);
+            await contractRepository.createContractDocument(doc.id, doc.fileName, tx);
+          }
+        });
         await contractRepository.deleteContractDocumentRelation(contractId, tx);
         const createPromises = contractDocuments
           .map((doc) => {
@@ -184,6 +192,22 @@ class ContractService {
       }
       return updatedContract;
     });
+
+    // 계약서 문서 연결 이메일 발송
+    if (isContractDocumentsChanged && contractDocuments) {
+      const contractDocumentIds = contractDocuments
+        .map((doc) => doc.id)
+        .filter((id): id is number => id !== undefined);
+
+      setImmediate(async () => {
+        await this.sendContractDocumentConnectionEmails(
+          contractId,
+          contractDocumentIds,
+          result.customer,
+        );
+      });
+    }
+
     return result;
   };
 
@@ -203,6 +227,34 @@ class ContractService {
       await contractRepository.deleteContract(contractId, tx);
       await contractRepository.updateCarStatus(carId, 'possession', tx);
     });
+  };
+
+  private sendContractDocumentConnectionEmails = async (
+    contractId: number,
+    documentIds: number[],
+    customer: { id: number; name: string },
+  ) => {
+    // 고객 정보 조회 (개별 조회로 최적화)
+    const targetCustomer = await contractRepository.getCustomerById(customer.id);
+    if (!targetCustomer) return;
+
+    // 모든 문서 조회
+    const documents = await Promise.all(
+      documentIds.map((id) => contractDocumentRepository.findById(id)),
+    );
+
+    // 파일명 배열 생성
+    const fileNames = documents.map((doc) => doc!.fileName);
+
+    // 하나의 이메일로 모든 파일명 전송
+    const emailData = EmailUtil.createContractDocumentEmail(
+      targetCustomer.email,
+      targetCustomer.name,
+      fileNames,
+      contractId,
+    );
+
+    await EmailUtil.sendEmail(emailData);
   };
 }
 

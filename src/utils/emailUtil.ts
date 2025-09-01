@@ -33,15 +33,17 @@ export class EmailUtil {
   static createContractDocumentEmail = (
     customerEmail: string,
     customerName: string,
-    fileName: string,
+    fileNames: string[],
     contractId: number,
   ) => {
     const subject = '[DearCarMate] 계약서가 등록되었습니다';
+    const fileListHtml = fileNames.map((fileName) => `<li>${fileName}</li>`).join('');
     const html = `
       <h1>계약서 등록 알림</h1>
       <p>안녕하세요, ${customerName}님</p>
       <p>계약서가 등록되었습니다.</p>
-      <p>파일명: ${fileName}</p>
+      <p>등록된 파일:</p>
+      <ul>${fileListHtml}</ul>
       <p>계약번호: ${contractId}</p>
       <p>등록시간: ${new Date().toLocaleString('ko-KR')}</p>
     `;
