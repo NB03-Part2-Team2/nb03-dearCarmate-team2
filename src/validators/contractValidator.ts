@@ -16,9 +16,22 @@ const createContractBodySchema = object({
   meetings: array(meetingSchema),
 });
 
+const page = optional(
+  refine(string(), 'pageError', (value) => {
+    return /^\d+$/.test(value) && Number(value) >= 1;
+  }),
+);
+const pageSize = optional(
+  refine(string(), 'pageSizeError', (value) => {
+    return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
+  }),
+);
+
 const searchByOptions = ['customerName', 'userName'];
 
 const getContractListParamsSchema = object({
+  page: page,
+  pageSize: pageSize,
   searchBy: optional(enums(searchByOptions)),
   keyword: optional(string()),
 });
