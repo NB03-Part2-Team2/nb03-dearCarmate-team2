@@ -127,8 +127,7 @@ class CustomerService {
 
   createManyCustomerList = async (data: CreateCustomerDTO[], userId: number) => {
     const companyId = await customerRepository.getCompanyId(userId);
-    const customers = await customerRepository.createManyCustomerList(data, companyId);
-    return customers;
+    await customerRepository.createManyCustomerList(data, companyId);
   };
 }
 

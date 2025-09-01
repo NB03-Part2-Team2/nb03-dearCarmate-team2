@@ -174,11 +174,9 @@ class CustomerRepository {
       region: customer.region ? regionMap[customer.region] : undefined,
       companyId: companyId,
     }));
-
-    const customers = await prisma.customer.createMany({
+    await prisma.customer.createMany({
       data: prismaData,
     });
-    return customers;
   };
 }
 
