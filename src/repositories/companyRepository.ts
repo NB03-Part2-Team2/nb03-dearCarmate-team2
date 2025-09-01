@@ -1,4 +1,5 @@
 import prisma from '../libs/prisma';
+import { CreateCompanyDTO, UpdateCompanyDTO } from '../types/companyType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class CompanyRepository {
@@ -18,6 +19,42 @@ class CompanyRepository {
       throw CustomError.notFound('존재하지 않는 회사입니다.');
     }
     return companyId.id;
+  };
+
+  create = async (createCompanyDTO: CreateCompanyDTO) => {
+    let company = await prisma.company.create({
+      data: createCompanyDTO,
+      select: {
+        id: true,
+        companyName: true,
+        companyCode: true,
+        _count: { select: { user: true } },
+      },
+    });
+    return company;
+  };
+
+  update = async (updateCompanyDTO: UpdateCompanyDTO) => {
+    const { id, ...data } = updateCompanyDTO;
+    const company = await prisma.company.update({
+      where: { id },
+      data,
+      select: {
+        id: true,
+        companyName: true,
+        companyCode: true,
+        _count: { select: { user: true } },
+      },
+    });
+    return company;
+  };
+
+  delete = async (companyId: number): Promise<void> => {
+    await prisma.company.delete({
+      where: {
+        id: companyId,
+      },
+    });
   };
 }
 
