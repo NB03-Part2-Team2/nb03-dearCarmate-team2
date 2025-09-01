@@ -53,7 +53,6 @@ class UserService {
     if (data.password) {
       data.password = hashUtil.hashPassword(data.password);
     }
-    console.log(data);
     // 3-1. 비밀번호 비교를 위해 유저 정보를 가져옵니다.
     const oldUser = await userRepository.getById(id);
     if (!oldUser) {
