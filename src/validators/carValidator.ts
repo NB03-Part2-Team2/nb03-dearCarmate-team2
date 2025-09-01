@@ -38,4 +38,4 @@ const updateCarSchema = object({
   accidentDetails: size(string(), 0, 255),
 });
 
-export { intIdSchema, createCarSchema, getCarListSchema, getCarSchema, updateCarSchema };
+export { intIdSchema, createCarSchema, getCarListSchema, updateCarSchema };
