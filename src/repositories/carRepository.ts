@@ -8,13 +8,13 @@ class CarRepository {
     const company = await prisma.user.findUnique({
       where: { id: userId },
       select: {
-        company: { select: { id: true, companyCode: true } },
+        company: { select: { id: true } },
       },
     });
     if (!company) {
       throw CustomError.badRequest();
     }
-    return company;
+    return company.company.id;
   };
 
   getCarByCarId = async (carId: number, companyId: number) => {
@@ -93,7 +93,7 @@ class CarRepository {
     };
   };
 
-  createCar = async (data: carDTO, code: string) => {
+  createCar = async (data: carDTO, companyId: number) => {
     const car = await prisma.car.create({
       data: {
         carNumber: data.carNumber,
@@ -104,7 +104,7 @@ class CarRepository {
         accidentCount: data.accidentCount,
         explanation: data.explanation ?? null,
         accidentDetails: data.accidentDetails ?? null,
-        company: { connect: { companyCode: code } },
+        company: { connect: { id: companyId } },
         status: 'possession',
       },
       select: {
@@ -156,6 +156,13 @@ class CarRepository {
     await prisma.car.delete({
       where: { id: carId },
     });
+  };
+
+  uploadCarList = async (cars: Prisma.CarCreateInput[]) => {
+    const uploadedCars = await prisma.$transaction(async (tx) => {
+      for (const car of cars) await tx.car.create({ data: car });
+    });
+    return uploadedCars;
   };
 }
 

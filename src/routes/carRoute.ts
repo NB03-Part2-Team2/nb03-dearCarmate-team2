@@ -17,15 +17,15 @@ carRouter
   .patch(auth.verifyAccessToken, auth.verifyUserAuth, carController.updateCar)
   .delete(auth.verifyAccessToken, auth.verifyUserAuth, carController.deleteCar);
 
-// carRouter
-//   .route('/upload')
-//   .post(
-//     auth.verifyAccessToken,
-//     auth.verifyUserAuth,
-//     uploadCSV.single('file'),
-//     csvParse,
-//     carController.uploadCarList,
-//   );
+carRouter
+  .route('/upload')
+  .post(
+    auth.verifyAccessToken,
+    auth.verifyUserAuth,
+    uploadCSV.single('file'),
+    csvParse,
+    carController.uploadCarList,
+  );
 
 // carRouter.route('/models').get();
 

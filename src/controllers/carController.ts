@@ -6,6 +6,7 @@ import {
   getCarListSchema,
   intIdSchema,
   updateCarSchema,
+  uploadCarListValidator,
 } from '../validators/carValidator';
 import { CustomError } from '../utils/customErrorUtil';
 import { CarStatus } from '../generated/prisma';
@@ -99,7 +100,7 @@ class CarController {
     if (!req.user) {
       throw CustomError.unauthorized();
     }
-    const user = Number(req.user.userId);
+    const user = req.user.userId;
     const data = req.body;
     const rawCar = await carService.createCar(data, user);
     const {
@@ -142,7 +143,7 @@ class CarController {
     if (!req.user) {
       throw CustomError.unauthorized();
     }
-    const user = Number(req.user.userId);
+    const user = req.user.userId;
     const rawCar = await carService.updateCar(data, carId, user);
     const {
       id,
@@ -184,15 +185,24 @@ class CarController {
     if (!req.user) {
       throw CustomError.unauthorized();
     }
-    const user = Number(req.user.userId);
+    const user = req.user.userId;
     //회사 id, 차량 id 일치하는 차량 삭제
     await carService.deleteCar(carId, user);
     return res.json(200).json({ message: '차량 삭제 성공' });
   };
 
   uploadCarList = async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw CustomError.unauthorized();
+    }
+    const user = req.user.userId;
     const parsedData = req.parsedData;
-    return res.status(200).json(parsedData);
+    if (!parsedData || parsedData.length === 0) {
+      throw CustomError.badRequest();
+    }
+    validator(parsedData, uploadCarListValidator);
+    await carService.uploadCarList(parsedData, user);
+    return res.status(200).json({ message: '성공적으로 등록되었습니다.' });
   };
 }
 
