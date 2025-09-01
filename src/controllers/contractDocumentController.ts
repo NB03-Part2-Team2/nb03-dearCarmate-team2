@@ -45,7 +45,7 @@ class ContractDocumentController {
     const userId = req.user!.userId;
     const params: GetContractDocumentsParamsDTO = {
       page: req.query.page ? parseInt(req.query.page as string, 10) : 1,
-      pageSize: req.query.pageSize ? parseInt(req.query.pageSize as string, 10) : 10,
+      pageSize: req.query.pageSize ? parseInt(req.query.pageSize as string, 10) : 8,
       searchBy: req.query.searchBy as 'contractName' | 'manager' | 'carNumber' | undefined,
       keyword: req.query.keyword as string | undefined,
     };
@@ -55,6 +55,17 @@ class ContractDocumentController {
 
     // 4. 결과 반환
     return res.status(200).json(result);
+  };
+
+  getDraftContractList = async (req: Request, res: Response) => {
+    // 1. 사용자 ID 추출
+    const userId = req.user!.userId;
+
+    // 2. service 레이어 호출
+    const draftContracts = await contractDocumentService.getDraftContractList(userId);
+
+    // 3. 결과 반환
+    return res.status(200).json(draftContracts);
   };
 }
 

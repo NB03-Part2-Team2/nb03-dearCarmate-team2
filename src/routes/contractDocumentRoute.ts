@@ -22,4 +22,7 @@ contractDocumentRouter
 // 계약서 목록 조회 (GET /contractDocuments)
 contractDocumentRouter.route('/').get(contractDocumentController.getContractDocumentList);
 
+// 계약서 추가 시 계약 목록 조회 (GET /contractDocuments/draft)
+contractDocumentRouter.route('/draft').get(contractDocumentController.getDraftContractList);
+
 export default contractDocumentRouter;
