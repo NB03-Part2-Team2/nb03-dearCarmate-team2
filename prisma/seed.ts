@@ -117,6 +117,7 @@ async function main() {
         customerId: contract.customerId,
         carId: contract.carId,
         companyId: contract.companyId,
+        resolutionDate: contract.resolutionDate ? new Date(contract.resolutionDate) : undefined,
       },
     });
   }
