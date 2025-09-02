@@ -53,8 +53,8 @@ class CarController {
   getCarList = async (req: Request, res: Response) => {
     const query = {
       ...req.query,
-      page: Number(req.query.page) | 1,
-      pageSize: Number(req.query.pageSize) | 8,
+      page: Number(req.query.page) || 1,
+      pageSize: Number(req.query.pageSize) || 8,
     };
     validator(query, getCarListSchema);
     if (!req.user) {
@@ -203,6 +203,26 @@ class CarController {
     validator(parsedData, uploadCarListValidator);
     await carService.uploadCarList(parsedData, user);
     return res.status(200).json({ message: '성공적으로 등록되었습니다.' });
+  };
+
+  getCarModelList = async (req: Request, res: Response) => {
+    const rawCarModelList = await carService.getCarModelList();
+    const carModelList = Object.values(
+      rawCarModelList.data.reduce(
+        (acc, cur) => {
+          if (!acc[cur.manufacturer]) {
+            acc[cur.manufacturer] = {
+              manufacturer: cur.manufacturer,
+              model: [],
+            };
+          }
+          acc[cur.manufacturer].model.push(cur.model);
+          return acc;
+        },
+        {} as Record<string, { manufacturer: string; model: string[] }>,
+      ),
+    );
+    return res.status(200).json({ data: carModelList });
   };
 }
 

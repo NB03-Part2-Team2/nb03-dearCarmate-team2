@@ -164,6 +164,19 @@ class CarRepository {
     });
     return uploadedCars;
   };
+
+  getCarModelList = async () => {
+    const [carModelList, total] = await Promise.all([
+      prisma.carModel.findMany({
+        select: {
+          manufacturer: true,
+          model: true,
+        },
+      }),
+      prisma.carModel.count(),
+    ]);
+    return { data: carModelList, total };
+  };
 }
 
 export default new CarRepository();

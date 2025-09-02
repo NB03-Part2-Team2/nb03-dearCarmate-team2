@@ -123,6 +123,11 @@ class CarService {
     const cars = await carRepository.uploadCarList(mappedCars);
     return cars;
   };
+
+  getCarModelList = async () => {
+    const carModelList = await carRepository.getCarModelList();
+    return carModelList;
+  };
 }
 
 export default new CarService();
