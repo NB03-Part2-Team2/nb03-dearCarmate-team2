@@ -11,7 +11,9 @@ carRouter
   .post(auth.verifyAccessToken, auth.verifyUserAuth, carController.createCar)
   .get(auth.verifyAccessToken, auth.verifyUserAuth, carController.getCarList);
 
-carRouter.route('/models').get(carController.getCarModelList);
+carRouter
+  .route('/models')
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, carController.getCarModelList);
 
 carRouter
   .route('/:carId')
