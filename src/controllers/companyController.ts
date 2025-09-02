@@ -76,7 +76,7 @@ class CompanyController {
     validator({ page: req.query.page, pageSize: req.query.pageSize }, paginationStruct);
     // 3. service레이어 호출
     const { companies, pageInfo } = await companyService.getCompanyList(getCompanyListDTO);
-    // 4. 삭제 성공 메세지 반환
+    // 4. 페이지 정보 및 회사 정보 반환
     return res.status(200).json({ ...pageInfo, data: companies });
   };
 
@@ -92,7 +92,7 @@ class CompanyController {
     validator({ page: req.query.page, pageSize: req.query.pageSize }, paginationStruct);
     // 3. service레이어 호출
     const { data, pageInfo } = await companyService.getCompanyUserList(getCompanyUserListDTO);
-    // 4. 삭제 성공 메세지 반환
+    // 4. 페이지 정보 및 유저 정보 반환
     return res.status(200).json({ ...pageInfo, data });
   };
 }
