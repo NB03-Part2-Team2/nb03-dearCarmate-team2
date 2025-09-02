@@ -5,9 +5,10 @@
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node ./.dist/app.js",
-    "dev": "nodemon --watch src --exec tsx ./src/app.ts",
-    "build": "tsc"
+    "build": "tsc && npm run copy:prisma",
+    "copy:prisma": "mkdir -p ./dist/src/generated && cp -r src/generated/prisma ./dist/src/generated/prisma",
+    "start": "node dist/src/app.js",
+    "dev": "ts-node-dev --respawn src/app.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
