@@ -12,6 +12,7 @@ import path from 'path';
 import imageUploadRouter from './routes/imageUploadRoute';
 import contractDocumentRouter from './routes/contractDocumentRoute';
 import carRouter from './routes/carRoute';
+import dashboardRouter from './routes/dashboardRoute';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/users', userRouter);
 app.use('/customers', customerRouter);
 app.use('/contracts', contractRouter);
 app.use('/cars', carRouter);
+app.use('/dashboard', dashboardRouter);
 
 app.use('/images', imageUploadRouter);
 app.use('/images', express.static(path.resolve('public'))); //정적 파일 루트 제공

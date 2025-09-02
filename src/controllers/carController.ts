@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { carDTO, carListDTO, carUpdateDTO } from '../types/carType';
+import { carDTO, carListDTO, rawCar } from '../types/carType';
 import carService from '../services/carService';
 import {
   createCarSchema,
@@ -13,6 +13,16 @@ import { CarStatus } from '../generated/prisma';
 import { validator } from '../validators/utilValidator';
 
 class CarController {
+  organizeData = (rawCar: rawCar) => {
+    const { carModel, ...rest } = rawCar;
+    const { manufacturer, model, type } = rawCar.carModel;
+    return {
+      ...rest,
+      manufacturer,
+      model,
+      type,
+    };
+  };
   getCar = async (req: Request, res: Response) => {
     validator(req.params.carId, intIdSchema);
     const carId = parseInt(req.params.carId, 10);
@@ -21,40 +31,15 @@ class CarController {
     }
     const userId = req.user.userId;
     const rawCar = await carService.getCar(carId, userId);
-    const {
-      id,
-      carNumber,
-      manufacturingYear,
-      mileage,
-      price,
-      accidentCount,
-      explanation,
-      accidentDetails,
-      status,
-    } = rawCar;
-    const { manufacturer, model, type } = rawCar.carModel;
-    const car = {
-      id,
-      carNumber,
-      manufacturer,
-      model,
-      type,
-      manufacturingYear,
-      mileage,
-      price,
-      accidentCount,
-      explanation,
-      accidentDetails,
-      status,
-    };
+    const car = this.organizeData(rawCar);
     return res.status(200).json(car);
   };
 
   getCarList = async (req: Request, res: Response) => {
     const query = {
       ...req.query,
-      page: Number(req.query.page) | 1,
-      pageSize: Number(req.query.pageSize) | 8,
+      page: Number(req.query.page) || 1,
+      pageSize: Number(req.query.pageSize) || 8,
     };
     validator(query, getCarListSchema);
     if (!req.user) {
@@ -103,32 +88,7 @@ class CarController {
     const user = req.user.userId;
     const data = req.body;
     const rawCar = await carService.createCar(data, user);
-    const {
-      id,
-      carNumber,
-      manufacturingYear,
-      mileage,
-      price,
-      accidentCount,
-      explanation,
-      accidentDetails,
-      status,
-    } = rawCar;
-    const { manufacturer, model, type } = rawCar.carModel;
-    const createdCar = {
-      id,
-      carNumber,
-      manufacturer,
-      model,
-      type,
-      manufacturingYear,
-      mileage,
-      price,
-      accidentCount,
-      explanation,
-      accidentDetails,
-      status,
-    };
+    const createdCar = this.organizeData(rawCar);
     return res.status(201).json(createdCar);
   };
 
@@ -139,38 +99,13 @@ class CarController {
     if (!carId) {
       throw CustomError.badRequest();
     }
-    const data: carUpdateDTO = req.body;
+    const data: carDTO = req.body;
     if (!req.user) {
       throw CustomError.unauthorized();
     }
     const user = req.user.userId;
     const rawCar = await carService.updateCar(data, carId, user);
-    const {
-      id,
-      carNumber,
-      manufacturingYear,
-      mileage,
-      price,
-      accidentCount,
-      explanation,
-      accidentDetails,
-      status,
-    } = rawCar;
-    const { manufacturer, model, type } = rawCar.carModel;
-    const updatedCar = {
-      id,
-      carNumber,
-      manufacturer,
-      model,
-      type,
-      manufacturingYear,
-      mileage,
-      price,
-      accidentCount,
-      explanation,
-      accidentDetails,
-      status,
-    };
+    const updatedCar = this.organizeData(rawCar);
     return res.status(200).json(updatedCar);
   };
 
@@ -203,6 +138,26 @@ class CarController {
     validator(parsedData, uploadCarListValidator);
     await carService.uploadCarList(parsedData, user);
     return res.status(200).json({ message: '성공적으로 등록되었습니다.' });
+  };
+
+  getCarModelList = async (req: Request, res: Response) => {
+    const rawCarModelList = await carService.getCarModelList();
+    const carModelList = Object.values(
+      rawCarModelList.data.reduce(
+        (acc, cur) => {
+          if (!acc[cur.manufacturer]) {
+            acc[cur.manufacturer] = {
+              manufacturer: cur.manufacturer,
+              model: [],
+            };
+          }
+          acc[cur.manufacturer].model.push(cur.model);
+          return acc;
+        },
+        {} as Record<string, { manufacturer: string; model: string[] }>,
+      ),
+    );
+    return res.status(200).json({ data: carModelList });
   };
 }
 

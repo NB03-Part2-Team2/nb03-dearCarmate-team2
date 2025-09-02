@@ -12,6 +12,10 @@ carRouter
   .get(auth.verifyAccessToken, auth.verifyUserAuth, carController.getCarList);
 
 carRouter
+  .route('/models')
+  .get(auth.verifyAccessToken, auth.verifyUserAuth, carController.getCarModelList);
+
+carRouter
   .route('/:carId')
   .get(auth.verifyAccessToken, auth.verifyUserAuth, carController.getCar)
   .patch(auth.verifyAccessToken, auth.verifyUserAuth, carController.updateCar)
@@ -26,7 +30,5 @@ carRouter
     csvParse,
     carController.uploadCarList,
   );
-
-// carRouter.route('/models').get();
 
 export default carRouter;
