@@ -14,6 +14,7 @@ class CarService {
     }
     return car;
   };
+
   getCar = async (carId: number, userId: number) => {
     const car = await this.carByCarId(carId, userId);
     return car;
