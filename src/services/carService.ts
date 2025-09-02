@@ -120,12 +120,12 @@ class CarService {
       },
       status: 'possession',
     }));
-    const cars = await carRepository.uploadCarList(mappedCars);
-    return cars;
+    await carRepository.uploadCarList(mappedCars);
   };
 
   getCarModelList = async () => {
     const carModelList = await carRepository.getCarModelList();
+    return carModelList;
   };
 }
 
