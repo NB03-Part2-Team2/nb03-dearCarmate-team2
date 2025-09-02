@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc && npm run copy:prisma",
     "copy:prisma": "mkdir -p ./dist/src/generated && cp -r src/generated/prisma ./dist/src/generated/prisma",
-    "start": "node dist/src/app.js",
+    "start": "node src/app.js",
     "dev": "ts-node-dev --respawn src/app.ts"
   },
   "prisma": {
