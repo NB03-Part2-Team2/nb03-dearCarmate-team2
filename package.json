@@ -2,7 +2,7 @@
   "name": "nb03-dearcarmate-team2",
   "version": "1.0.0",
   "description": "nb03 part2-team2의 dear_carmate 프로젝트입니다",
-  "main": "app.js",
+  "main": "dist/src/app.js",
   "type": "commonjs",
   "scripts": {
     "build": "tsc && npm run copy:prisma",
