@@ -4,6 +4,13 @@ import { carDTO, carListDTO } from '../types/carType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class CarRepository {
+  carExistance = async (carId: number, companyId: number) => {
+    const count = await prisma.car.count({
+      where: { id: carId, companyId: companyId },
+    });
+    const exists = count > 0;
+    return exists;
+  };
   getCompanyByUserId = async (userId: number) => {
     const company = await prisma.user.findUnique({
       where: { id: userId },
@@ -42,10 +49,11 @@ class CarRepository {
     return car;
   };
 
-  getCarByCarNumber = async (carNum: string) => {
+  getCarByCarNumber = async (carNum: string, companyId: number) => {
     const carByNumber = await prisma.car.findUnique({
       where: {
         carNumber: carNum,
+        companyId: companyId,
       },
       select: {
         id: true,
@@ -123,7 +131,7 @@ class CarRepository {
     return car;
   };
 
-  updateCar = async (data: carDTO, carId: number, companyId: number) => {
+  updateCar = async (data: carDTO, carId: number) => {
     const updatedCar = await prisma.car.update({
       data: {
         carNumber: data.carNumber,
@@ -135,7 +143,7 @@ class CarRepository {
         explanation: data.explanation,
         accidentDetails: data.accidentDetails,
       },
-      where: { id: carId, companyId: companyId },
+      where: { id: carId },
       select: {
         id: true,
         carNumber: true,
