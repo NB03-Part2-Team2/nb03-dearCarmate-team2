@@ -8,7 +8,7 @@
     "build": "tsc && npm run copy:prisma",
     "copy:prisma": "mkdir -p ./dist/src/generated && cp -r src/generated/prisma ./dist/src/generated/prisma",
     "start": "node dist/src/app.js",
-    "dev": "ts-node-dev --respawn src/app.ts"
+    "dev": "nodemon --watch src --exec tsx ./src/app.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
