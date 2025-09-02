@@ -54,6 +54,11 @@ class ContractService {
       throw CustomError.badRequest();
     }
     const result = await prisma.$transaction(async (tx) => {
+      if (meetings.length > 0) {
+        meetings.forEach((meeting) => {
+          meeting.date = new Date(meeting.date);
+        });
+      }
       const contract = await contractRepository.createContract(
         userId,
         car,
@@ -123,7 +128,7 @@ class ContractService {
       userId,
       customerId,
       carId,
-      isMeetingChanged,
+      isMeetingsChanged,
       meetings,
       isContractDocumentsChanged,
       contractDocuments,
@@ -132,9 +137,6 @@ class ContractService {
     const contractUserId = await contractRepository.getContractUserId(contractId);
     if (logInUserId !== contractUserId) {
       throw CustomError.forbidden();
-    }
-    if (!customerId || !carId) {
-      throw CustomError.badRequest();
     }
     // 업데이트 상태에 따른 자동차 상태를 매핑하는 객체
     const statusMapping = {
@@ -146,10 +148,10 @@ class ContractService {
     };
     const result = await prisma.$transaction(async (tx) => {
       // 미팅 업데이트 로직
-      if (isMeetingChanged && meetings) {
+      if (isMeetingsChanged && meetings) {
         await contractRepository.deleteMeetingList(contractId, tx);
         const meetingsForCreate = meetings.map((m) => ({
-          date: m.date,
+          date: new Date(m.date),
           alarms: m.alarms,
           contractId,
         }));
@@ -175,20 +177,48 @@ class ContractService {
         await Promise.all(createPromises);
       }
       // 메인 계약 업데이트
+      const resolutionDate = 'resolutionDate' in restOfData ? restOfData.resolutionDate : undefined;
+      delete restOfData.resolutionDate; // restOfData에서 resolutionDate 속성 제거
       const finalUpdateData = {
         ...restOfData,
         ...(userId && { user: { connect: { id: userId } } }),
         ...(customerId && { customer: { connect: { id: customerId } } }),
         ...(carId && { car: { connect: { id: carId } } }),
       };
+      if (carId) {
+        const newCarPrice = await contractRepository.getCar(carId);
+        finalUpdateData.contractPrice = newCarPrice?.price;
+      }
+      // resolutionDate의 타입에 따라 값을 분기 처리
+      if (resolutionDate !== undefined) {
+        if (resolutionDate === null) {
+          finalUpdateData.resolutionDate = null;
+        } else {
+          finalUpdateData.resolutionDate = new Date(resolutionDate);
+        }
+      }
       const updatedContract = await contractRepository.updateContract(
         contractId,
         finalUpdateData,
         tx,
       );
+      if (carId) {
+        const oldCarId = await contractRepository.getCarIdByContractId(contractId);
+        if (oldCarId && oldCarId !== carId) {
+          await contractRepository.updateCarStatus(oldCarId, 'possession', tx);
+          await contractRepository.updateCarStatus(carId, 'contractProceeding', tx);
+        }
+      }
       if (updateData.status && statusMapping[updateData.status]) {
         const newCarStatus = statusMapping[updateData.status];
-        await contractRepository.updateCarStatus(carId, newCarStatus, tx);
+        let carIdForUpdate = carId;
+        // carId가 없거나 유효하지 않을 때, 계약 ID를 통해 carId를 조회
+        if (!carIdForUpdate) {
+          carIdForUpdate = await contractRepository.getCarIdByContractId(contractId);
+        }
+        if (carIdForUpdate) {
+          await contractRepository.updateCarStatus(carIdForUpdate, newCarStatus, tx);
+        }
       }
       return updatedContract;
     });

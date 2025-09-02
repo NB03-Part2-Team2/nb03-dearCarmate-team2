@@ -107,6 +107,10 @@ class CustomerService {
   };
 
   deleteCustomer = async (customerId: number) => {
+    const contracts = await customerRepository.getContractByCustomerId(customerId);
+    if (contracts) {
+      throw CustomError.conflict('해당 고객은 계약이 존재하여 삭제할 수 없습니다.');
+    }
     await customerRepository.deleteCustomer(customerId);
   };
 
