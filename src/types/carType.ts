@@ -22,6 +22,19 @@ export interface carListDTO {
   status?: CarStatus | undefined;
 }
 
-export interface carUpdateDTO extends carDTO {
-  manufacturer: string;
+export interface rawCar {
+  id: number;
+  carNumber: string;
+  manufacturingYear: number;
+  mileage: number;
+  price: number;
+  accidentCount: number;
+  explanation?: string | null;
+  accidentDetails?: string | null;
+  status: CarStatus;
+  carModel: {
+    manufacturer: string;
+    model: string;
+    type: string;
+  };
 }
