@@ -10,6 +10,10 @@ companyRouter
   .post(auth.verifyAccessToken, auth.verifyAdminAuth, companyController.createCompany);
 
 companyRouter
+  .route('/users')
+  .get(auth.verifyAccessToken, auth.verifyAdminAuth, companyController.getCompanyUserList);
+
+companyRouter
   .route('/:companyId')
   .patch(auth.verifyAccessToken, auth.verifyAdminAuth, companyController.updateCompany)
   .delete(auth.verifyAccessToken, auth.verifyAdminAuth, companyController.deleteCompany);

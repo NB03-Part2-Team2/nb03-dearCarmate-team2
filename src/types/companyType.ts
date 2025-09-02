@@ -17,3 +17,5 @@ export interface GetCompanyListDTO {
   searchBy?: string;
   keyword?: string;
 }
+
+export interface GetCompanyUserListDTO extends GetCompanyListDTO {}

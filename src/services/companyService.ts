@@ -5,6 +5,7 @@ import {
   CreateCompanyDTO,
   DeleteCompanyDTO,
   GetCompanyListDTO,
+  GetCompanyUserListDTO,
   UpdateCompanyDTO,
 } from '../types/companyType';
 import { CustomError } from '../utils/customErrorUtil';
@@ -85,6 +86,63 @@ class CompanyService {
     };
     // 5. 데이터 반환
     return { companies: formattedCompanies, pageInfo };
+  };
+
+  getCompanyUserList = async (getCompanyUserListDTO: GetCompanyUserListDTO) => {
+    const {
+      page = 1,
+      pageSize = 8,
+      searchBy = 'companyName',
+      keyword = '',
+    } = getCompanyUserListDTO;
+    // 1. searchBy의 값이 유효한지 검사
+    const validSearchBy = ['companyName', 'email', 'name'];
+    if (searchBy && !validSearchBy.includes(searchBy)) {
+      throw CustomError.badRequest();
+    }
+    // 2. 검색 조건 설정, 추후 확장 가능성도 있으므로 where 조건을 else if 로 확장할 수 있게 구성
+    let where: Prisma.UserWhereInput = {};
+    if (searchBy === 'companyName') {
+      where = {
+        ...where,
+        company: {
+          companyName: {
+            contains: keyword,
+            mode: 'insensitive',
+          },
+        },
+      };
+    } else if (searchBy === 'email') {
+      where = {
+        ...where,
+        email: {
+          contains: keyword,
+          mode: 'default', // 이메일은 대소문자 구분
+        },
+      };
+    } else if (searchBy === 'name') {
+      where = {
+        ...where,
+        name: {
+          contains: keyword,
+          mode: 'insensitive',
+        },
+      };
+    }
+    // 3. 회사 목록 검색
+    const { data, totalItemCount } = await userRepository.getUserList(page, pageSize, where);
+
+    // 4. 페이지 정보
+    const pageInfo = {
+      currentPage: page,
+      totalPages:
+        totalItemCount % pageSize === 0
+          ? totalItemCount / pageSize
+          : (totalItemCount - (totalItemCount % pageSize)) / pageSize + 1,
+      totalItemCount,
+    };
+    // 5. 데이터 반환
+    return { data, pageInfo };
   };
 }
 
