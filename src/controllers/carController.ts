@@ -13,6 +13,16 @@ import { CarStatus } from '../generated/prisma';
 import { validator } from '../validators/utilValidator';
 
 class CarController {
+  organizeData = (rawCar: rawCar) => {
+    const { carModel, ...rest } = rawCar;
+    const { manufacturer, model, type } = rawCar.carModel;
+    return {
+      ...rest,
+      manufacturer,
+      model,
+      type,
+    };
+  };
   getCar = async (req: Request, res: Response) => {
     validator(req.params.carId, intIdSchema);
     const carId = parseInt(req.params.carId, 10);
@@ -21,7 +31,7 @@ class CarController {
     }
     const userId = req.user.userId;
     const rawCar = await carService.getCar(carId, userId);
-    const car = organizeData(rawCar);
+    const car = this.organizeData(rawCar);
     return res.status(200).json(car);
   };
 
@@ -78,7 +88,7 @@ class CarController {
     const user = req.user.userId;
     const data = req.body;
     const rawCar = await carService.createCar(data, user);
-    const createdCar = organizeData(rawCar);
+    const createdCar = this.organizeData(rawCar);
     return res.status(201).json(createdCar);
   };
 
@@ -95,7 +105,7 @@ class CarController {
     }
     const user = req.user.userId;
     const rawCar = await carService.updateCar(data, carId, user);
-    const updatedCar = organizeData(rawCar);
+    const updatedCar = this.organizeData(rawCar);
     return res.status(200).json(updatedCar);
   };
 
@@ -148,17 +158,6 @@ class CarController {
       ),
     );
     return res.status(200).json({ data: carModelList });
-  };
-}
-
-function organizeData(rawCar: rawCar) {
-  const { carModel, ...rest } = rawCar;
-  const { manufacturer, model, type } = rawCar.carModel;
-  return {
-    ...rest,
-    manufacturer,
-    model,
-    type,
   };
 }
 

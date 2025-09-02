@@ -4,8 +4,18 @@ import { carDTO, carListDTO } from '../types/carType';
 import { CustomError } from '../utils/customErrorUtil';
 
 class CarService {
+  carByCarId = async (carId: number, userId: number) => {
+    //1. 회사 확인
+    const companyId = await carRepository.getCompanyByUserId(userId);
+    //2. 회사 및 차량 아이디 검색
+    const car = await carRepository.getCarByCarId(carId, companyId);
+    if (!car) {
+      throw CustomError.notFound('존재하지 않는 차량입니다.');
+    }
+    return car;
+  };
   getCar = async (carId: number, userId: number) => {
-    const car = await carByCarId(carId, userId);
+    const car = await this.carByCarId(carId, userId);
     return car;
   };
 
@@ -74,7 +84,7 @@ class CarService {
 
   deleteCar = async (carId: number, userId: number) => {
     //1. 차량 스테이터스 확인
-    const checkStatus = await carByCarId(carId, userId);
+    const checkStatus = await this.carByCarId(carId, userId);
     if (checkStatus.status === 'contractCompleted' || checkStatus.status === 'contractProceeding') {
       throw CustomError.badRequest();
     }
@@ -114,17 +124,6 @@ class CarService {
     const carModelList = await carRepository.getCarModelList();
     return carModelList;
   };
-}
-
-async function carByCarId(carId: number, userId: number) {
-  //1. 회사 확인
-  const companyId = await carRepository.getCompanyByUserId(userId);
-  //2. 회사 및 차량 아이디 검색
-  const car = await carRepository.getCarByCarId(carId, companyId);
-  if (!car) {
-    throw CustomError.notFound('존재하지 않는 차량입니다.');
-  }
-  return car;
 }
 
 export default new CarService();
