@@ -1,3 +1,4 @@
+import { Prisma } from '../generated/prisma';
 import prisma from '../libs/prisma';
 import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../types/userType';
 
@@ -104,6 +105,40 @@ class UserRepository {
       },
     });
     return user;
+  };
+
+  getUserList = async (page: number, pageSize: number, where: Prisma.UserWhereInput) => {
+    const skip = (page - 1) * pageSize;
+    const take = pageSize;
+
+    const [data, totalItemCount] = await Promise.all([
+      // 페이지네이션 된 유저 정보
+      prisma.user.findMany({
+        where,
+        skip,
+        take,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          employeeNumber: true,
+          phoneNumber: true,
+          company: {
+            select: { companyName: true },
+          },
+        },
+      }),
+      // 페이지에 포함되지 않는 전체 아이템 수까지 가져오기
+      prisma.user.count({
+        where,
+      }),
+    ]);
+
+    // 페이지네이션 된 유저 정보들과 조건에 맞는 데이터 개수 전체 반환
+    return {
+      data,
+      totalItemCount,
+    };
   };
 
   update = async (updataUserDTO: UpdateUserDTO, id: number): Promise<UserDTO> => {
