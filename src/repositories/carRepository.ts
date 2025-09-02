@@ -159,10 +159,9 @@ class CarRepository {
   };
 
   uploadCarList = async (cars: Prisma.CarCreateInput[]) => {
-    const uploadedCars = await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx) => {
       for (const car of cars) await tx.car.create({ data: car });
     });
-    return uploadedCars;
   };
 
   getCarModelList = async () => {

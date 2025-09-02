@@ -126,7 +126,6 @@ class CarService {
 
   getCarModelList = async () => {
     const carModelList = await carRepository.getCarModelList();
-    return carModelList;
   };
 }
 
