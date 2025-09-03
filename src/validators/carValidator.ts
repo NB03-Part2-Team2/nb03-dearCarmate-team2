@@ -9,6 +9,7 @@ const intIdSchema = utilValidator.intId;
 
 const createCarSchema = object({
   carNumber: utilValidator.carNumber,
+  manufacturer: string(),
   model: string(),
   manufacturingYear: size(number(), 1000, 9999),
   mileage: number(),

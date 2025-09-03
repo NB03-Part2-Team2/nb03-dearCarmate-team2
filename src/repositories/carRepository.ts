@@ -5,10 +5,9 @@ import { CustomError } from '../utils/customErrorUtil';
 
 class CarRepository {
   carExistance = async (carId: number, companyId: number) => {
-    const count = await prisma.car.count({
+    const exists = await prisma.car.findUnique({
       where: { id: carId, companyId: companyId },
     });
-    const exists = count > 0;
     return exists;
   };
   getCompanyByUserId = async (userId: number) => {
@@ -60,6 +59,16 @@ class CarRepository {
       },
     });
     return carByNumber;
+  };
+
+  getManufacturer = async (model: string) => {
+    const trueManufacturer = await prisma.carModel.findUnique({
+      where: { model: model },
+      select: {
+        manufacturer: true,
+      },
+    });
+    return trueManufacturer?.manufacturer;
   };
 
   getCarList = async ({ page, pageSize }: carListDTO, where: Prisma.CarWhereInput) => {
