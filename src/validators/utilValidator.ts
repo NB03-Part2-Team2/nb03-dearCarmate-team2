@@ -59,19 +59,19 @@ const utilValidator = {
   intId: refine(string(), 'numeric_string', (value) => {
     return /^\d+$/.test(value);
   }),
+
+  page: refine(string(), 'pageError', (value) => {
+    return /^\d+$/.test(value) && Number(value) >= 1;
+  }),
+
+  pageSize: refine(string(), 'pageSizeError', (value) => {
+    return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
+  }),
 };
 
 const paginationStruct = object({
-  page: optional(
-    refine(string(), 'pageError', (value) => {
-      return /^\d+$/.test(value) && Number(value) >= 1;
-    }),
-  ),
-  pageSize: optional(
-    refine(string(), 'pageSizeError', (value) => {
-      return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
-    }),
-  ),
+  page: optional(utilValidator.page),
+  pageSize: optional(utilValidator.pageSize),
 });
 
 export { utilValidator, paginationStruct, validator };
