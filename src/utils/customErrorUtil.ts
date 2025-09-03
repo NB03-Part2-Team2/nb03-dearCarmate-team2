@@ -40,12 +40,9 @@ export class CustomError extends Error {
 
   // 409 Conflict
   static conflict(message?: string): CustomError {
-    console.log('CustomError.conflict called with message:', message);
     if (message) {
-      console.log('메세지 있을때:', message);
       return new CustomError(message, 409);
     }
-    console.log('메세지 없을때');
     return new CustomError('이미 존재하는 리소스입니다.', 409);
   }
 }
