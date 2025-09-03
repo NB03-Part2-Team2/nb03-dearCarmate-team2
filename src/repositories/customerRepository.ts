@@ -166,6 +166,25 @@ class CustomerRepository {
     });
     return customer;
   };
+
+  createManyCustomerList = async (data: CreateCustomerDTO[], companyId: number) => {
+    const prismaData = data.map((customer) => ({
+      ...customer,
+      ageGroup: customer.ageGroup ? ageGroupMap[customer.ageGroup] : undefined,
+      region: customer.region ? regionMap[customer.region] : undefined,
+      companyId: companyId,
+    }));
+    await prisma.customer.createMany({
+      data: prismaData,
+    });
+  };
+
+  getContractByCustomerId = async (customerId: number) => {
+    const contracts = await prisma.contract.findFirst({
+      where: { customerId },
+    });
+    return contracts;
+  };
 }
 
 export default new CustomerRepository();

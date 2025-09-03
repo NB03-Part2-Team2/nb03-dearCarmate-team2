@@ -8,7 +8,8 @@ import hashUtil from '../utils/hashUtil';
 class UserService {
   createUser = async (createUserRequestDTO: CreateUserRequestDTO) => {
     // 1. 정보 분리
-    const { password, passwordConfirmation, company, companyCode, ...data } = createUserRequestDTO;
+    const { password, passwordConfirmation, companyName, companyCode, ...data } =
+      createUserRequestDTO;
     // 2-1. 패스워드 확인
     if (password !== passwordConfirmation) {
       throw CustomError.badRequest('비밀번호와 비밀번호 확인이 일치하지 않습니다');
@@ -21,13 +22,18 @@ class UserService {
     if (await userRepository.getByEmployeeNumber(data.employeeNumber)) {
       throw CustomError.conflict('이미 존재하는 사원번호입니다.');
     }
+    // 2-4. 회사 정보 가져오기
+    const company = await companyRepository.getByCode(companyCode);
+    // 2-5. 기업명과 기업 코드가 일치하는지 확인
+    if (company.companyName !== companyName) {
+      throw CustomError.badRequest('기업코드가 올바르지 않습니다.');
+    }
 
-    // 3. 회사 id 가져오기
-    const companyId = await companyRepository.getIdByCode(companyCode);
+    // 3. 유저 생성용 DTO 만들기
     const createUserDTO: CreateUserDTO = {
       ...data,
       password: hashUtil.hashPassword(password),
-      companyId,
+      companyId: company.id,
     };
 
     // 4. prisma의 create 이용해 데이터 생성
@@ -53,7 +59,6 @@ class UserService {
     if (data.password) {
       data.password = hashUtil.hashPassword(data.password);
     }
-    console.log(data);
     // 3-1. 비밀번호 비교를 위해 유저 정보를 가져옵니다.
     const oldUser = await userRepository.getById(id);
     if (!oldUser) {
@@ -82,6 +87,25 @@ class UserService {
   filterSensitiveUserData = (user: UserDTO) => {
     const { password, refreshToken, ...rest } = user;
     return rest;
+  };
+
+  checkUserExist = async (getUserDTO: GetUserDTO) => {
+    const isUserExist = await userRepository.checkAuthById(getUserDTO.id);
+    if (!isUserExist) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+  };
+
+  checkUserAdmin = async (getUserDTO: GetUserDTO) => {
+    const isUserAdmin = await userRepository.checkAuthById(getUserDTO.id);
+    // 유저가 있는지 확인
+    if (!isUserAdmin) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+    // 어드민 권한을 가지고 있는지 확인
+    if (!isUserAdmin.isAdmin) {
+      throw CustomError.unauthorized('관리자 권한이 필요합니다.');
+    }
   };
 }
 

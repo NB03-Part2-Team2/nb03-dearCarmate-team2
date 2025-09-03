@@ -5,7 +5,7 @@ export interface CreateUserRequestDTO {
   phoneNumber: string;
   password: string;
   passwordConfirmation: string;
-  company: string;
+  companyName: string;
   companyCode: string;
 }
 

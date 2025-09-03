@@ -1,4 +1,4 @@
-import { object, string, number, enums, optional, size } from 'superstruct';
+import { object, string, number, enums, optional, size, array, nullable } from 'superstruct';
 import { utilValidator } from './utilValidator';
 /**
  *
@@ -9,13 +9,14 @@ const intIdSchema = utilValidator.intId;
 
 const createCarSchema = object({
   carNumber: utilValidator.carNumber,
+  manufacturer: string(),
   model: string(),
   manufacturingYear: size(number(), 1000, 9999),
   mileage: number(),
   price: number(),
   accidentCount: number(),
-  explanation: size(string(), 0, 255),
-  accidentDetails: size(string(), 0, 255),
+  explanation: optional(nullable(size(string(), 0, 255))),
+  accidentDetails: optional(nullable(size(string(), 0, 255))),
 });
 
 const getCarListSchema = object({
@@ -34,8 +35,22 @@ const updateCarSchema = object({
   mileage: number(),
   price: number(),
   accidentCount: number(),
-  explanation: size(string(), 0, 255),
-  accidentDetails: size(string(), 0, 255),
+  explanation: optional(nullable(size(string(), 0, 255))),
+  accidentDetails: optional(nullable(size(string(), 0, 255))),
 });
 
-export { intIdSchema, createCarSchema, getCarListSchema, updateCarSchema };
+const uploadCarListSchema = object({
+  carNumber: utilValidator.carNumber,
+  manufacturer: string(),
+  model: string(),
+  manufacturingYear: size(number(), 1000, 9999),
+  mileage: number(),
+  price: number(),
+  accidentCount: number(),
+  explanation: optional(nullable(size(string(), 0, 255))),
+  accidentDetails: optional(nullable(size(string(), 0, 255))),
+});
+
+const uploadCarListValidator = array(uploadCarListSchema);
+
+export { intIdSchema, createCarSchema, getCarListSchema, updateCarSchema, uploadCarListValidator };
