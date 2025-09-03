@@ -2,9 +2,9 @@ import { Request, Response } from 'express';
 import { carDTO, carListDTO, rawCar } from '../types/carType';
 import carService from '../services/carService';
 import {
+  intIdSchema,
   createCarSchema,
   getCarListSchema,
-  intIdSchema,
   updateCarSchema,
   uploadCarListValidator,
 } from '../validators/carValidator';
@@ -70,7 +70,7 @@ class CarController {
       status: car.status,
     }));
     const total = rawCars.total;
-    const totalPages = Math.floor(total / Number(pageSize));
+    const totalPages = Math.ceil(total / Number(pageSize));
     const response = {
       currentPage: Number(page),
       totalPages: totalPages,
@@ -123,7 +123,7 @@ class CarController {
     const user = req.user.userId;
     //회사 id, 차량 id 일치하는 차량 삭제
     await carService.deleteCar(carId, user);
-    return res.json(200).json({ message: '차량 삭제 성공' });
+    return res.status(200).json({ message: '차량 삭제 성공' });
   };
 
   uploadCarList = async (req: Request, res: Response) => {
