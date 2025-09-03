@@ -111,7 +111,9 @@ class CustomerService {
     if (contracts) {
       throw CustomError.conflict('해당 고객은 계약이 존재하여 삭제할 수 없습니다.');
     }
+    console.error('Error occurred while deleting customer:', customerId);
     await customerRepository.deleteCustomer(customerId);
+    console.log('Customer deleted successfully:', customerId);
   };
 
   getCustomer = async (customerId: number) => {
