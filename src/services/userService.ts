@@ -88,6 +88,13 @@ class UserService {
     const { password, refreshToken, ...rest } = user;
     return rest;
   };
+
+  checkUserExist = async (getUserDTO: GetUserDTO) => {
+    const isUserExist = await userRepository.checkExistById(getUserDTO.id);
+    if (!isUserExist) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+  };
 }
 
 export default new UserService();

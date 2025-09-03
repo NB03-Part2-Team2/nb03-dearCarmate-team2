@@ -2,6 +2,7 @@ import { expressjwt } from 'express-jwt';
 import { Request, Response, NextFunction } from 'express';
 import userRepository from '../repositories/userRepository';
 import { CustomError } from '../utils/customErrorUtil';
+import userService from '../services/userService';
 
 const secret = process.env.JWT_SECRET;
 if (!secret) {
@@ -40,10 +41,8 @@ const verifyRefreshToken = expressjwt({
  * */
 const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
-  const user = await userRepository.getById(userId);
-  if (!user) {
-    throw CustomError.notFound('존재하지 않는 유저입니다.');
-  }
+  // DB에 실제 있는 유저인지 확인
+  await userService.checkUserExist({ id: userId });
   next();
 };
 
@@ -53,10 +52,7 @@ const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) =
  * */
 const verifyAdminAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
-  const user = await userRepository.getById(userId);
-  if (!user) {
-    throw CustomError.notFound('존재하지 않는 유저입니다.');
-  }
+  const user = await userService.getUser({ id: userId });
   if (!user.isAdmin) {
     throw CustomError.unauthorized('관리자 권한이 필요합니다.');
   }

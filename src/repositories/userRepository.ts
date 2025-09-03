@@ -175,6 +175,21 @@ class UserRepository {
       },
     });
   };
+
+  checkExistById = async (userId: number): Promise<boolean> => {
+    // 유저 존재 여부만 확인하기 위한 최소데이터 조회
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+      },
+    });
+    // 유저가 없으면 false, 있으면 true 반환
+    if (!user) {
+      return false;
+    }
+    return true;
+  };
 }
 
 export default new UserRepository();
