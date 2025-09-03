@@ -34,7 +34,9 @@ class ContractDocumentController {
 
     // 3. 파일 다운로드 응답
     const filePath = `document/${document.fileName}`;
-    return res.download(filePath);
+    const originalFileName = document.fileName.replace(/_\d{13,}\./, '.'); // 13자리 이상 타임스탬프만 제거
+
+    return res.download(filePath, originalFileName);
   };
 
   getContractDocumentList = async (req: Request, res: Response) => {
