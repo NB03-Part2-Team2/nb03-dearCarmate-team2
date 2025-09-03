@@ -59,7 +59,7 @@ export interface UpdateContractDTO {
   carId?: number;
   isMeetingsChanged?: boolean;
   meetings?: meetingsDTO[];
-  isContractDocumentsChanged?: boolean;
+  isContractDocumentChanged?: boolean;
   contractDocuments?: ContractDocumentDTO[];
 }
 

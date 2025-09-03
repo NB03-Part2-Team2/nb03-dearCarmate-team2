@@ -130,7 +130,7 @@ class ContractService {
       carId,
       isMeetingsChanged,
       meetings,
-      isContractDocumentsChanged,
+      isContractDocumentChanged,
       contractDocuments,
       ...restOfData
     } = updateData;
@@ -158,7 +158,7 @@ class ContractService {
         await contractRepository.createMeetingList(meetingsForCreate, tx);
       }
       // 문서 업데이트 로직
-      if (isContractDocumentsChanged && contractDocuments) {
+      if (isContractDocumentChanged && contractDocuments) {
         contractDocuments.map(async (doc) => {
           if (doc.id) {
             await contractRepository.deleteContractDocument(doc.id, tx);
@@ -224,7 +224,7 @@ class ContractService {
     });
 
     // 계약서 문서 연결 이메일 발송
-    if (isContractDocumentsChanged && contractDocuments) {
+    if (isContractDocumentChanged && contractDocuments) {
       const contractDocumentIds = contractDocuments
         .map((doc) => doc.id)
         .filter((id): id is number => id !== undefined);

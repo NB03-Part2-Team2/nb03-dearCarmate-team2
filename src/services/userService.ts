@@ -8,7 +8,8 @@ import hashUtil from '../utils/hashUtil';
 class UserService {
   createUser = async (createUserRequestDTO: CreateUserRequestDTO) => {
     // 1. 정보 분리
-    const { password, passwordConfirmation, company, companyCode, ...data } = createUserRequestDTO;
+    const { password, passwordConfirmation, companyName, companyCode, ...data } =
+      createUserRequestDTO;
     // 2-1. 패스워드 확인
     if (password !== passwordConfirmation) {
       throw CustomError.badRequest('비밀번호와 비밀번호 확인이 일치하지 않습니다');
@@ -21,13 +22,18 @@ class UserService {
     if (await userRepository.getByEmployeeNumber(data.employeeNumber)) {
       throw CustomError.conflict('이미 존재하는 사원번호입니다.');
     }
+    // 2-4. 회사 정보 가져오기
+    const company = await companyRepository.getByCode(companyCode);
+    // 2-5. 기업명과 기업 코드가 일치하는지 확인
+    if (company.companyName !== companyName) {
+      throw CustomError.badRequest('기업코드가 올바르지 않습니다.');
+    }
 
-    // 3. 회사 id 가져오기
-    const companyId = await companyRepository.getIdByCode(companyCode);
+    // 3. 유저 생성용 DTO 만들기
     const createUserDTO: CreateUserDTO = {
       ...data,
       password: hashUtil.hashPassword(password),
-      companyId,
+      companyId: company.id,
     };
 
     // 4. prisma의 create 이용해 데이터 생성
