@@ -60,7 +60,7 @@ const updateContractBodySchema = object({
   contractPrice: optional(number()),
   isMeetingsChanged: optional(boolean()),
   meetings: optional(array(meetingSchema)),
-  isContractDocumentsChanged: optional(boolean()),
+  isContractDocumentChanged: optional(boolean()),
   contractDocuments: optional(array(contractDocumentSchema)),
   userId: optional(number()),
   carId: optional(number()),
