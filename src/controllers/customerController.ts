@@ -61,7 +61,6 @@ class CustomerController {
     try {
       validator(req.params.customerId, customerIdSchema);
       const customerId = parseInt(req.params.customerId, 10);
-      console.log('Deleting customer with ID:', customerId); // 디버깅용 로그
       await customerService.deleteCustomer(customerId);
       res.status(200).json({ message: '고객 삭제 성공' });
     } catch (error: any) {
