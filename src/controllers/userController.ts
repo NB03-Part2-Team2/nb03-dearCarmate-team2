@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import userService from '../services/userService';
-import { createUserSchema, deleteUserSchema, updateUserSchema } from '../validators/userSchema';
+import { createUserSchema, deleteUserSchema, updateUserSchema } from '../validators/userValidator';
 import { validator } from '../validators/utilValidator';
 import { CreateUserRequestDTO, DeleteUserDTO, GetUserDTO, UpdateUserDTO } from '../types/userType';
 
