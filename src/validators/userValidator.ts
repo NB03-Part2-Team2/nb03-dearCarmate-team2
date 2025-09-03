@@ -8,7 +8,7 @@ const createUserSchema = object({
   passwordConfirmation: utilValidator.password,
   employeeNumber: utilValidator.employeeNumber,
   phoneNumber: utilValidator.phoneNumber,
-  company: utilValidator.companyName,
+  companyName: utilValidator.companyName,
   companyCode: size(string(), 1, 20), // 별도 제한이 없었던것 같기에 길이만 검사
 });
 
