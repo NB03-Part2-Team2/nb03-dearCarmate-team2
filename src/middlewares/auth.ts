@@ -1,8 +1,7 @@
 import { expressjwt } from 'express-jwt';
 import { Request, Response, NextFunction } from 'express';
-import userRepository from '../repositories/userRepository';
-import { CustomError } from '../utils/customErrorUtil';
 import userService from '../services/userService';
+import { CustomError } from '../utils/customErrorUtil';
 
 const secret = process.env.JWT_SECRET;
 if (!secret) {
