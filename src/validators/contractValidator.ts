@@ -1,4 +1,14 @@
-import { object, string, number, array, refine, optional, enums, boolean } from 'superstruct';
+import {
+  object,
+  string,
+  number,
+  array,
+  refine,
+  optional,
+  enums,
+  boolean,
+  nullable,
+} from 'superstruct';
 
 const isoDateString = refine(string(), 'isodate', (value) => {
   const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z?$/;
@@ -7,7 +17,7 @@ const isoDateString = refine(string(), 'isodate', (value) => {
 
 const meetingSchema = object({
   date: isoDateString,
-  alarms: array(isoDateString),
+  alarms: array(string()),
 });
 
 const createContractBodySchema = object({
@@ -46,9 +56,9 @@ const contractDocumentSchema = object({
 
 const updateContractBodySchema = object({
   status: optional(enums(contractStatusOptions)),
-  resolutionDate: optional(isoDateString),
+  resolutionDate: optional(nullable(isoDateString)),
   contractPrice: optional(number()),
-  isMeetingChanged: optional(boolean()),
+  isMeetingsChanged: optional(boolean()),
   meetings: optional(array(meetingSchema)),
   isContractDocumentsChanged: optional(boolean()),
   contractDocuments: optional(array(contractDocumentSchema)),

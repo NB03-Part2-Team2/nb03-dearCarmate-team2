@@ -1,4 +1,4 @@
-import { object, string, refine, optional, enums, partial } from 'superstruct';
+import { object, string, refine, optional, enums, partial, nullable } from 'superstruct';
 import { utilValidator } from './utilValidator';
 
 const createCustomerSchema = object({
@@ -6,30 +6,32 @@ const createCustomerSchema = object({
   gender: enums(['male', 'female']),
   phoneNumber: utilValidator.phoneNumber,
   email: utilValidator.email,
-  memo: optional(string()),
+  memo: optional(nullable(string())),
   ageGroup: optional(
-    enums(['TEEN', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY']),
+    nullable(enums(['10대', '20대', '30대', '40대', '50대', '60대', '70대', '80대'])),
   ),
   region: optional(
-    enums([
-      'SEOUL',
-      'GYEONGGI',
-      'INCHEON',
-      'GANGWON',
-      'CHUNGBUK',
-      'CHUNGNAM',
-      'SEJONG',
-      'DAEJEON',
-      'JEONBUK',
-      'JEONNAM',
-      'GWANGJU',
-      'GYEONGBUK',
-      'GYEONGNAM',
-      'DAEGU',
-      'ULSAN',
-      'BUSAN',
-      'JEJU',
-    ]),
+    nullable(
+      enums([
+        '서울',
+        '경기',
+        '인천',
+        '강원',
+        '충북',
+        '충남',
+        '세종',
+        '대전',
+        '전북',
+        '전남',
+        '광주',
+        '경북',
+        '경남',
+        '대구',
+        '울산',
+        '부산',
+        '제주',
+      ]),
+    ),
   ),
 });
 

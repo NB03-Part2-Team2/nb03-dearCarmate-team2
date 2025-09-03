@@ -178,6 +178,13 @@ class CustomerRepository {
       data: prismaData,
     });
   };
+
+  getContractByCustomerId = async (customerId: number) => {
+    const contracts = await prisma.contract.findFirst({
+      where: { customerId },
+    });
+    return contracts;
+  };
 }
 
 export default new CustomerRepository();
