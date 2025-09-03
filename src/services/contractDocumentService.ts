@@ -31,7 +31,7 @@ class ContractDocumentService {
    */
   getContractDocument = async (contractDocumentId: number) => {
     // 계약서 문서 조회
-    const contractDocument = await contractDocumentRepository.findById(contractDocumentId);
+    const contractDocument = await contractDocumentRepository.getById(contractDocumentId);
     if (!contractDocument) {
       throw CustomError.notFound('계약서 문서를 찾을 수 없습니다.');
     }
@@ -54,7 +54,7 @@ class ContractDocumentService {
       totalItemCount,
       page: currentPage,
       pageSize: currentPageSize,
-    } = await contractDocumentRepository.findContractDocumentList(
+    } = await contractDocumentRepository.getContractDocumentList(
       { page, pageSize, searchBy, keyword },
       companyId,
     );
@@ -96,7 +96,7 @@ class ContractDocumentService {
 
     // 계약서 작성 중인 계약 목록 조회
     const draftContracts: DraftContractDTO[] =
-      await contractDocumentRepository.findDraftContractList(companyId);
+      await contractDocumentRepository.getDraftContractList(companyId);
 
     // 드롭다운 형식으로 변환
     const formattedContracts: DropdownDTO[] = draftContracts.map((contract) => ({

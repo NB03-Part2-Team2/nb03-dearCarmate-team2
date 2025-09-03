@@ -20,7 +20,7 @@ class ContractDocumentRepository {
     return contractDocument;
   };
 
-  findById = async (contractDocumentId: number) => {
+  getById = async (contractDocumentId: number) => {
     const contractDocument = await prisma.contractDocument.findUnique({
       where: { id: contractDocumentId },
     });
@@ -30,7 +30,7 @@ class ContractDocumentRepository {
   /**
    * 계약서 목록을 조회합니다.
    */
-  findContractDocumentList = async (
+  getContractDocumentList = async (
     { page, pageSize, searchBy, keyword }: GetContractDocumentsParamsDTO,
     companyId: number,
   ): Promise<ContractDocumentRawData> => {
@@ -137,7 +137,7 @@ class ContractDocumentRepository {
   /**
    * 계약서 작성 중인 거래 목록을 조회합니다.
    */
-  findDraftContractList = async (companyId: number): Promise<DraftContractDTO[]> => {
+  getDraftContractList = async (companyId: number): Promise<DraftContractDTO[]> => {
     const draftContracts = await prisma.contract.findMany({
       where: {
         companyId,

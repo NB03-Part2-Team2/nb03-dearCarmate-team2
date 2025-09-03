@@ -240,7 +240,7 @@ class ContractService {
 
     // 모든 문서 조회
     const documents = await Promise.all(
-      documentIds.map((id) => contractDocumentRepository.findById(id)),
+      documentIds.map((id) => contractDocumentRepository.getById(id)),
     );
 
     // 파일명 배열 생성
