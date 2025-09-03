@@ -14,7 +14,7 @@ class UserController {
       passwordConfirmation: req.body.passwordConfirmation as string,
       employeeNumber: req.body.employeeNumber as string,
       phoneNumber: req.body.phoneNumber as string,
-      company: req.body.company as string,
+      companyName: req.body.company as string, // 명세서에는 company이나 실제로는 companyName을 받기에 수정
       companyCode: req.body.companyCode as string,
     };
     // 2. 유효성 검사
