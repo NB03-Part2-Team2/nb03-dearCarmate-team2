@@ -10,7 +10,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   // Superstruct 검증 에러
   if (err instanceof StructError) {
-    return res.status(400).json({ message: '잘못된 요청입니다.' });
+    return res.status(400).json({ message: err.message });
   }
 
   // JSON 파싱 에러
