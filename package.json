@@ -2,12 +2,13 @@
   "name": "nb03-dearcarmate-team2",
   "version": "1.0.0",
   "description": "nb03 part2-team2의 dear_carmate 프로젝트입니다",
-  "main": "app.js",
+  "main": "dist/app.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node ./.dist/app.js",
-    "dev": "nodemon --watch src --exec tsx ./src/app.ts",
-    "build": "tsc"
+    "build": "tsc && npm run copy:prisma",
+    "copy:prisma": "mkdir -p ./dist/src/generated && cp -r src/generated/prisma ./dist/src/generated/prisma",
+    "start": "node dist/src/app.js",
+    "dev": "nodemon --watch src --exec tsx ./src/app.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
