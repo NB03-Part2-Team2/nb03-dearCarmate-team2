@@ -1,5 +1,6 @@
-import { assert, object, string, optional, enums, refine } from 'superstruct';
+import { assert, object, string, optional, enums } from 'superstruct';
 import { UploadContractDocumentDTO } from '../types/contractDocumentType';
+import { utilValidator } from './utilValidator';
 
 /**
  *
@@ -20,16 +21,8 @@ export { uploadContractDocumentValidator };
 const SearchByContractDocument = ['contractName', 'manager', 'carNumber'];
 
 export const getContractDocumentsParamsSchema = object({
-  page: optional(
-    refine(string(), 'pageError', (value) => {
-      return /^\d+$/.test(value) && Number(value) >= 1;
-    }),
-  ),
-  pageSize: optional(
-    refine(string(), 'pageSizeError', (value) => {
-      return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
-    }),
-  ),
+  page: optional(utilValidator.page),
+  pageSize: optional(utilValidator.pageSize),
   searchBy: optional(enums(SearchByContractDocument)),
   keyword: optional(string()),
 });

@@ -1,4 +1,4 @@
-import { object, size, string, refine } from 'superstruct';
+import { object, size, string } from 'superstruct';
 import { utilValidator } from './utilValidator';
 
 const createCompanySchema = object({
@@ -7,17 +7,13 @@ const createCompanySchema = object({
 });
 
 const updateCompanySchema = object({
-  id: refine(string(), 'idError', (value) => {
-    return /^[0-9]+$/.test(value);
-  }),
+  id: utilValidator.intId,
   companyName: utilValidator.companyName,
   companyCode: size(string(), 1, 20), // 별도 제한이 없었던것 같기에 길이만 검사
 });
 
 const deleteCompanySchema = object({
-  id: refine(string(), 'idError', (value) => {
-    return /^[0-9]+$/.test(value);
-  }),
+  id: utilValidator.intId,
 });
 
 export { createCompanySchema, updateCompanySchema, deleteCompanySchema };

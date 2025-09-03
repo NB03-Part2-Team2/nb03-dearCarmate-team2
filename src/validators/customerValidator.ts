@@ -37,22 +37,11 @@ const createCustomerSchema = object({
 
 const updateCustomerSchema = partial(createCustomerSchema);
 
-const page = optional(
-  refine(string(), 'pageError', (value) => {
-    return /^\d+$/.test(value) && Number(value) >= 1;
-  }),
-);
-const pageSize = optional(
-  refine(string(), 'pageSizeError', (value) => {
-    return /^\d+$/.test(value) && Number(value) >= 1 && Number(value) <= 50;
-  }),
-);
-
 const searchByOptions = ['name', 'email'];
 
 const getCustomerListParamsSchema = object({
-  page: page,
-  pageSize: pageSize,
+  page: optional(utilValidator.page),
+  pageSize: optional(utilValidator.pageSize),
   searchBy: optional(enums(searchByOptions)),
   keyword: optional(string()),
 });

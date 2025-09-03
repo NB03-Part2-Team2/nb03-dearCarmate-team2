@@ -4,7 +4,7 @@ import {
   createCompanySchema,
   deleteCompanySchema,
   updateCompanySchema,
-} from '../validators/companySchema';
+} from '../validators/companyValidator';
 import { validator, paginationStruct } from '../validators/utilValidator';
 import {
   CreateCompanyDTO,
