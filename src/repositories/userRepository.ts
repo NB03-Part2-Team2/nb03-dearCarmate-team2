@@ -175,6 +175,18 @@ class UserRepository {
       },
     });
   };
+
+  checkAuthById = async (userId: number) => {
+    // 유저 권한 여부만 확인하기 위한 최소데이터 조회
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        isAdmin: true,
+      },
+    });
+    return user;
+  };
 }
 
 export default new UserRepository();
