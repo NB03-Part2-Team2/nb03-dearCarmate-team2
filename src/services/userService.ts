@@ -90,9 +90,21 @@ class UserService {
   };
 
   checkUserExist = async (getUserDTO: GetUserDTO) => {
-    const isUserExist = await userRepository.checkExistById(getUserDTO.id);
+    const isUserExist = await userRepository.checkAuthById(getUserDTO.id);
     if (!isUserExist) {
       throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+  };
+
+  checkUserAdmin = async (getUserDTO: GetUserDTO) => {
+    const isUserAdmin = await userRepository.checkAuthById(getUserDTO.id);
+    // 유저가 있는지 확인
+    if (!isUserAdmin) {
+      throw CustomError.notFound('존재하지 않는 유저입니다.');
+    }
+    // 어드민 권한을 가지고 있는지 확인
+    if (!isUserAdmin.isAdmin) {
+      throw CustomError.unauthorized('관리자 권한이 필요합니다.');
     }
   };
 }

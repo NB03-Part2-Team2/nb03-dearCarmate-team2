@@ -51,10 +51,8 @@ const verifyUserAuth = async (req: Request, res: Response, next: NextFunction) =
  * */
 const verifyAdminAuth = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user!.userId;
-  const user = await userService.getUser({ id: userId });
-  if (!user.isAdmin) {
-    throw CustomError.unauthorized('관리자 권한이 필요합니다.');
-  }
+  // DB에 유저가 있는지 + 어드민 권한까지 있는지 확인
+  await userService.checkUserAdmin({ id: userId });
   next();
 };
 
