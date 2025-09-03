@@ -2,6 +2,7 @@ type CarStatus = 'possession' | 'contractProceeding' | 'contractCompleted';
 
 export interface carDTO {
   carNumber: string;
+  manufacturer: string;
   model: string;
   manufacturingYear: number;
   mileage: number;

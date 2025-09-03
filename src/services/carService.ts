@@ -1,3 +1,4 @@
+import { string } from 'superstruct';
 import { Prisma } from '../generated/prisma';
 import carRepository from '../repositories/carRepository';
 import { carDTO, carListDTO } from '../types/carType';
@@ -13,6 +14,14 @@ class CarService {
       throw CustomError.notFound('존재하지 않는 차량입니다.');
     }
     return car;
+  };
+
+  checkManufacturer = async (model: string, manufacturer: string) => {
+    const trueManufacturer = await carRepository.getManufacturer(model);
+    if (!trueManufacturer || trueManufacturer !== manufacturer) {
+      throw CustomError.badRequest('제조사 혹은 모델이 올바르지 않습니다.');
+    }
+    return trueManufacturer;
   };
 
   getCar = async (carId: number, userId: number) => {
@@ -65,7 +74,9 @@ class CarService {
     if (carNum) {
       throw CustomError.conflict();
     }
-    //3. 차량 데이터 및 소속 회사 추가
+    //3. 제조사 모델 비교
+    await this.checkManufacturer(data.model, data.manufacturer);
+    //4. 차량 데이터 및 소속 회사 추가
     const createdCar = await carRepository.createCar(data, companyId);
     return createdCar;
   };
@@ -78,7 +89,9 @@ class CarService {
     if (!car) {
       throw CustomError.notFound('존재하지 않는 차량입니다.');
     }
-    //3. 차량 정보 수정
+    //3. 제조사 모델 비교
+    await this.checkManufacturer(data.model, data.manufacturer);
+    //4. 차량 정보 수정
     const updatedCar = await carRepository.updateCar(data, carId);
     return updatedCar;
   };
