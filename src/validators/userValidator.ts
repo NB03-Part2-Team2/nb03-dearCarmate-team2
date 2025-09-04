@@ -1,4 +1,4 @@
-import { object, size, string, optional } from 'superstruct';
+import { object, size, string, optional, nullable } from 'superstruct';
 import { utilValidator } from './utilValidator';
 
 const createUserSchema = object({
@@ -18,7 +18,7 @@ const updateUserSchema = object({
   passwordConfirmation: optional(utilValidator.password),
   employeeNumber: optional(utilValidator.employeeNumber),
   phoneNumber: optional(utilValidator.phoneNumber),
-  imageUrl: optional(string()),
+  imageUrl: optional(nullable(string())),
   refreshToken: optional(string()),
 });
 
