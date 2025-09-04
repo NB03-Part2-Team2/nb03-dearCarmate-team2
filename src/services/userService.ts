@@ -68,7 +68,11 @@ class UserService {
     if (currentPassword && !hashUtil.checkPassword(currentPassword, oldUser.password)) {
       throw CustomError.badRequest('현재 비밀번호가 맞지 않습니다.');
     }
-    // 3-3. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
+    // 3-3. 현재 입력받은 사원번호가 자신의 사원번호일 경우 수정하지 않도록 변경
+    if (oldUser.employeeNumber === data.employeeNumber) {
+      delete data.employeeNumber;
+    }
+    // 3-4. 사원번호가 이미 존재하는지 검사 - 명세서에 없으나 사원번호는 고유하기에 추가
     if (data.employeeNumber && (await userRepository.getByEmployeeNumber(data.employeeNumber))) {
       throw CustomError.conflict('이미 존재하는 사원번호입니다.');
     }
