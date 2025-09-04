@@ -20,7 +20,10 @@ export const uploadContractDocument = multer({
     },
     filename(req, file, cb) {
       const ext = path.extname(file.originalname).toLowerCase();
-      cb(null, Date.now() + ext);
+      const originalName = path.basename(file.originalname, ext); // 확장자 제외한 파일명
+      const timestamp = Date.now();
+      const filename = `${originalName}_${timestamp}${ext}`; // 타임스탬프 추가
+      cb(null, filename);
     },
   }),
 

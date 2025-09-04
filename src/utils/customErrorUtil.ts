@@ -4,6 +4,7 @@ export class CustomError extends Error {
   constructor(message: string, code: number) {
     super(message);
     this.code = code;
+    Object.setPrototypeOf(this, CustomError.prototype);
   }
 
   // 400 Bad Request
