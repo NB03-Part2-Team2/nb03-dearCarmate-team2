@@ -13,8 +13,8 @@ class ImageController {
 
     const proto = req.protocol;
     const base = `${proto}://${req.get('host')}`;
-    const url = new URL(`/images/${req.file.filename}`, base).toString();
-    res.send({ url });
+    const imageUrl = new URL(`/images/${req.file.filename}`, base).toString();
+    res.send({ imageUrl });
   };
 }
 
