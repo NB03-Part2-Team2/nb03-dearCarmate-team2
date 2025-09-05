@@ -6,6 +6,11 @@ import { CustomError } from '../utils/customErrorUtil';
 import hashUtil from '../utils/hashUtil';
 
 class UserService {
+  /**
+   * 새로운 사용자를 생성합니다.
+   * @param {CreateUserRequestDTO} createUserRequestDTO - 사용자 생성에 필요한 정보
+   * @returns 생성된 사용자 정보 (민감 정보 제외)
+   */
   createUser = async (createUserRequestDTO: CreateUserRequestDTO) => {
     // 1. 정보 분리
     const { password, passwordConfirmation, companyName, companyCode, ...data } =
@@ -41,6 +46,12 @@ class UserService {
     // 5. 민감정보 제외한 유저 데이터 반환
     return this.filterSensitiveUserData(user);
   };
+
+  /**
+   * 특정 사용자 정보를 조회합니다.
+   * @param {GetUserDTO} getUserDTO - 조회할 사용자 ID
+   * @returns 사용자 정보 (민감 정보 제외)
+   */
   getUser = async (getUserDTO: GetUserDTO) => {
     const user = await userRepository.getById(getUserDTO.id);
     if (!user) {
@@ -48,6 +59,13 @@ class UserService {
     }
     return this.filterSensitiveUserData(user);
   };
+
+  /**
+   * 사용자 정보를 업데이트합니다.
+   * @param {UpdateUserDTO} updateUserDTO - 업데이트할 사용자 정보
+   * @param {number} id - 사용자 ID
+   * @returns 업데이트된 사용자 정보 (민감 정보 제외)
+   */
   updateUser = async (updateUserDTO: UpdateUserDTO, id: number) => {
     // 1. 인증용 데이터를 추출합니다.
     const { currentPassword, passwordConfirmation, ...data } = updateUserDTO;
@@ -80,19 +98,31 @@ class UserService {
     const updatedUser: UserDTO = await userRepository.update(data, id);
     return this.filterSensitiveUserData(updatedUser);
   };
+
+  /**
+   * 특정 사용자를 삭제합니다.
+   * @param {DeleteUserDTO} deleteUser - 삭제할 사용자 ID
+   * @returns 없음
+   */
   deleteUser = async (deleteUser: DeleteUserDTO) => {
     await userRepository.delete(deleteUser.id);
   };
+
   /**
-   *
-   * @param user 민감정보가 포함된 유저 객체입니다.
-   * @returns password, refreshToken과 같은 민감 정보가 제거된 유저 객체를 반환합니다.
+   * 사용자 객체에서 민감한 정보(비밀번호, 리프레시 토큰)를 제거합니다.
+   * @param {UserDTO} user - 사용자 정보 객체
+   * @returns 민감 정보가 제거된 사용자 정보
    */
   filterSensitiveUserData = (user: UserDTO) => {
     const { password, refreshToken, ...rest } = user;
     return rest;
   };
 
+  /**
+   * 사용자가 존재하는지 확인합니다.
+   * @param {GetUserDTO} getUserDTO - 확인할 사용자 ID
+   * @returns 없음 (사용자가 없으면 에러 발생)
+   */
   checkUserExist = async (getUserDTO: GetUserDTO) => {
     const isUserExist = await userRepository.checkAuthById(getUserDTO.id);
     if (!isUserExist) {
@@ -100,6 +130,11 @@ class UserService {
     }
   };
 
+  /**
+   * 사용자가 관리자인지 확인합니다.
+   * @param {GetUserDTO} getUserDTO - 확인할 사용자 ID
+   * @returns 없음 (관리자가 아니거나 사용자가 없으면 에러 발생)
+   */
   checkUserAdmin = async (getUserDTO: GetUserDTO) => {
     const isUserAdmin = await userRepository.checkAuthById(getUserDTO.id);
     // 유저가 있는지 확인
