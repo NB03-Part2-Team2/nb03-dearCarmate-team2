@@ -10,7 +10,7 @@ export interface UploadContractDocumentResponseDTO {
 export type GetContractDocumentsParamsDTO = {
   page?: number;
   pageSize?: number;
-  searchBy?: 'contractName' | 'manager' | 'carNumber';
+  searchBy?: 'contractName' | 'userName' | 'carNumber';
   keyword?: string;
 };
 
@@ -26,7 +26,7 @@ export type ContractDocumentListDTO = {
   contractName: string;
   resolutionDate: string | null;
   documentCount: number;
-  manager: string;
+  userName: string;
   carNumber: string;
   documents: {
     id: number;

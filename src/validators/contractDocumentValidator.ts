@@ -18,7 +18,7 @@ const uploadContractDocumentValidator = (uploadDTO: UploadContractDocumentDTO) =
 export { uploadContractDocumentValidator };
 
 // 계약서 목록 조회 파라미터 검증 스키마
-const SearchByContractDocument = ['contractName', 'manager', 'carNumber'];
+const SearchByContractDocument = ['contractName', 'userName', 'carNumber'];
 
 export const getContractDocumentsParamsSchema = object({
   page: optional(utilValidator.page),

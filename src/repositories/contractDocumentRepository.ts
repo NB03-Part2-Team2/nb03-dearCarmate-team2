@@ -62,7 +62,7 @@ class ContractDocumentRepository {
             },
           ];
           break;
-        case 'manager':
+        case 'userName':
           whereCondition.user = {
             name: {
               contains: keyword,
@@ -141,7 +141,7 @@ class ContractDocumentRepository {
     const draftContracts = await prisma.contract.findMany({
       where: {
         companyId,
-        status: 'contractDraft',
+        status: 'contractSuccessful',
       },
       select: {
         id: true,
