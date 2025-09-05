@@ -15,6 +15,12 @@ import {
 } from '../types/companyType';
 
 class CompanyController {
+  /**
+   * 새로운 회사를 생성합니다.
+   * @param {string} req.body.companyName - 회사 이름
+   * @param {string} req.body.companyCode - 회사 코드
+   * @returns 생성된 회사 정보를 담은 JSON 응답
+   */
   createCompany = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const createCompanyDTO: CreateCompanyDTO = {
@@ -29,6 +35,13 @@ class CompanyController {
     return res.status(201).json(company);
   };
 
+  /**
+   * 기존 회사의 정보를 업데이트합니다.
+   * @param {number} req.params.companyId - 회사 ID (URL 파라미터)
+   * @param {string} req.body.companyName - 새 회사 이름
+   * @param {string} req.body.companyCode - 새 회사 코드
+   * @returns 업데이트된 회사 정보를 담은 JSON 응답
+   */
   updateCompany = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const updateCompanyDTO: UpdateCompanyDTO = {
@@ -51,6 +64,11 @@ class CompanyController {
     return res.status(201).json(company);
   };
 
+  /**
+   * 특정 회사를 삭제합니다.
+   * @param {number} req.params.companyId - 삭제할 회사의 ID (URL 파라미터)
+   * @returns 성공 메시지를 담은 JSON 응답
+   */
   deleteCompany = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const deleteCompanyDTO: DeleteCompanyDTO = {
@@ -64,6 +82,14 @@ class CompanyController {
     return res.status(200).json({ message: '회사 삭제 성공' });
   };
 
+  /**
+   * 회사 목록을 페이지네이션하여 가져옵니다.
+   * @param {number} [req.query.page] - (선택) 페이지 번호
+   * @param {number} [req.query.pageSize] - (선택) 페이지 당 항목 수
+   * @param {string} [req.query.searchBy] - (선택) 검색 기준 (e.g., 'name', 'code')
+   * @param {string} [req.query.keyword] - (선택) 검색어
+   * @returns 페이지 정보와 회사 목록을 담은 JSON 응답
+   */
   getCompanyList = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const getCompanyListDTO: GetCompanyListDTO = {
@@ -80,6 +106,14 @@ class CompanyController {
     return res.status(200).json({ ...pageInfo, data: companies });
   };
 
+  /**
+   * 특정 회사에 속한 사용자 목록을 페이지네이션하여 가져옵니다.
+   * @param {number} [req.query.page] - (선택) 페이지 번호
+   * @param {number} [req.query.pageSize] - (선택) 페이지 당 항목 수
+   * @param {string} [req.query.searchBy] - (선택) 검색 기준 (e.g., 'name', 'email')
+   * @param {string} [req.query.keyword] - (선택) 검색어
+   * @returns 페이지 정보와 사용자 목록을 담은 JSON 응답
+   */
   getCompanyUserList = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const getCompanyUserListDTO: GetCompanyUserListDTO = {

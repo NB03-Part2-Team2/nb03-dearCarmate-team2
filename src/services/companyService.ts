@@ -11,6 +11,11 @@ import {
 import { CustomError } from '../utils/customErrorUtil';
 
 class CompanyService {
+  /**
+   * 새로운 회사를 생성합니다.
+   * @param {CreateCompanyDTO} createCompanyDTO - 회사 생성에 필요한 정보
+   * @returns 생성된 회사 정보 및 사용자 수
+   */
   createCompany = async (createCompanyDTO: CreateCompanyDTO) => {
     // 1. 데이터 생성
     const company = await companyRepository.create(createCompanyDTO);
@@ -20,6 +25,11 @@ class CompanyService {
     return { ...companyData, userCount: _count.user };
   };
 
+  /**
+   * 기존 회사의 정보를 업데이트합니다.
+   * @param {UpdateCompanyDTO} updateCompanyDTO - 회사 정보 업데이트에 필요한 정보
+   * @returns 업데이트된 회사 정보 및 사용자 수
+   */
   updateCompany = async (updateCompanyDTO: UpdateCompanyDTO) => {
     try {
       // 1. 데이터 업데이트
@@ -37,6 +47,11 @@ class CompanyService {
     }
   };
 
+  /**
+   * 특정 회사를 삭제합니다.
+   * @param {DeleteCompanyDTO} deleteCompanyDTO - 삭제할 회사의 ID
+   * @returns 없음 (삭제할 회사가 없을시 에러)
+   */
   deleteCompany = async (deleteCompanyDTO: DeleteCompanyDTO) => {
     try {
       await companyRepository.delete(deleteCompanyDTO.id);
@@ -49,6 +64,11 @@ class CompanyService {
     }
   };
 
+  /**
+   * 회사 목록을 페이지네이션하여 가져옵니다.
+   * @param {GetCompanyListDTO} getCompanyListDTO - 회사 목록 조회에 필요한 정보 (페이지, 페이지 크기, 검색 기준, 검색어)
+   * @returns 회사 목록 및 페이지 정보
+   */
   getCompanyList = async (getCompanyListDTO: GetCompanyListDTO) => {
     const { page = 1, pageSize = 8, searchBy = 'companyName', keyword = '' } = getCompanyListDTO;
     // 1. searchBy의 값이 유효한지 검사
@@ -88,6 +108,11 @@ class CompanyService {
     return { companies: formattedCompanies, pageInfo };
   };
 
+  /**
+   * 특정 회사에 속한 사용자 목록을 페이지네이션하여 가져옵니다.
+   * @param {GetCompanyUserListDTO} getCompanyUserListDTO - 사용자 목록 조회에 필요한 정보 (페이지, 페이지 크기, 검색 기준, 검색어)
+   * @returns 사용자 목록 및 페이지 정보
+   */
   getCompanyUserList = async (getCompanyUserListDTO: GetCompanyUserListDTO) => {
     const {
       page = 1,
