@@ -39,7 +39,7 @@ class CompanyService {
 
   deleteCompany = async (deleteCompanyDTO: DeleteCompanyDTO) => {
     try {
-      await userRepository.delete(deleteCompanyDTO.id);
+      await companyRepository.delete(deleteCompanyDTO.id);
     } catch (err: any) {
       if (err.name === 'PrismaClientKnownRequestError' && (err as any).code === 'P2025') {
         throw CustomError.notFound('존재하지 않는 회사입니다');
