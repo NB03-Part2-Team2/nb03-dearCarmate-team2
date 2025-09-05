@@ -45,7 +45,9 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 - 프로젝트 구조 설계
 - ESLint & Prettier 설정
 - 보안
-- API(인증, 유저, 회사)
+- 인증 API: POST
+- 유저 API: GET, POST, PATCH, DELETE
+- 회사 API: GET, POST, PATCH, DELETE
 
 ### 김나연
 
@@ -53,7 +55,8 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 
 - README.md
 - 공통 유효성 스키마
-- API(차량, 이미지 업로드)
+- 차량 API: GET, POST, PATCH, DELETE
+- 이미지 업로드 API: POST
 
 ### 박재성
 
@@ -62,7 +65,8 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 - 미들웨어 Utill(csv 파싱, 이메일 발송)
 - 스키마 및 목데이터
 - 에러 핸들러
-- API(계약서, 대시보드)
+- 계약서 API: GET, POST
+- 대시보드 API: GET
 
 ### 김준철
 
@@ -70,7 +74,8 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 
 - Github 레포지토리 설정
 - 프론트&백엔드 배포 설계 및 테스트
-- API(계약, 고객)
+- 고객 API: GET, POST, PATCH, DELETE
+- 계약 API: GET, POST, PATCH, DELETE
 
 ### 공통
 
