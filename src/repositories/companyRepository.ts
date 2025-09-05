@@ -5,9 +5,10 @@ import { CustomError } from '../utils/customErrorUtil';
 
 class CompanyRepository {
   /**
-   *
-   * @param companyCode companyCode 를 받습니다
-   * @returns 해당하는 company가 있는 경우 해당 회사의 id를 리턴, 없는 경우 error을 throw합니다.
+   * 회사 코드를 기준으로 회사를 조회합니다.
+   * @param {string} companyCode - 회사 코드
+   * @returns 회사 정보
+   * @throws {CustomError} 회사를 찾지 못한 경우
    */
   getByCode = async (companyCode: string) => {
     const company = await prisma.company.findUnique({
@@ -24,6 +25,11 @@ class CompanyRepository {
     return company;
   };
 
+  /**
+   * 새로운 회사를 생성합니다.
+   * @param {CreateCompanyDTO} createCompanyDTO - 회사 생성에 필요한 정보
+   * @returns 생성된 회사 정보 및 유저 수
+   */
   create = async (createCompanyDTO: CreateCompanyDTO) => {
     let company = await prisma.company.create({
       data: createCompanyDTO,
@@ -37,6 +43,11 @@ class CompanyRepository {
     return company;
   };
 
+  /**
+   * 기존 회사의 정보를 업데이트합니다.
+   * @param {UpdateCompanyDTO} updateCompanyDTO - 회사 정보 업데이트에 필요한 정보
+   * @returns 업데이트된 회사 정보 및 유저 수
+   */
   update = async (updateCompanyDTO: UpdateCompanyDTO) => {
     const { id, ...data } = updateCompanyDTO;
     const company = await prisma.company.update({
@@ -52,6 +63,11 @@ class CompanyRepository {
     return company;
   };
 
+  /**
+   * 특정 회사를 삭제합니다.
+   * @param {number} companyId - 삭제할 회사의 ID
+   * @returns 없음
+   */
   delete = async (companyId: number): Promise<void> => {
     await prisma.company.delete({
       where: {
@@ -60,6 +76,13 @@ class CompanyRepository {
     });
   };
 
+  /**
+   * 회사 목록을 페이지네이션하여 가져옵니다.
+   * @param {number} page - 페이지 번호
+   * @param {number} pageSize - 페이지 당 항목 수
+   * @param {Prisma.CompanyWhereInput} where - Prisma를 이용한 검색 조건
+   * @returns 회사 목록 및 전체 항목 수
+   */
   getCompanyList = async (page: number, pageSize: number, where: Prisma.CompanyWhereInput) => {
     const skip = (page - 1) * pageSize;
     const take = pageSize;

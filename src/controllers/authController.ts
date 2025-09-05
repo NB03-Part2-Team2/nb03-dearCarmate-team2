@@ -5,6 +5,12 @@ import { LoginDTO } from '../types/userType';
 import { UpdateTokenDTO } from '../types/authType';
 
 class AuthController {
+  /**
+   * 사용자 로그인을 처리합니다.
+   * @param {string} req.body.email - 이메일
+   * @param {string} req.body.password - 비밀번호
+   * @returns 로그인한 사용자 정보를 담은 JSON 응답
+   */
   login = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const loginDTO: LoginDTO = {
@@ -19,6 +25,11 @@ class AuthController {
     return res.status(200).json(loginUser);
   };
 
+  /**
+   * 만료된 액세스 토큰을 갱신합니다.
+   * @param {string} req.body.refreshToken - 리프레시 토큰
+   * @returns 새로 발급된 액세스 및 리프레시 토큰을 담은 JSON 응답
+   */
   updateToken = async (req: Request, res: Response) => {
     // 1. DTO 정의
     const updateTokenDTO: UpdateTokenDTO = {
