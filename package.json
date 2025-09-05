@@ -6,6 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc && npm run copy:prisma",
+    "prod-build": "tsc && npm run copy:prisma",
     "copy:prisma": "mkdir -p ./dist/src/generated && cp -r src/generated/prisma ./dist/src/generated/prisma",
     "start": "node dist/src/app.js",
     "dev": "nodemon --watch src --exec tsx ./src/app.ts"

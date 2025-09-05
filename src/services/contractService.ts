@@ -12,6 +12,11 @@ import {
 import { CustomError } from '../utils/customErrorUtil';
 
 class ContractService {
+  /**
+   * 사용자의 회사에서 사용 가능한 차량 목록 조회
+   * @param {number} userId - 사용자 ID
+   * @returns {Promise<ListItemDTO[]>} 차량 목록 [{id, data: "모델명(차량번호)"}]
+   */
   getCarListInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
     const cars = await contractRepository.getCarList(companyId);
@@ -22,6 +27,11 @@ class ContractService {
     return formattedCars;
   };
 
+  /**
+   * 사용자의 회사에 등록된 고객 목록 조회
+   * @param {number} userId - 사용자 ID
+   * @returns {Promise<ListItemDTO[]>} 고객 목록 [{id, data: "이름(이메일)"}]
+   */
   getCustomerListInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
     const customers = await contractRepository.getCustomerList(companyId);
@@ -32,6 +42,11 @@ class ContractService {
     return formattedCustomers;
   };
 
+  /**
+   * 사용자의 회사에 소속된 직원 목록 조회
+   * @param {number} userId - 사용자 ID
+   * @returns {Promise<ListItemDTO[]>} 직원 목록 [{id, data: "이름(이메일)"}]
+   */
   getUserListInCompany = async (userId: number) => {
     const companyId = await contractRepository.getCompanyId(userId);
     const users = await contractRepository.getUserList(companyId);
@@ -42,6 +57,14 @@ class ContractService {
     return formattedUsers;
   };
 
+  /**
+   * 새로운 계약 생성 및 차량 상태 업데이트
+   * @param {number} userId - 계약 담당자 ID
+   * @param {number} carId - 차량 ID
+   * @param {number} customerId - 고객 ID
+   * @param {meetingsDTO[]} meetings - 미팅 일정 배열
+   * @returns {Promise<Contract>} 생성된 계약 객체
+   */
   createContract = async (
     userId: number,
     carId: number,
@@ -73,6 +96,13 @@ class ContractService {
     return result;
   };
 
+  /**
+   * 회사 내 계약 목록 조회 및 검색
+   * @param {number} userId - 사용자 ID
+   * @param {string} [searchBy] - 검색 기준 ('customerName' | 'userName')
+   * @param {string} [keyword] - 검색 키워드
+   * @returns {Promise<FormattedContractsDTO>} 상태별로 그룹화된 계약 목록
+   */
   getContractListInCompany = async (
     userId: number,
     searchBy: string | undefined,
@@ -119,6 +149,13 @@ class ContractService {
     return formattedContracts;
   };
 
+  /**
+   * 기존 계약 정보 수정 및 관련 데이터 업데이트
+   * @param {number} contractId - 계약 ID
+   * @param {UpdateContractDTO} updateData - 업데이트할 데이터 (미팅, 문서, 상태 등)
+   * @param {number} logInUserId - 로그인한 사용자 ID
+   * @returns {Promise<Contract>} 수정된 계약 객체
+   */
   updateContract = async (
     contractId: number,
     updateData: UpdateContractDTO,
@@ -241,6 +278,11 @@ class ContractService {
     return result;
   };
 
+  /**
+   * 계약 삭제 및 차량 상태 복원
+   * @param {number} contractId - 계약 ID
+   * @param {number} logInUserId - 로그인한 사용자 ID
+   */
   deleteContract = async (contractId: number, logInUserId: number) => {
     const contractUserId = await contractRepository.getContractUserId(contractId);
     if (!contractUserId) {
@@ -259,6 +301,12 @@ class ContractService {
     });
   };
 
+  /**
+   * 계약 문서 연결 알림 이메일 발송 (private)
+   * @param {number} contractId - 계약 ID
+   * @param {number[]} documentIds - 문서 ID 배열
+   * @param {{id: number, name: string}} customer - 고객 정보
+   */
   private sendContractDocumentConnectionEmails = async (
     contractId: number,
     documentIds: number[],
