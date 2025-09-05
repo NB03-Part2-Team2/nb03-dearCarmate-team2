@@ -11,6 +11,20 @@ import {
 } from '../validators/customerValidator';
 
 class CustomerController {
+  /**
+   * 새로운 고객 생성
+   * @param {number} req.user.userId - 로그인한 사용자 ID
+   * @param {CreateCustomerDTO} req.body - 고객 생성 데이터
+   * @param {string} req.body.name - 고객 이름
+   * @param {string} req.body.gender - 성별 ('male' | 'female')
+   * @param {string} req.body.phoneNumber - 전화번호
+   * @param {string} req.body.email - 이메일
+   * @param {string} [req.body.memo] - 메모
+   * @param {string} [req.body.ageGroup] - 연령대
+   * @param {string} [req.body.region] - 지역
+   * @returns 201: 생성된 고객 객체
+   * @throws {CustomError} 유효성 검사 실패, DB 에러
+   */
   createCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
       validator(req.body, createCustomerSchema);
@@ -23,6 +37,21 @@ class CustomerController {
     }
   };
 
+  /**
+   * 고객 목록 조회 (페이지네이션 및 검색 지원)
+   * @param {number} req.user.userId - 로그인한 사용자 ID
+   * @param {string} [req.query.searchBy] - 검색 기준 ('name' | 'email')
+   * @param {string} [req.query.keyword] - 검색 키워드
+   * @param {string} [req.query.page] - 페이지 번호 (기본값: 1)
+   * @param {string} [req.query.pageSize] - 페이지당 항목 수 (기본값: 8)
+   * @returns 200: {
+   *   currentPage: number,
+   *   totalPages: number,
+   *   totalItemCount: number,
+   *   data: Customer[]
+   * }
+   * @throws {CustomError} 유효성 검사 실패, 유효하지 않은 searchBy 값, DB 에러
+   */
   getCustomerList = async (req: Request, res: Response, next: NextFunction) => {
     try {
       validator(req.query, getCustomerListParamsSchema);
@@ -40,6 +69,13 @@ class CustomerController {
     }
   };
 
+  /**
+   * 기존 고객 정보 수정
+   * @param {string} req.params.customerId - 고객 ID
+   * @param {CreateCustomerDTO} req.body - 업데이트할 고객 정보
+   * @returns 200: 수정된 고객 객체
+   * @throws {CustomError} 유효성 검사 실패, 존재하지 않는 고객 (P2025 에러), DB 에러
+   */
   updateCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
       validator(req.params.customerId, customerIdSchema);
@@ -57,6 +93,12 @@ class CustomerController {
     }
   };
 
+  /**
+   * 고객 삭제
+   * @param {string} req.params.customerId - 고객 ID
+   * @returns 200: {message: '고객 삭제 성공'}
+   * @throws {CustomError} 유효성 검사 실패, 존재하지 않는 고객 (P2025 에러), 계약이 존재하는 고객
+   */
   deleteCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
       validator(req.params.customerId, customerIdSchema);
@@ -72,6 +114,12 @@ class CustomerController {
     }
   };
 
+  /**
+   * 특정 고객 상세 정보 조회
+   * @param {string} req.params.customerId - 고객 ID
+   * @returns 200: 고객 상세 정보 객체 (계약 수 포함)
+   * @throws {CustomError} 유효성 검사 실패, 존재하지 않는 고객, DB 에러
+   */
   getCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
       validator(req.params.customerId, customerIdSchema);
@@ -83,6 +131,13 @@ class CustomerController {
     }
   };
 
+  /**
+   * 대량 고객 등록 (CSV/Excel 업로드 등)
+   * @param {number} req.user.userId - 로그인한 사용자 ID
+   * @param {any[]} req.parsedData - 파싱된 고객 데이터 배열
+   * @returns 200: {message: '성공적으로 등록되었습니다'}
+   * @throws {CustomError} 유효한 고객 데이터가 없거나 필수 필드 누락 (이름, 성별, 전화번호, 이메일), DB 에러
+   */
   createManyCustomerList = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = req.user!.userId;
