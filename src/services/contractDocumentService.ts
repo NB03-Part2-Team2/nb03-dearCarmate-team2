@@ -71,7 +71,7 @@ class ContractDocumentService {
       contractName: `${contract.car.model} - ${contract.customer.name} 고객님`,
       resolutionDate: contract.resolutionDate?.toISOString() || null,
       documentCount: contract.contractDocumentRelation.length,
-      manager: contract.user.name,
+      userName: contract.user.name,
       carNumber: contract.car.carNumber,
       documents: contract.contractDocumentRelation.map((relation) => ({
         id: relation.contractDocument.id,
