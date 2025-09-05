@@ -9,10 +9,10 @@ import { LoginDTO, UserDTO } from '../types/userType';
 
 class AuthService {
   /**
-   *
-   * @param user userId를 가져오기 위한 유저 정보
-   * @param type accessToken인지 refreshToken인지를 결정합니다
-   * @returns userId값으로 토큰을 만들어 유효기간이 정해진 토큰을 반환합니다.
+   * JWT 토큰을 생성합니다.
+   * @param {TokenDTO} token - 토큰을 생성할 때 필요한 정보 (e.g. userId)
+   * @param {string} [type='access'] - 토큰의 종류 ('access' 또는 'refresh')
+   * @returns 생성된 JWT 토큰
    */
   createToken = (token: TokenDTO, type: string = 'access'): string => {
     // 1. 환경 변수에 저장된 비밀키를 가져옵니다.
@@ -31,11 +31,12 @@ class AuthService {
     // 3. 위 정보들을 바탕으로 토큰을 발급합니다.
     return jwt.sign(payload, secret, { expiresIn });
   };
+
   /**
-   *
-   * @param userId 토큰을 재발행하고자 하는 유저의 id입니다.
-   * @param refreshToken 유저에게 전달받은 refreshToken입니다.
-   * @returns 새로운 accessToken을 발행하여 유저에게 반환합니다.
+   * Refresh Token을 사용하여 새로운 Access Token을 발급합니다.
+   * @param {number} userId - 사용자 ID
+   * @param {string} refreshToken - 사용자의 Refresh Token
+   * @returns 새로운 Access Token
    */
   refreshingAccessToken = async (userId: number, refreshToken: string): Promise<string> => {
     // 1. DB에 저장된 refreshToken을 가져오기 위해 유저 정보를 가져옵니다.
@@ -51,6 +52,11 @@ class AuthService {
     return this.createToken({ userId: user.id });
   };
 
+  /**
+   * 사용자 로그인 처리 후, Access Token과 Refresh Token을 발급합니다.
+   * @param {LoginDTO} loginDTO - 로그인에 필요한 정보 (email, password)
+   * @returns 사용자 정보, Access Token, Refresh Token
+   */
   login = async (loginDTO: LoginDTO) => {
     // 1. DB에서 저장된 유저 조회
     const user: UserDTO | null = await userRepository.getByEmail(loginDTO.email);
@@ -77,6 +83,11 @@ class AuthService {
     return { user: filteredUser, accessToken, refreshToken };
   };
 
+  /**
+   * Refresh Token을 검증하고 새로운 Access Token과 Refresh Token을 발급합니다.
+   * @param {UpdateTokenDTO} updateTokenDTO - 토큰 재발급에 필요한 정보 (userId, requestRefreshToken)
+   * @returns 새로운 Access Token과 Refresh Token
+   */
   updateToken = async (updateTokenDTO: UpdateTokenDTO) => {
     // 1. refreshingAccessToken에서 현재 전달받은 토큰이 유효한지 검증
     const accessToken = await this.refreshingAccessToken(
