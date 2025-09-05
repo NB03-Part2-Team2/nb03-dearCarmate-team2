@@ -13,9 +13,16 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 
 ## 프로젝트 소개
 
-중고차 계약 관리 서비스 구축
-
-프로젝트 기간: 2024.08.18 ~ 2024.09.09
+- 프로젝트 기간: 2024.08.18 ~ 2024.09.09
+- 목표: 유저(회사)와 고객 간의 신뢰 가능한 중고차 계약 관리 서비스 구축
+- 주요 기능:
+  - 사용자 인증(어드민, 회사 대표, 회사 직원)
+  - 차량 등록
+  - 고객 등록
+  - 계약 상태 관리
+  - 계약서 업로드 및 관리
+  - 알림 메일 전송
+  - DB 트랜잭션 및 최적화
 
 ## 기술 스택
 
@@ -27,7 +34,7 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 | 협업 도구  | Discord, GitHub, Notion, ESLint&Prettier |
 | 일정 관리  | Notion 타임라인                          |
 | 배포       | Vercel(프론트), Render(백엔드)           |
-| 인증&인가  | JWT 토큰 기반                            |
+| 인증/인가  | JWT 토큰 기반                            |
 
 ## 팀원별 구현 기능 상세
 
@@ -105,6 +112,42 @@ https://www.notion.so/253d94da4edb80079278e388e0f99824
 ├── package-lock.json                # 의존성 버전 고정 파일
 ├── package.json                     # 프로젝트 의존성 목록 및 스크립트
 └── README.md                        # 프로젝트 개요 및 문서
+```
+
+## 실행 방법
+
+1. 환경 변수
+
+.env 예시:
+
+```
+# port
+PORT=3000
+
+# Database
+DATABASE_URL="postgresql://postgres:password@localhost:5432/dear_carmate?schema=public"
+
+# JWT Secret
+JWT_SECRET="supersecretstring"
+
+# Email Configuration (SMTP)
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT="587"
+SMTP_USER="your-email@gmail.com"
+SMTP_PASS="your-app-password-here"
+```
+
+2. 설치 및 마이그레이션
+
+```
+npm i
+npx prisma migrate dev
+```
+
+3. 서버 실행
+
+```
+npm run dev
 ```
 
 ## 구현 홈페이지
