@@ -48,7 +48,7 @@ class ContractDocumentController {
     const params: GetContractDocumentsParamsDTO = {
       page: req.query.page ? parseInt(req.query.page as string, 10) : 1,
       pageSize: req.query.pageSize ? parseInt(req.query.pageSize as string, 10) : 8,
-      searchBy: req.query.searchBy as 'contractName' | 'manager' | 'carNumber' | undefined,
+      searchBy: req.query.searchBy as 'contractName' | 'userName' | 'carNumber' | undefined,
       keyword: req.query.keyword as string | undefined,
     };
 
