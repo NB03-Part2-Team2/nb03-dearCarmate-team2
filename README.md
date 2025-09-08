@@ -2,6 +2,9 @@
 
 코드잇 스프린트 Node.js 백엔드 트랙 3기 2팀 중급 프로젝트 제출 레포지토리입니다.
 
+<img width="1559" height="882" alt="image" src="https://github.com/user-attachments/assets/955d2c7b-593f-431d-ad60-a9000abeee38" />
+
+## 프로젝트 계획서
 https://www.notion.so/253d94da4edb80079278e388e0f99824
 
 ## 팀원 구성
