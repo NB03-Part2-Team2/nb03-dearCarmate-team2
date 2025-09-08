@@ -5,7 +5,7 @@
 <img width="1559" height="882" alt="image" src="https://github.com/user-attachments/assets/955d2c7b-593f-431d-ad60-a9000abeee38" />
 
 ## 프로젝트 계획서
-https://www.notion.so/253d94da4edb80079278e388e0f99824
+[https://invented-heart-5fd.notion.site/253d94da4edb80ebb73cebaeab7f1ed5?pvs=74](https://invented-heart-5fd.notion.site/253d94da4edb80ebb73cebaeab7f1ed5?pvs=74)
 
 ## 팀원 구성
 
@@ -241,10 +241,10 @@ npx prisma migrate dev
 npm run dev
 ```
 
-## 구현 홈페이지
+## 배포(시연) 링크
 
 https://dear-carmate-fe.vercel.app/
 
-## 프로젝트 회고록
+## 기타
 
-https://www.canva.com/design/DAGx-KbWRfM/oWu3ll3trksDj4AdNxaEag/edit?utm_content=DAGx-KbWRfM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+- 발표 자료 : https://www.canva.com/design/DAGx-KbWRfM/oWu3ll3trksDj4AdNxaEag/edit?utm_content=DAGx-KbWRfM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
