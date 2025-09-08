@@ -196,12 +196,14 @@ class ContractService {
       }
       // 문서 업데이트 로직
       if (isContractDocumentChanged && contractDocuments) {
-        contractDocuments.map(async (doc) => {
-          if (doc.id) {
-            await contractRepository.deleteContractDocument(doc.id, tx);
-            await contractRepository.createContractDocument(doc.id, doc.fileName, tx);
-          }
-        });
+        await Promise.all(
+          contractDocuments.map(async (doc) => {
+            if (doc.id) {
+              await contractRepository.deleteContractDocument(doc.id, tx);
+              await contractRepository.createContractDocument(doc.id, doc.fileName, tx);
+            }
+          }),
+        );
         await contractRepository.deleteContractDocumentRelation(contractId, tx);
         const createPromises = contractDocuments
           .map((doc) => {
