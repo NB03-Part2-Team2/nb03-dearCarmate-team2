@@ -10,7 +10,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   // Superstruct 검증 에러
   if (err instanceof StructError) {
-    return res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: '잘못된 요청입니다.' });
   }
 
   // JSON 파싱 에러
@@ -27,7 +27,7 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
     // Prisma Unique 제약 조건 에러
     if (err.name === 'PrismaClientKnownRequestError' && (err as any).code === 'P2002') {
-      return res.status(400).json({ message: '이미 존재하는 데이터입니다.' });
+      return res.status(409).json({ message: '이미 존재하는 데이터입니다.' });
     }
 
     // Prisma 레코드 없음 에러
